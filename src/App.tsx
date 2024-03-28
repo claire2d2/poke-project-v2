@@ -7,6 +7,7 @@ import HomePage from "./pages/HomePage";
 import AllPokemon from "./pages/AllPokemon";
 import OnePoke from "./pages/OnePoke";
 import NotFound from "./pages/NotFound";
+import TeamPage from "./pages/TeamPage";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
             <Route index element={<AllPokemon />} />
             <Route path=":pokeId" element={<OnePoke />} />
           </Route>
+          <Route path="team" element={<TeamPage />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
