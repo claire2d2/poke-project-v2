@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import PokeCard from "../components/PokeCard";
+import Sidebar from "../components/Sidebar";
 
 type PokeObject = {
   name: string;
@@ -42,6 +43,7 @@ const AllPokemon = () => {
           </div>
         );
       })}
+
     </div>
   );
 };
