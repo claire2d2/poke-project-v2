@@ -22,9 +22,9 @@ type PokeData = {
 const PokeCard: React.FC<{ pokeName: string }> = ({ pokeName }) => {
   const [pokeData, setPokeData] = useState<PokeData | null>(null);
 
-  async function fetchPokeImage(name: string) {
+  async function fetchPokeImage() {
     try {
-      const { data } = await pokeApi.get<PokeData>(`/pokemon/${name}`);
+      const { data } = await pokeApi.get<PokeData>(`/pokemon/${pokeName}`);
       setPokeData(data);
     } catch (error) {
       console.log(error);
@@ -32,7 +32,7 @@ const PokeCard: React.FC<{ pokeName: string }> = ({ pokeName }) => {
   }
 
   useEffect(() => {
-    fetchPokeImage(pokeName);
+    fetchPokeImage();
   }, [pokeName]);
 
   if (!pokeData) {
@@ -45,10 +45,12 @@ const PokeCard: React.FC<{ pokeName: string }> = ({ pokeName }) => {
         src={pokeData.sprites.other["official-artwork"].front_default}
         alt=""
       />
-      <div className="flex gap-2">
+      <div className="flex gap-3 justify-center">
         {pokeData.types && pokeData.types.length > 0 ? (
           pokeData.types.map((typeData, index) => (
-            <span key={index}>{typeData.type.name}</span>
+            <p key={index} className="bg-slate-100 px-2 py-0.5 rounded-full">
+              {typeData.type.name}
+            </p>
           ))
         ) : (
           <p>No types</p>
