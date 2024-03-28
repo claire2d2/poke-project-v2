@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import PokeCard from "../components/PokeCard";
 
 type PokeObject = {
   name: string;
@@ -16,7 +17,6 @@ const AllPokemon = () => {
         "https://poke-backend.adaptable.app/results"
       );
       setPokemon(data);
-      console.log(data);
     } catch (error) {
       console.log(error);
     }
@@ -27,17 +27,21 @@ const AllPokemon = () => {
   }, []);
 
   return (
-    <div>
+    <div className="flex flex-wrap gap-2">
       {pokemon.map((onePoke) => {
         return (
           <div key={onePoke.name}>
             <Link to={`/pokemon/${onePoke.name}`}>
-              <h1>{onePoke.name}</h1>
+              <div className="flex flex-col p-5 border w-52 justify-center items-center">
+                <PokeCard pokeName={onePoke.name} />
+                <h1>
+                  {onePoke.name.charAt(0).toUpperCase() + onePoke.name.slice(1)}
+                </h1>
+              </div>
             </Link>
           </div>
         );
       })}
-      <a></a>
     </div>
   );
 };
