@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 type PokeObject = {
   name: string;
@@ -30,9 +31,9 @@ const AllPokemon = () => {
       {pokemon.map((onePoke) => {
         return (
           <div key={onePoke.name}>
-            <a href={onePoke.url}>
+            <Link to={`/pokemon/${onePoke.name}`}>
               <h1>{onePoke.name}</h1>
-            </a>
+            </Link>
           </div>
         );
       })}
