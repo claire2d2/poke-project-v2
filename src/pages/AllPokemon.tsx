@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import Sidebar from "../components/Sidebar";
 
 type PokeObject = {
   name: string;
@@ -28,15 +29,20 @@ const AllPokemon = () => {
 
   return (
     <div>
-      {pokemon.map((onePoke) => {
-        return (
-          <div key={onePoke.name}>
-            <Link to={`/pokemon/${onePoke.name}`}>
-              <h1>{onePoke.name}</h1>
-            </Link>
-          </div>
-        );
-      })}
+      <div className="container flex">
+        <Sidebar />
+        <div>
+          {pokemon.map((onePoke) => {
+            return (
+              <div key={onePoke.name}>
+                <Link to={`/pokemon/${onePoke.name}`}>
+                  <h1>{onePoke.name}</h1>
+                </Link>
+              </div>
+            );
+          })}
+        </div>
+      </div>
       <a></a>
     </div>
   );
