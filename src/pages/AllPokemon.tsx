@@ -5,6 +5,7 @@ import PokeCard from "../components/PokeCard";
 import Sidebar from "../components/Sidebar";
 
 type PokeObject = {
+  id: number;
   name: string;
   url: string;
 };
@@ -33,16 +34,17 @@ const AllPokemon = () => {
       <div className="flex flex-wrap gap-2">
         {pokemon.map((onePoke) => {
           return (
-            <div key={onePoke.name}>
+            <div
+              key={onePoke.name}
+              className="border flex flex-col items-center m-2 gap-1"
+            >
               <Link to={`/pokemon/${onePoke.name}`}>
-                <div className="flex flex-col p-5 border w-52 justify-center items-center">
+                <div className="flex flex-col w-52 gap-2 justify-center items-center">
                   <PokeCard pokeName={onePoke.name} />
-                  <h1>
-                    {onePoke.name.charAt(0).toUpperCase() +
-                      onePoke.name.slice(1)}
-                  </h1>
+                  <h1 className="text-lg">{onePoke.name}</h1>
                 </div>
               </Link>
+              <p>♡</p>
             </div>
           );
         })}
