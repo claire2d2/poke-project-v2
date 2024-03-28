@@ -28,22 +28,25 @@ const AllPokemon = () => {
   }, []);
 
   return (
-    <div className="flex flex-wrap gap-2">
-      {pokemon.map((onePoke) => {
-        return (
-          <div key={onePoke.name}>
-            <Link to={`/pokemon/${onePoke.name}`}>
-              <div className="flex flex-col p-5 border w-52 justify-center items-center">
-                <PokeCard pokeName={onePoke.name} />
-                <h1>
-                  {onePoke.name.charAt(0).toUpperCase() + onePoke.name.slice(1)}
-                </h1>
-              </div>
-            </Link>
-          </div>
-        );
-      })}
-
+    <div className="flex">
+      <Sidebar />
+      <div className="flex flex-wrap gap-2">
+        {pokemon.map((onePoke) => {
+          return (
+            <div key={onePoke.name}>
+              <Link to={`/pokemon/${onePoke.name}`}>
+                <div className="flex flex-col p-5 border w-52 justify-center items-center">
+                  <PokeCard pokeName={onePoke.name} />
+                  <h1>
+                    {onePoke.name.charAt(0).toUpperCase() +
+                      onePoke.name.slice(1)}
+                  </h1>
+                </div>
+              </Link>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 };
