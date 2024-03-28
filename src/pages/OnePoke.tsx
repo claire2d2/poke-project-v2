@@ -1,7 +1,12 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import pokeApi from "../service/pokeApi";
 
+// import favorite button
+
+import FaveButton from "../components/FaveButton";
+
+// declare the types to make fetching the data easier
 type PokeImage = {
   other: {
     "official-artwork": {
@@ -33,6 +38,9 @@ type PokeData = {
 const titleStyle = "text-4xl text-center font-extrabold text-yellow-400";
 
 const OnePoke = () => {
+  // declare navigate function
+  const navigate = useNavigate();
+
   // use state to get the wanted pokemon from the pokemonlist? state
   const [pokeData, setPokeData] = useState<PokeData | null>(null);
 
@@ -83,6 +91,7 @@ const OnePoke = () => {
           />
         </div>
         <div className="rightSide">
+          <p>Id: {pokeData.id}</p>
           <p>Height: {pokeData.height * 10} cm</p>
           <p>Weight: {pokeData.weight / 10} kg</p>
           <p>
@@ -99,6 +108,8 @@ const OnePoke = () => {
           </p>
         </div>
       </div>
+      <button onClick={() => navigate("/pokemon")}>Back</button>
+      <FaveButton pokeId={pokeData.id} />
     </div>
   );
 };
