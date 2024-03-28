@@ -9,12 +9,16 @@ type SpriteData = {
   };
 };
 
+type NamesData = {
+  species: { name: string };
+};
+
 type TypesData = {
   type: { name: string };
 };
 
 type PokeData = {
-  name: string;
+  name: NamesData[];
   sprites: SpriteData;
   types: TypesData[];
 };
@@ -40,16 +44,21 @@ const PokeCard: React.FC<{ pokeName: string }> = ({ pokeName }) => {
   }
 
   return (
-    <div className="flex flex-col align-center justify-center">
+    <div className="flex flex-col align-center justify-center gap-2">
       <img
         src={pokeData.sprites.other["official-artwork"].front_default}
         alt=""
       />
+      <h1 className="text-center text-lg font-medium">
+        {pokeData.species.name.charAt(0).toUpperCase() +
+          pokeData.species.name.slice(1)}
+      </h1>
       <div className="flex gap-3 justify-center">
         {pokeData.types && pokeData.types.length > 0 ? (
           pokeData.types.map((typeData, index) => (
             <p key={index} className="bg-slate-100 px-2 py-0.5 rounded-full">
-              {typeData.type.name}
+              {typeData.type.name.charAt(0).toUpperCase() +
+                typeData.type.name.slice(1)}
             </p>
           ))
         ) : (
