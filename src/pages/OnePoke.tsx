@@ -11,11 +11,26 @@ type PokeImage = {
   };
 };
 
+type PokeType = {
+  type: {
+    name: string;
+  };
+};
+
 type PokeData = {
   id: number;
-  name: string;
+  height: number;
+  weight: number;
+  cries: {
+    latest: string;
+  };
+  species: { name: string };
   sprites: PokeImage;
+  types: Array<PokeType>;
 };
+
+// styling for the page
+const titleStyle = "text-4xl text-center font-extrabold text-yellow-400";
 
 const OnePoke = () => {
   // use state to get the wanted pokemon from the pokemonlist? state
@@ -26,9 +41,9 @@ const OnePoke = () => {
 
   // fetch the pokemon using axios
 
-  async function fetchPokeData(name: string) {
+  async function fetchPokeData() {
     try {
-      const response = await pokeApi.get<PokeData>(`/pokemon/${name}`);
+      const response = await pokeApi.get<PokeData>(`/pokemon/${pokeId}`);
       setPokeData(response.data);
     } catch (e) {
       console.log(e);
@@ -38,22 +53,52 @@ const OnePoke = () => {
   // use effect to launch the fetch function once mounted
 
   useEffect(() => {
-    fetchPokeData(pokeId);
+    fetchPokeData();
   }, [pokeId]);
 
   // show "Loading" if the data is loading or nonexistent
+
+  // add this condition to check if pokemon exists or not : || pokeId !== "pikachu"
   if (!pokeData) {
-    return <p>Loading</p>;
+    return (
+      <div>
+        <p>Loading ...</p>
+        <p>Are you sure this pokemon exists?</p>
+      </div>
+    );
   }
 
+  // capitalize first letter of pokemon name for the header
+  const pokeTitle: string =
+    pokeData.species.name[0].toUpperCase() + pokeData.species.name.slice(1);
+
   return (
-    <div>
-      <h1>{pokeData.name}</h1>
-      <img
-        src={pokeData.sprites.other["official-artwork"].front_default}
-        alt={`official artwork  of ${pokeData.name}`}
-      />
-      <img src={pokeData.sprites.front_default} alt="" />
+    <div className="p-8">
+      <h1 className={`${titleStyle}`}>{pokeTitle}</h1>
+      <div className="cardCenter flex">
+        <div className="leftSide">
+          <img
+            src={pokeData.sprites.other["official-artwork"].front_default}
+            alt={`official artwork  of ${pokeData.species.name}`}
+          />
+        </div>
+        <div className="rightSide">
+          <p>Height: {pokeData.height * 10} cm</p>
+          <p>Weight: {pokeData.weight / 10} kg</p>
+          <p>
+            Types:{" "}
+            {pokeData.types.map((pokeType) => {
+              return <span key={pokeType.type.name}>{pokeType.type.name}</span>;
+            })}
+          </p>
+          <p>
+            Cry:{" "}
+            <audio controls>
+              <source src={pokeData.cries.latest} type="audio/ogg" />
+            </audio>
+          </p>
+        </div>
+      </div>
     </div>
   );
 };
