@@ -41,7 +41,6 @@ const AllPokemon = () => {
               <Link to={`/pokemon/${onePoke.name}`}>
                 <div className="flex flex-col w-52 gap-2 justify-center items-center">
                   <PokeCard pokeName={onePoke.name} />
-                  <h1 className="text-lg">{onePoke.name}</h1>
                 </div>
               </Link>
               <p>♡</p>
