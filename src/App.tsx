@@ -11,19 +11,21 @@ import TeamPage from "./pages/TeamPage";
 
 function App() {
   return (
-    <>
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<HomePage />} />
-          <Route path="pokemon">
-            <Route index element={<AllPokemon />} />
-            <Route path=":pokeId" element={<OnePoke />} />
+    <div className="App h-screen">
+      <div className="pages h-full">
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<HomePage />} />
+            <Route path="pokemon">
+              <Route index element={<AllPokemon />} />
+              <Route path=":pokeId" element={<OnePoke />} />
+            </Route>
+            <Route path="team" element={<TeamPage />} />
+            <Route path="*" element={<NotFound />} />
           </Route>
-          <Route path="team" element={<TeamPage />} />
-          <Route path="*" element={<NotFound />} />
-        </Route>
-      </Routes>
-    </>
+        </Routes>
+      </div>
+    </div>
   );
 }
 
