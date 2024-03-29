@@ -10,13 +10,31 @@ type PokeObject = {
   url: string;
 };
 
+const useDebouncedValue = (inputValue: string, delay: number) => {
+  const [debouncedValue, setDebouncedValue] = useState(inputValue);
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedValue(inputValue);
+    }, delay);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [inputValue, delay]);
+
+  return debouncedValue;
+};
+
 const AllPokemon = () => {
   const [pokemon, setPokemon] = useState<Array<PokeObject>>([]);
+  const [search, setSearch] = useState<string>("");
+  const debouncedSearch = useDebouncedValue(search, 300);
 
   async function fetchAllPokemon() {
     try {
       const { data } = await axios.get(
-        "https://poke-backend.adaptable.app/results"
+        "https://poke-backend.adaptable.app/pokemons"
       );
       setPokemon(data);
     } catch (error) {
@@ -26,14 +44,17 @@ const AllPokemon = () => {
 
   useEffect(() => {
     fetchAllPokemon();
-  }, []);
+  }, [debouncedSearch]);
 
   return (
     <div className="flex">
-      <Sidebar />
+      <Sidebar search={search} setSearch={setSearch} />
       <div className="flex flex-wrap gap-2">
-        {pokemon.map((onePoke) => {
-          return (
+        {pokemon
+          .filter((onePoke) =>
+            onePoke.name.toLowerCase().includes(debouncedSearch.toLowerCase())
+          )
+          .map((onePoke) => (
             <div
               key={onePoke.name}
               className="border flex flex-col items-center m-2 gap-1"
@@ -45,8 +66,7 @@ const AllPokemon = () => {
               </Link>
               <p>♡</p>
             </div>
-          );
-        })}
+          ))}
       </div>
     </div>
   );
