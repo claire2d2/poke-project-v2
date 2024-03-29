@@ -41,7 +41,7 @@ const PokeCard: React.FC<{ pokeName: string }> = ({ pokeName }) => {
   }
 
   return (
-    <div className="flex flex-col align-center justify-center gap-2">
+    <div className="flex flex-col align-center justify-center items-center gap-2">
       <img
         src={pokeData.sprites.other["official-artwork"].front_default}
         alt={pokeData.species.name}
@@ -50,7 +50,7 @@ const PokeCard: React.FC<{ pokeName: string }> = ({ pokeName }) => {
         {pokeData.species.name.charAt(0).toUpperCase() +
           pokeData.species.name.slice(1)}
       </h1>
-      <div className="flex gap-3 justify-center">
+      <div className="flex flex-wrap gap-3 justify-center">
         {pokeData.types && pokeData.types.length > 0 ? (
           pokeData.types.map((typeData, index) => (
             <PokeType key={index} typeData={typeData.type.name} />

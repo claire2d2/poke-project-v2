@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import pokeApi from "../service/pokeApi";
+import PokeType from "../components/PokeType";
 
 // import favorite button
 
@@ -59,13 +60,11 @@ const OnePoke = () => {
   }
 
   // use effect to launch the fetch function once mounted
-
   useEffect(() => {
     fetchPokeData();
   }, [pokeId]);
 
   // show "Loading" if the data is loading or nonexistent
-
   // add this condition to check if pokemon exists or not : || pokeId !== "pikachu"
   if (!pokeData) {
     return (
@@ -97,7 +96,7 @@ const OnePoke = () => {
           <p>
             Types:{" "}
             {pokeData.types.map((pokeType) => {
-              return <span key={pokeType.type.name}>{pokeType.type.name}</span>;
+              return <PokeType typeData={pokeType.type.name} />;
             })}
           </p>
           <p>
