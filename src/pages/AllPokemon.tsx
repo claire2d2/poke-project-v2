@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import PokeCard from "../components/PokeCard";
 import Sidebar from "../components/Sidebar";
+import FaveButton from "../components/FaveButton";
 
 type PokeObject = {
   id: number;
@@ -66,7 +67,7 @@ const AllPokemon = () => {
                   <PokeCard pokeName={onePoke.name} />
                 </div>
               </Link>
-              <p>♡</p>
+              <FaveButton pokeId={onePoke.id} heartSize={5} />
             </div>
           ))}
       </div>
