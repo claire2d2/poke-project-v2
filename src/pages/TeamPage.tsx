@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 import TeamMember from "../components/TeamMember";
 import CreateTeam from "../components/CreateTeam";
 
@@ -9,6 +7,7 @@ type pokeMemb = {
 };
 
 const TeamPage = () => {
+
   const [team, setTeam] = useState<Array<number>>([0, 25, 0, 0, 0, 0]);
   // TODO create function to set the pokemon Ids in the team array
 
@@ -20,6 +19,7 @@ const TeamPage = () => {
     { index: 5, pokeIndex: team[4] },
     { index: 6, pokeIndex: team[5] },
   ];
+
 
   return (
     <div className="TeamPage flex h-fit">

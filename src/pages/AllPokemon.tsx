@@ -49,18 +49,20 @@ const AllPokemon = () => {
   return (
     <div className="flex">
       <Sidebar search={search} setSearch={setSearch} />
-      <div className="flex flex-wrap gap-2">
+      <div className="grid grid-cols-6 grid-flow-row p-2">
         {pokemon
-          .filter((onePoke) =>
-            onePoke.name.toLowerCase().includes(debouncedSearch.toLowerCase())
+          .filter(
+            (onePoke) =>
+              onePoke.name &&
+              onePoke.name.toLowerCase().includes(debouncedSearch.toLowerCase())
           )
           .map((onePoke) => (
             <div
               key={onePoke.name}
-              className="border flex flex-col items-center m-2 gap-1"
+              className="flex flex-col items-center m-2 gap-1 border rounded shadow hover:shadow-md transition-all"
             >
               <Link to={`/pokemon/${onePoke.name}`}>
-                <div className="flex flex-col w-52 gap-2 justify-center items-center">
+                <div className="flex flex-col w-auto justify-center items-center">
                   <PokeCard pokeName={onePoke.name} />
                 </div>
               </Link>
