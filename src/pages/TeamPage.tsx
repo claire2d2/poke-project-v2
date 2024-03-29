@@ -1,8 +1,7 @@
-import React from "react";
-
 import TeamMember from "../components/TeamMember";
 
 const TeamPage = () => {
+  // test array to see if it works
   const testArray = [1, 25, 25, 25, 25, 25];
 
   return (

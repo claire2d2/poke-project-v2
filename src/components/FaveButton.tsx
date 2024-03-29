@@ -45,9 +45,7 @@ const FaveButton: React.FC<{ pokeId: number }> = ({ pokeId }) => {
 
   async function handleFavorite(e) {
     e.preventDefault();
-    console.log("button clickie thingie");
     if (!isFave) {
-      console.log("test make fave on click");
       makeFavorite();
     } else {
       deleteFavorite();
@@ -58,10 +56,8 @@ const FaveButton: React.FC<{ pokeId: number }> = ({ pokeId }) => {
     try {
       const response = await axios.post(
         `https://poke-backend.adaptable.app/favorite`,
-        { id: pokeId, pokeId: pokeId }
+        { pokemonId: pokeId }
       );
-      console.log("I have added a fave");
-      console.log(response);
       setIsFave(true);
     } catch (error) {
       console.log(error);
