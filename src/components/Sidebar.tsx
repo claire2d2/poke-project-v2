@@ -67,7 +67,7 @@ const Sidebar: React.FC<Props> = ({ search, setSearch }) => {
 
   useEffect(() => {
     fetchColorFilters();
-  });
+  }, []);
 
   const pokeColor = color.map((col, index) => (
     <div className="flex gap-2">
