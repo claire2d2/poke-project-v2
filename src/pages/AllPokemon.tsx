@@ -51,8 +51,10 @@ const AllPokemon = () => {
       <Sidebar search={search} setSearch={setSearch} />
       <div className="flex flex-wrap gap-2">
         {pokemon
-          .filter((onePoke) =>
-            onePoke.name.toLowerCase().includes(debouncedSearch.toLowerCase())
+          .filter(
+            (onePoke) =>
+              onePoke.name &&
+              onePoke.name.toLowerCase().includes(debouncedSearch.toLowerCase())
           )
           .map((onePoke) => (
             <div
