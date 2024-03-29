@@ -105,10 +105,14 @@ const OnePoke = () => {
               <source src={pokeData.cries.latest} type="audio/ogg" />
             </audio>
           </p>
+          <p>
+            {" "}
+            <FaveButton pokeId={pokeData.id} heartSize={10} />
+          </p>
         </div>
       </div>
       <button onClick={() => navigate("/pokemon")}>Back</button>
-      <FaveButton pokeId={pokeData.id} />
+
       <button>Add Pokemon to my team</button>
     </div>
   );
