@@ -109,6 +109,7 @@ const OnePoke = () => {
       </div>
       <button onClick={() => navigate("/pokemon")}>Back</button>
       <FaveButton pokeId={pokeData.id} />
+      <button>Add Pokemon to my team</button>
     </div>
   );
 };
