@@ -73,17 +73,17 @@ const OnePoke = () => {
     string | null | undefined
   >(null);
 
-  const pokeGameNameArray = [
-    "red",
-    "blue",
-    "yellow",
-    "gold",
-    "silver",
-    "crystal",
-    "ruby",
-    "sapphire",
-    "emerald",
-  ];
+  // const pokeGameNameArray = [
+  //   "red",
+  //   "blue",
+  //   "yellow",
+  //   "gold",
+  //   "silver",
+  //   "crystal",
+  //   "ruby",
+  //   "sapphire",
+  //   "emerald",
+  // ];
 
   const handleGameChange = (e: ChangeEventHandler<HTMLSelectElement>) => {
     // sets the game
@@ -217,7 +217,10 @@ const OnePoke = () => {
             <p>{pokeGame ? pokeGame : "hey"}</p>
             <p>Pokemon Sprite</p>
             <div>
-              <img src={pokeGameSprite} alt="sprite of pokemon" />
+              <img
+                src={pokeGame ? pokeGameSprite : pokeData.sprites.front_default}
+                alt="sprite of pokemon"
+              />
             </div>
           </div>
           <p>
