@@ -7,7 +7,7 @@ import PokeType from "../components/PokeType";
 
 import FaveButton from "../components/FaveButton";
 
-// type to define the type of data we want to get from the pokemon data
+// type for data to fetch from pokeapi/pokemon/id
 type PokeImage = {
   front_default: string;
   other: {
@@ -50,11 +50,12 @@ type PokeData = {
   types: Array<PokeType>;
 };
 
-type PokeDexData = {};
-
-// type for the pokemon evolution data fetching
-
-type pokeEvolData = {};
+// data to fetch from the pokeapi/pokemon-species/id
+type PokeDexData = {
+  habitat: {
+    name: string;
+  };
+};
 
 // styling for the page
 const titleStyle = "text-4xl text-center font-extrabold text-yellow-400";
@@ -68,6 +69,9 @@ const OnePoke = () => {
 
   // use state to change the game for pokedex section
   const [pokeGame, setPokeGame] = useState<string | null>(null);
+
+  // use state to get data from the pokemon species
+  const [pokeSpecies, setPokeSpecies] = useState<PokeDexData | null>(null);
 
   const [pokeGameSprite, setPokeGameSprite] = useState<
     string | null | undefined
@@ -89,6 +93,7 @@ const OnePoke = () => {
     // sets the game
     setPokeGame(e.currentTarget.value);
     // sets the sprite depending on the game
+    // TODO : if pokemon doesn't exist in game, don't propose it
     switch (pokeGame) {
       case "red":
       case "blue":
@@ -141,15 +146,10 @@ const OnePoke = () => {
     try {
       const response = await pokeApi.get<PokeData>(`/pokemon/${pokeId}`);
       setPokeData(response.data);
-    } catch (e) {
-      console.log(e);
-    }
-  }
-
-  // fetch eventual pokemon evolution
-  async function fetchPokeEvol() {
-    try {
-      const response = await pokeApi.get<>(`/pokemon-species/${pokeId}`);
+      const pokedex = await pokeApi.get<PokeDexData>(
+        `/pokemon-species/${pokeId}`
+      );
+      setPokeSpecies(pokedex.data);
     } catch (e) {
       console.log(e);
     }
@@ -178,30 +178,54 @@ const OnePoke = () => {
   return (
     <div className="p-8">
       <h1 className={`${titleStyle}`}>{pokeTitle}</h1>
-      <div className="cardCenter flex">
-        <div className="leftSide">
+      <div className="cardCenter flex gap-5 py-5 px-10">
+        <div className="leftSide basis-2/5 shadow-lg">
           <img
+            className="mx-auto"
             src={pokeData.sprites.other["official-artwork"].front_default}
             alt={`official artwork  of ${pokeData.species.name}`}
           />
         </div>
-        <div className="rightSide">
-          <p>Id: {pokeData.id}</p>
-          <p>Height: {pokeData.height * 10} cm</p>
-          <p>Weight: {pokeData.weight / 10} kg</p>
-          <p>
-            Types:
-            {pokeData.types.map((pokeType) => {
-              return <PokeType typeData={pokeType.type.name} />;
-            })}
-          </p>
-          <p>
-            Cry:{" "}
-            <audio controls>
-              <source src={pokeData.cries.latest} type="audio/ogg" />
-            </audio>
-          </p>
+        <div className="rightSide basis-3/5 border-solid border border-gray-100 p-4">
+          {/* Describe here the physical charact of the pokemon */}
+          <div className="flex justify-between">
+            <h2 className="text-2xl p-1">Physical characteristics</h2>{" "}
+            <FaveButton pokeId={pokeData.id} heartSize={4} />
+          </div>
+          <div className="p-1">
+            <p className="my-1">
+              <span className="font-semibold">Habitat :</span>{" "}
+              {pokeSpecies?.habitat.name}
+            </p>
+            <p className="my-1">
+              <span className="font-semibold">Height :</span>{" "}
+              {pokeData.height * 10} cm
+            </p>
+            <p className="my-1">
+              <span className="font-semibold">Weight :</span>{" "}
+              {pokeData.weight / 10} kg
+            </p>
+            <p className="flex my-1">
+              <span className="font-semibold mr-3">Types:</span>
+              {pokeData.types.map((pokeType) => {
+                return (
+                  <span className="basis-1/6 text-center text-sm mx-1">
+                    {" "}
+                    <PokeType typeData={pokeType.type.name} />{" "}
+                  </span>
+                );
+              })}
+            </p>
+            <p className="flex my-1 items-center align-items">
+              <span className="font-semibold mr-3">Cry:</span>
+              <audio className="" controls>
+                <source src={pokeData.cries.latest} type="audio/ogg" />
+              </audio>
+            </p>
+          </div>
+          {/* Here the customisable data */}
           <div className="pokeDex">
+            <h2 className="text-2xl p-1">Data according to each game</h2>
             <select onChange={handleGameChange} id="gameChange">
               <option value={null}>Default</option>
               <option value="red">Red</option>
@@ -223,14 +247,19 @@ const OnePoke = () => {
               />
             </div>
           </div>
-          <p>
-            <FaveButton pokeId={pokeData.id} heartSize={4} />
-          </p>
         </div>
       </div>
-      <button onClick={() => navigate("/pokemon")}>Back</button>
-
-      <button>Add Pokemon to my team</button>
+      <div className="w-full flex justify-between px-10">
+        <button
+          onClick={() => navigate("/pokemon")}
+          className="mx-3 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+        >
+          Back
+        </button>
+        <button className="mx-3 bg-yellow-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-yellow-600 hover:border-blue-500 rounded">
+          Add Pokemon to my team
+        </button>
+      </div>
     </div>
   );
 };
