@@ -1,39 +1,19 @@
 import React from "react";
-import pokeball from "../assets/images/pokeball.png";
+
+import TeamMember from "../components/TeamMember";
 
 const TeamPage = () => {
+  const testArray = [1, 25, 25, 25, 25, 25];
+
   return (
-    <div className="flex flex-row">
-      <div className="flex flex-col items-center justify-center max-w-60 border border-black">
-        <h1>POKEMON NAME</h1>
-        <img className="pokeball h-44 w-44" src={pokeball} alt="pokeball" />
-        <p>TYPES</p>
-      </div>
-      <div className="flex flex-col items-center justify-center max-w-60 border border-black">
-        <h1>POKEMON NAME</h1>
-        <img className="pokeball h-44 w-44" src={pokeball} alt="pokeball" />
-        <p>TYPES</p>
-      </div>
-      <div className="flex flex-col items-center justify-center max-w-60 border border-black">
-        <h1>POKEMON NAME</h1>
-        <img className="pokeball h-44 w-44" src={pokeball} alt="pokeball" />
-        <p>TYPES</p>
-      </div>
-      <div className="flex flex-col items-center justify-center max-w-60 border border-black">
-        <h1>POKEMON NAME</h1>
-        <img className="pokeball h-44 w-44" src={pokeball} alt="pokeball" />
-        <p>TYPES</p>
-      </div>
-      <div className="flex flex-col items-center justify-center max-w-60 border border-black">
-        <h1>POKEMON NAME</h1>
-        <img className="pokeball h-44 w-44" src={pokeball} alt="pokeball" />
-        <p>TYPES</p>
-      </div>
-      <div className="flex flex-col items-center justify-center max-w-60 border border-black">
-        <h1>POKEMON NAME</h1>
-        <img className="pokeball h-44 w-44" src={pokeball} alt="pokeball" />
-        <p>TYPES</p>
-      </div>
+    <div>
+      {testArray.map((id: number) => {
+        return (
+          <div key={id}>
+            <TeamMember pokeId={id} />
+          </div>
+        );
+      })}
     </div>
   );
 };
