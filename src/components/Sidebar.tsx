@@ -1,12 +1,24 @@
-import React from "react";
+type Props = {
+  search: string;
+  setSearch: (search: string) => void;
+};
 
-const Sidebar = () => {
+const Sidebar: React.FC<Props> = ({ search, setSearch }) => {
+  const handleSearch = (e: React.FormEvent<HTMLInputElement>) => {
+    setSearch(e.currentTarget.value);
+  };
+
   return (
-    <div className="w-52 bg-blue-200 flex flex-col gap-10">
+    <div className="w-52 bg-blue-200 flex flex-col gap-10 p-2">
       <div className="searchbar">
         <label htmlFor="Search">
           Search Pokemon
-          <input type="text p-40"></input>
+          <input
+            type="text"
+            className="p-1 rounded"
+            value={search}
+            onChange={handleSearch}
+          ></input>
         </label>
       </div>
       <div className="generation flex flex-col">
