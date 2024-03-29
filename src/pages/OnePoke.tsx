@@ -224,7 +224,7 @@ const OnePoke = () => {
             </div>
           </div>
           <p>
-            <FaveButton pokeId={pokeData.id} heartSize={10} />
+            <FaveButton pokeId={pokeData.id} heartSize={4} />
           </p>
         </div>
       </div>

@@ -94,14 +94,12 @@ const FaveButton: React.FC<{ pokeId: number; heartSize: number }> = ({
     }
   }
 
+  const faveEmoji = "❤️";
+  const unFaveEmoji = "🤍";
   return (
     <div className="Favorite flex">
-      <button onClick={handleFavorite} className={`h-${heartSize} flex`}>
-        <img
-          className="object-scale-down h-full"
-          src={isFave ? faveButtonImg : unFaveButtonImg}
-          alt="favorite button"
-        />
+      <button onClick={handleFavorite} className={`text-${heartSize}xl flex`}>
+        {isFave ? faveEmoji : unFaveEmoji}
       </button>
     </div>
   );

@@ -67,7 +67,7 @@ const AllPokemon = () => {
                   <PokeCard pokeName={onePoke.name} />
                 </div>
               </Link>
-              <FaveButton pokeId={onePoke.id} heartSize={5} />
+              <FaveButton pokeId={onePoke.id} heartSize={2} />
             </div>
           ))}
       </div>
