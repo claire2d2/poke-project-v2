@@ -1,5 +1,4 @@
 import React from "react";
-import pokeball from "../assets/images/pokeball.png";
 import pokeApi from "../service/pokeApi";
 import { useState, useEffect } from "react";
 
@@ -28,6 +27,8 @@ const TeamMember: React.FC<{ pokeId: number }> = ({ pokeId }) => {
   useEffect(() => {
     fetchPokeData();
   }, [pokeId]);
+
+  // TODO create code for "loading" situation
 
   return (
     <div className="flex flex-row">

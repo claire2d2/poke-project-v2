@@ -1,19 +1,39 @@
-import React from "react";
-
 import TeamMember from "../components/TeamMember";
+import CreateTeam from "../components/CreateTeam";
+import { useState } from "react";
+
+type pokeMemb = {
+  index: number;
+  pokeIndex: number;
+};
 
 const TeamPage = () => {
-  const testArray = [1, 25, 25, 25, 25, 25];
+  const [team, setTeam] = useState<Array<number>>([0, 25, 0, 0, 0, 0]);
+  // TODO create function to set the pokemon Ids in the team array
+
+  const teamArray = [
+    { index: 1, pokeIndex: team[0] },
+    { index: 2, pokeIndex: team[1] },
+    { index: 3, pokeIndex: team[2] },
+    { index: 4, pokeIndex: team[3] },
+    { index: 5, pokeIndex: team[4] },
+    { index: 6, pokeIndex: team[5] },
+  ];
 
   return (
-    <div>
-      {testArray.map((id: number) => {
-        return (
-          <div key={id}>
-            <TeamMember pokeId={id} />
-          </div>
-        );
-      })}
+    <div className="TeamPage flex h-fit">
+      <div className="TeamView basis-4/5 flex flex-wrap">
+        {teamArray.map((poke: pokeMemb) => {
+          return (
+            <div key={poke.index} className="m-3">
+              <TeamMember pokeId={poke.pokeIndex} />
+            </div>
+          );
+        })}
+      </div>
+      <div className="CreateTeam basis-1/5">
+        <CreateTeam />
+      </div>
     </div>
   );
 };
