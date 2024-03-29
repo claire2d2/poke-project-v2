@@ -6,34 +6,18 @@ type Props = {
   setSearch: (search: string) => void;
 };
 
-// Generation types
-type Generation = {
+// Type
+type Filter = {
   name: string;
 };
-type GenerationData = {
-  results: Array<Generation>;
-};
-
-// Color types
-type Color = {
-  name: string;
-};
-type ColorData = {
-  results: Array<Color>;
-};
-
-// Type types
-type Type = {
-  name: string;
-};
-type TypeData = {
-  results: Array<Type>;
+type FilterData = {
+  results: Array<Filter>;
 };
 
 const Sidebar: React.FC<Props> = ({ search, setSearch }) => {
-  const [generation, setGeneration] = useState<Array<Generation>>([]);
-  const [color, setColor] = useState<Array<Color>>([]);
-  const [type, setType] = useState<Array<Type>>([]);
+  const [generation, setGeneration] = useState<Array<Filter>>([]);
+  const [color, setColor] = useState<Array<Filter>>([]);
+  const [type, setType] = useState<Array<Filter>>([]);
 
   // Search bar filter
   const handleSearch = (e: React.FormEvent<HTMLInputElement>) => {
@@ -43,7 +27,7 @@ const Sidebar: React.FC<Props> = ({ search, setSearch }) => {
   // Retrieve generation filters
   async function fetchGenerationFilters() {
     try {
-      const { data } = await pokeApi.get<GenerationData>("/generation");
+      const { data } = await pokeApi.get<FilterData>("/generation");
       setGeneration(data.results);
     } catch (error) {
       console.log(error);
@@ -62,7 +46,9 @@ const Sidebar: React.FC<Props> = ({ search, setSearch }) => {
         id={`generation/${index + 1}`}
       />
       <label key={index} htmlFor={`generation/${index + 1}`}>
-        {gen.name}
+        {gen.name.slice(0, 1).toUpperCase() +
+          gen.name.slice(1, -1) +
+          gen.name.slice(-1).toUpperCase()}
       </label>
     </div>
   ));
@@ -70,7 +56,7 @@ const Sidebar: React.FC<Props> = ({ search, setSearch }) => {
   // Retrieve color filters
   async function fetchColorFilters() {
     try {
-      const { data } = await pokeApi.get<ColorData>("/pokemon-color");
+      const { data } = await pokeApi.get<FilterData>("/pokemon-color");
       setColor(data.results);
     } catch (error) {
       console.log(error);
@@ -89,7 +75,7 @@ const Sidebar: React.FC<Props> = ({ search, setSearch }) => {
         id={`pokemon-color/${index + 1}`}
       />
       <label key={index} htmlFor={`pokemon-color/${index + 1}`}>
-        {col.name}
+        {col.name.slice(0, 1).toUpperCase() + col.name.slice(1)}
       </label>
     </div>
   ));
@@ -97,7 +83,7 @@ const Sidebar: React.FC<Props> = ({ search, setSearch }) => {
   // Retrieve type filters
   async function fetchTypeFilters() {
     try {
-      const { data } = await pokeApi.get<TypeData>("/type");
+      const { data } = await pokeApi.get<FilterData>("/type");
       setType(data.results);
     } catch (error) {
       console.log(error);
@@ -116,7 +102,7 @@ const Sidebar: React.FC<Props> = ({ search, setSearch }) => {
         id={`type/${index + 1}`}
       />
       <label key={index} htmlFor={`type/${index + 1}`}>
-        {typ.name}
+        {typ.name.slice(0, 1).toUpperCase() + typ.name.slice(1)}
       </label>
     </div>
   ));
