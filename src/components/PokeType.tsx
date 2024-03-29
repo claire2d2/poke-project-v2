@@ -28,10 +28,11 @@ const PokeType: React.FC<Props> = ({ typeData }) => {
   };
 
   switch (typeData) {
-    case "poison":
-    case "fighting":
-    case "ghost":
     case "dark":
+    case "ghost":
+    case "fighting":
+    case "poison":
+    case "psychic":
       textColor = "white";
       break;
     default:
