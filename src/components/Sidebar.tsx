@@ -44,11 +44,13 @@ const Sidebar: React.FC<Props> = ({ search, setSearch }) => {
         type="checkbox"
         name={`generation/${index + 1}`}
         id={`generation/${index + 1}`}
+        className="cursor-pointer"
       />
       <label key={index} htmlFor={`generation/${index + 1}`}>
-        {gen.name.slice(0, 1).toUpperCase() +
-          gen.name.slice(1, -1) +
-          gen.name.slice(-1).toUpperCase()}
+        {`${gen.name.slice(0, 1).toUpperCase()}${gen.name.slice(
+          1,
+          10
+        )} ${gen.name.slice(11).toUpperCase()}`}
       </label>
     </div>
   ));
@@ -73,6 +75,7 @@ const Sidebar: React.FC<Props> = ({ search, setSearch }) => {
         type="checkbox"
         name={`pokemon-color/${index + 1}`}
         id={`pokemon-color/${index + 1}`}
+        className="cursor-pointer"
       />
       <label key={index} htmlFor={`pokemon-color/${index + 1}`}>
         {col.name.slice(0, 1).toUpperCase() + col.name.slice(1)}
@@ -100,6 +103,7 @@ const Sidebar: React.FC<Props> = ({ search, setSearch }) => {
         type="checkbox"
         name={`type/${index + 1}`}
         id={`type/${index + 1}`}
+        className="cursor-pointer"
       />
       <label key={index} htmlFor={`type/${index + 1}`}>
         {typ.name.slice(0, 1).toUpperCase() + typ.name.slice(1)}
@@ -108,7 +112,7 @@ const Sidebar: React.FC<Props> = ({ search, setSearch }) => {
   ));
 
   return (
-    <div className="w-52 bg-blue-200 flex flex-col gap-10 p-2">
+    <div className="w-52 bg-blue-200 flex flex-col gap-5 p-2">
       <div className="searchbar">
         <h1 className="text-lg">Search Pokemon</h1>
         <label htmlFor="search">
@@ -116,7 +120,7 @@ const Sidebar: React.FC<Props> = ({ search, setSearch }) => {
             type="text"
             name="search"
             id="search"
-            className="p-1 rounded"
+            className="p-1 border border-blue-500 rounded"
             value={search}
             onChange={handleSearch}
           ></input>

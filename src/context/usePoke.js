@@ -1,4 +1,4 @@
 import { useContext } from "react";
-import { Context } from "./ContextWrapper";
+import { PokeContext } from "./PokeContextWrapper";
 
-export default () => useContext(Context);
+export default () => useContext(PokeContext);
