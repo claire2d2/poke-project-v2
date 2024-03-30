@@ -41,7 +41,7 @@ const TeamMember: React.FC<{ pokeId: number; teamIndex: number }> = ({
 
   // function to delete pokemon from current team
   const removePoke = () => {
-    const copy = currTeam.filter((poke) => poke != pokeId);
+    const copy = currTeam.slice(teamIndex - 1);
     setCurrTeam(copy);
   };
 
