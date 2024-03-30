@@ -62,7 +62,7 @@ const AllPokemon = () => {
               key={onePoke.name}
               className="flex flex-col items-center m-2 gap-1 border rounded shadow hover:shadow-md transition-all"
             >
-              <Link to={`/pokemon/${onePoke.name}`}>
+              <Link to={`/pokemon/${onePoke.id}`}>
                 <div className="flex flex-col w-auto justify-center items-center">
                   <PokeCard pokeName={onePoke.name} />
                 </div>

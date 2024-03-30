@@ -50,12 +50,12 @@ const PokeType: React.FC<Props> = ({ typeData }) => {
 
   return (
     <div>
-      <h1
+      <div
         className="bg-slate-100 px-2 py-0.5 rounded-full text-xs"
         style={style}
       >
         {typeData.charAt(0).toUpperCase() + typeData.slice(1)}
-      </h1>
+      </div>
     </div>
   );
 };
