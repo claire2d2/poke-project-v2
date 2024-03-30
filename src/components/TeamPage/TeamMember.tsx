@@ -1,6 +1,7 @@
 import React from "react";
 import pokeApi from "../../service/pokeApi";
 import { useState, useEffect } from "react";
+import useTeam from "../../context/usePoke";
 
 // import components
 import PokeType from "../PokeType";
@@ -23,6 +24,7 @@ const TeamMember: React.FC<{ pokeId: number; teamIndex: number }> = ({
   teamIndex,
 }) => {
   const [pokeData, setPokeData] = useState<pokeObject | null>(null);
+  const { currTeam, setCurrTeam } = useTeam();
 
   async function fetchPokeData() {
     try {
@@ -36,6 +38,12 @@ const TeamMember: React.FC<{ pokeId: number; teamIndex: number }> = ({
   useEffect(() => {
     fetchPokeData();
   }, [pokeId]);
+
+  // function to delete pokemon from current team
+  const removePoke = () => {
+    const copy = currTeam.filter((poke) => poke != pokeId);
+    setCurrTeam(copy);
+  };
 
   // TODO create code for "loading" situation
 
@@ -64,7 +72,10 @@ const TeamMember: React.FC<{ pokeId: number; teamIndex: number }> = ({
         ) : (
           <span> ...</span>
         )}
-        <button className="m-1 px-2 py-1 text-xs font-medium text-center text-white bg-red-500 rounded-xl hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300">
+        <button
+          onClick={() => removePoke()}
+          className="m-1 px-2 py-1 text-xs font-medium text-center text-white bg-red-500 rounded-xl hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300"
+        >
           remove
         </button>
       </div>
