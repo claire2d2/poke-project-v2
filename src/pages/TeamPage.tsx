@@ -29,7 +29,7 @@ const TeamPage = () => {
       <div className="FindPokemon basis-1/5">
         <FindPoke />
       </div>
-      <div className="TeamView h-full basis-3/5 flex flex-col md:flex-row md:flex-wrap gap-4 items-center justify-around md:justify-center">
+      <div className="TeamView h-full basis-3/5 flex flex-col md:flex-row md:flex-wrap gap-4 items-center justify-around md:justify-center items-stretch">
         {teamArray.map((poke: pokeMemb) => {
           return (
             <div key={poke.index} className="sm:basis-1/3 lg:basis-1/4 ">

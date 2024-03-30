@@ -48,16 +48,28 @@ const TeamMember: React.FC<{ pokeId: number; teamIndex: number }> = ({
   // TODO create code for "loading" situation
 
   return (
-    <div className="flex flex-row">
+    <div className="h-full flex flex-row">
       <div className="group flex flex-col items-center justify-center max-w-60 border border-gray-100 rounded-xl shadow hover:shadow-lg p-4 hover:bg-blue-50  transition-all">
-        <h1 className="font-semibold">#{teamIndex}</h1>
+        <h1
+          className={pokeId ? "font-semibold" : "font-semibold text-gray-400"}
+        >
+          #{teamIndex}
+        </h1>
         <img
-          className="pokeball h-40 w-40 rounded-full bg-orange-100 m-4 group-hover:bg-orange-200 group-hover:scale-105  transition-all"
+          className={`pokeball h-40 w-40 rounded-full m-4 ${
+            pokeId
+              ? "bg-orange-100 group-hover:bg-orange-200 group-hover:scale-105 "
+              : "bg-gray-200"
+          } transition-all`}
           src={pokeId ? pokeData?.sprites.front_default : pokeBall}
           alt="pokeball"
         />
         <h2 className="capitalize text-xl font-semibold my-2 group-hover:text-orange-500  transition-all">
-          {pokeId ? pokeData?.species.name : "No pokemon yet"}
+          {pokeId ? (
+            pokeData?.species.name
+          ) : (
+            <span className="text-gray-400">No Pokemon Yet</span>
+          )}
         </h2>
         {pokeId ? (
           <div className="flex flex-row gap-1">
@@ -70,11 +82,12 @@ const TeamMember: React.FC<{ pokeId: number; teamIndex: number }> = ({
             })}
           </div>
         ) : (
-          <span> ...</span>
+          <span className="text-gray-200"> ...</span>
         )}
         <button
+          disabled={pokeId ? false : true}
           onClick={() => removePoke()}
-          className="m-1 px-2 py-1 text-xs font-medium text-center text-white bg-red-500 rounded-xl hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300"
+          className="m-1 px-2 py-1 text-xs font-medium text-center text-white bg-red-500 rounded-xl hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 disabled:bg-gray-200"
         >
           remove
         </button>
