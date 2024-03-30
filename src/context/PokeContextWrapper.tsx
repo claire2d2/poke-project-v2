@@ -1,13 +1,20 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useEffect } from "react";
+import { unstable_renderSubtreeIntoContainer } from "react-dom";
 
 export const PokeContext = createContext();
 
 function PokeContextWrapper({ children }) {
-  const [pokeTeam, setPokeTeam] = useState<Array<number>>([0, 0, 0, 0, 0, 0]);
+  const [currTeam, setCurrTeam] = useState<Array<number>>([]);
+
+  // update local storage to store the current team every time it is changed
+  useEffect(() => {
+    localStorage.setItem("currPokeTeam", JSON.stringify(currTeam));
+  }, [currTeam]);
+
   const [pokeList, setPokeList] = useState(null);
   return (
     <PokeContext.Provider
-      value={{ pokeTeam, setPokeTeam, pokeList, setPokeList }}
+      value={{ currTeam, setCurrTeam, pokeList, setPokeList }}
     >
       {children}
     </PokeContext.Provider>

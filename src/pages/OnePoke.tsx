@@ -10,6 +10,7 @@ import { PokeData } from "../components/OnePokePage/OnePokeData";
 import { PokeDexData } from "../components/OnePokePage/PokeDexData";
 import OutsidePerim from "../components/OnePokePage/OutsidePerim";
 import LoadingPage from "../components/OnePokePage/LoadingPage";
+import addTeam from "../context/usePoke";
 
 // styling for the page
 const titleStyle = "text-4xl text-center font-extrabold text-yellow-400";
@@ -28,6 +29,26 @@ const OnePoke = () => {
 
   // use state to get data from the pokemon species
   const [pokeSpecies, setPokeSpecies] = useState<PokeDexData | null>(null);
+
+  // import context for adding the current pokemon to the current team
+  const { currTeam, setCurrTeam } = addTeam();
+  const [teamFull, setTeamFull] = useState<boolean>(false);
+
+  function addTeamMemb() {
+    if (currTeam.length > 5) {
+      setTeamFull(true);
+      return 1;
+    }
+    setCurrTeam([...currTeam, pokeData.id]);
+    return 1;
+  }
+
+  // show error message of full team only temporarily
+  useEffect(() => {
+    const intervalId = setTimeout(() => {
+      setTeamFull(false);
+    }, 2500);
+  }, [teamFull]);
 
   const handleGameChange = (e: ChangeEventHandler<HTMLSelectElement>) => {
     // sets the game
@@ -271,9 +292,18 @@ const OnePoke = () => {
             Next
           </button>
         </div>
-        <button className="mx-3 bg-yellow-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-yellow-600 hover:border-blue-500 rounded">
-          Add Pokemon to my team
-        </button>
+
+        <div className="relative">
+          <button
+            onClick={() => addTeamMemb(pokeData.id)}
+            className="mx-3 bg-yellow-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-yellow-600 hover:border-blue-500 rounded"
+          >
+            Add Pokemon to my team
+          </button>
+          <p className="absolute text-center text-sm text-red-500 inset-x-1/4">
+            {teamFull ? "Your team is full!" : ""}
+          </p>
+        </div>
       </div>
     </div>
   );
