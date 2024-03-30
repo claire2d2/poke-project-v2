@@ -172,7 +172,6 @@ const OnePoke = () => {
       "emerald",
     ];
   }
-
   return (
     <div className="p-8">
       <h1 className={`${titleStyle} capitalize`}>{pokeData?.species.name}</h1>
@@ -226,7 +225,7 @@ const OnePoke = () => {
               </PokeAttr>
             </div>
 
-            <div className="flex p-2 gap-2">
+            <div className="flex m-2 p-2 gap-2 border-8 border-double border-gray-100">
               <img
                 className="basis-1/6 object-scale-down"
                 src={gameSprite}
@@ -235,9 +234,13 @@ const OnePoke = () => {
 
               <div className="mx-auto p-5 basis-4/6 font-press-start text-xs">
                 <PokeAttr title="Genus">
-                  {pokeSpecies?.genera[8].genus}
+                  {pokeSpecies?.genera[7].genus}
                 </PokeAttr>
-                <PokeAttr title="Habitat">{pokeSpecies?.habitat.name}</PokeAttr>
+                <PokeAttr title="Habitat">
+                  <span className="capitalize">
+                    {pokeSpecies?.habitat.name}
+                  </span>
+                </PokeAttr>
                 <PokeAttr title="Pokedex Description" />
                 <p>{dexDescr}</p>
               </div>
@@ -252,6 +255,22 @@ const OnePoke = () => {
         >
           Back
         </button>
+        <div className="flex gap-10">
+          <button
+            disabled={pokeData.id === 1 ? true : false}
+            className="transition-all bg-orange-500 hover:bg-rose-500 text-white  font-bold py-2 px-4 rounded-full disabled:bg-gray-300"
+            onClick={() => navigate(`/pokemon/${pokeData.id - 1}`)}
+          >
+            Prev
+          </button>
+          <button
+            disabled={pokeData.id === 386 ? true : false}
+            className="transition-all bg-orange-500 hover:bg-rose-500 text-white font-bold py-2 px-4 rounded-full disabled:bg-gray-300"
+            onClick={() => navigate(`/pokemon/${pokeData.id + 1}`)}
+          >
+            Next
+          </button>
+        </div>
         <button className="mx-3 bg-yellow-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-yellow-600 hover:border-blue-500 rounded">
           Add Pokemon to my team
         </button>
