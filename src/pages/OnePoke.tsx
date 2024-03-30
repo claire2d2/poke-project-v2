@@ -173,17 +173,17 @@ const OnePoke = () => {
     ];
   }
   return (
-    <div className="p-8">
+    <div className="p-8 flex flex-col">
       <h1 className={`${titleStyle} capitalize`}>{pokeData?.species.name}</h1>
-      <div className="cardCenter flex gap-5 py-5 px-10">
-        <div className="leftSide basis-2/5 shadow-lg">
+      <div className="cardCenter h-4/5 flex flex-col items-center gap-5 py-5 px-10 md:flex-row ">
+        <div className="leftSide basis-2/5 shadow-lg h-full">
           <img
-            className="mx-auto"
+            className="mx-auto h-full"
             src={pokeData.sprites.other["official-artwork"].front_default}
             alt={`official artwork  of ${pokeData.species.name}`}
           />
         </div>
-        <div className="rightSide basis-3/5 border-solid border border-gray-100 p-4">
+        <div className="rightSide flex flex-col h-full basis-3/5 border-solid border border-gray-100">
           {/* Describe here the physical charact of the pokemon */}
           <div className="flex justify-between">
             <h2 className={subTitleStyle}>Physical characteristics</h2>
@@ -248,7 +248,7 @@ const OnePoke = () => {
           </div>
         </div>
       </div>
-      <div className="w-full flex justify-between px-10">
+      <div className="flex justify-between px-10">
         <button
           onClick={() => navigate("/pokemon")}
           className="mx-3 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
