@@ -34,6 +34,7 @@ const OnePoke = () => {
   const { currTeam, setCurrTeam } = addTeam();
   const [teamFull, setTeamFull] = useState<boolean>(false);
 
+  //TODO show message when added succesfully!
   function addTeamMemb() {
     if (currTeam.length > 5) {
       setTeamFull(true);

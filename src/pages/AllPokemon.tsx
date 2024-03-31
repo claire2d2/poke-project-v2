@@ -59,7 +59,7 @@ const AllPokemon = () => {
           )
           .map((onePoke) => (
             <div
-              key={onePoke.name}
+              key={onePoke.id}
               className="flex flex-col items-center m-2 gap-1 border rounded shadow hover:shadow-md transition-all"
             >
               <Link to={`/pokemon/${onePoke.id}`}>

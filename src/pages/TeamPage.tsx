@@ -25,11 +25,11 @@ const TeamPage = () => {
   ];
 
   return (
-    <div className="TeamPage flex h-full w-full items-stretch my-4">
-      <div className="FindPokemon hidden md:basis-1/5 md:flex h-full">
+    <div className="TeamPage flex h-full w-full items-stretch">
+      <div className="FindPokemon hidden">
         <FindPoke />
       </div>
-      <div className="TeamView overflow-scroll no-scrollbar h-full w-full md:basis-3/5 flex flex-col md:flex-row md:flex-wrap gap-4 items-center justify-around md:justify-center">
+      <div className="TeamView overflow-scroll no-scrollbar h-full w-full md:basis-2/3 flex flex-col md:flex-row md:flex-wrap gap-4 items-center justify-around md:justify-center">
         {teamArray.map((poke: pokeMemb) => {
           return (
             <div key={poke.index} className="lg:basis-1/4 ">
@@ -38,7 +38,7 @@ const TeamPage = () => {
           );
         })}
       </div>
-      <div className="CreateTeam hidden md:basis-1/5 md:flex md:h-full">
+      <div className="CreateTeam hidden md:basis-1/3 md:flex md:h-full">
         <CreateTeam />
       </div>
     </div>
