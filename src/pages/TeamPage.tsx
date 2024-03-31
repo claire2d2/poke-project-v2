@@ -4,25 +4,17 @@ import useTeam from "../context/usePoke";
 // import relevant components
 
 import TeamMember from "../components/TeamPage/TeamMember";
-import CreateTeam from "../components/TeamPage/CreateTeam";
+import HandleTeam from "../components/TeamPage/HandleTeam";
 import FindPoke from "../components/TeamPage/FindPoke";
-
-type pokeMemb = {
-  index: number;
-  pokeIndex: number;
-};
 
 const TeamPage = () => {
   const { currTeam, setCurrTeam } = useTeam();
 
-  const teamArray = [
-    { index: 1, pokeIndex: currTeam[0] },
-    { index: 2, pokeIndex: currTeam[1] },
-    { index: 3, pokeIndex: currTeam[2] },
-    { index: 4, pokeIndex: currTeam[3] },
-    { index: 5, pokeIndex: currTeam[4] },
-    { index: 6, pokeIndex: currTeam[5] },
-  ];
+  let emptyTeam: Array = [];
+
+  for (let i = 0; i < 6 - currTeam.length; i++) {
+    emptyTeam.unshift({ num: 0, index: 5 - i });
+  }
 
   return (
     <div className="TeamPage flex h-full w-full items-stretch">
@@ -30,16 +22,25 @@ const TeamPage = () => {
         <FindPoke />
       </div>
       <div className="TeamView overflow-scroll no-scrollbar h-full w-full md:basis-2/3 flex flex-col md:flex-row md:flex-wrap gap-4 items-center justify-around md:justify-center">
-        {teamArray.map((poke: pokeMemb) => {
+        {currTeam.map((poke: number, index: number) => {
           return (
-            <div key={poke.index} className="lg:basis-1/4 ">
-              <TeamMember pokeId={poke.pokeIndex} teamIndex={poke.index} />
+            <div key={index} className="lg:basis-1/4 ">
+              <TeamMember pokeId={poke} teamIndex={index} />
             </div>
           );
         })}
+        {currTeam.length < 6
+          ? emptyTeam.map((emp) => {
+              return (
+                <div key={emp.index} className="lg:basis-1/4 ">
+                  <TeamMember pokeId={emp.num} teamIndex={emp.index} />
+                </div>
+              );
+            })
+          : ""}
       </div>
-      <div className="CreateTeam hidden md:basis-1/3 md:flex md:h-full">
-        <CreateTeam />
+      <div className="HandleTeam hidden md:basis-1/3 md:flex md:h-full">
+        <HandleTeam />
       </div>
     </div>
   );

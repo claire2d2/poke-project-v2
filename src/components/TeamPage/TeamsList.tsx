@@ -16,7 +16,7 @@ type pokeTeam = {
 };
 
 const TeamsList = () => {
-  const { currTeam, setCurrTeam } = useTeam();
+  const { currTeam, setCurrTeam, setTeamToEdit } = useTeam();
 
   const [teamList, setTeamList] = useState<Array<pokeTeam>>([]);
   // get the team names, and team members from the backend API
@@ -33,6 +33,27 @@ const TeamsList = () => {
     fetchTeams();
   }, [currTeam]);
 
+  // when clicking on edit icon, set current team to the team, set archived to false
+  async function editTeam(id: number) {
+    try {
+      // sets trying to edit team to archived: false so that it doesn't appear in the teams list
+      const archiveResponse = await backendApi.patch(`/teams/${id}`, {
+        archived: false,
+      });
+      // getting the relevant team info to set the chosen team to display
+      const teamResponse = await backendApi.get<Array<pokeTeam>>(
+        `/teams/${id}`
+      );
+      setCurrTeam(teamResponse.data.members);
+      setTeamToEdit(teamResponse.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const handleEdit = (id: number) => {
+    editTeam(id);
+  };
   // use state to determine which is the current team to delete
   const [teamToDel, setTeamToDel] = useState<number | null>(null);
   // delete teams when clicking on delete button
@@ -92,7 +113,10 @@ const TeamsList = () => {
                       })}
                     </div>
                     {/* edit button */}
-                    <button className="scale-50 bg-gray-500 hover:bg-orange-500 p-1 rounded-lg transition-all">
+                    <button
+                      onClick={() => handleEdit(team.id)}
+                      className="scale-50 bg-gray-500 hover:bg-orange-500 p-1 rounded-lg transition-all"
+                    >
                       <img src={editIcon} className="p-1" />
                     </button>
                     {/* //! dialog when trying to delete team here */}

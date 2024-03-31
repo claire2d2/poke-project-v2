@@ -39,9 +39,10 @@ const TeamMember: React.FC<{ pokeId: number; teamIndex: number }> = ({
     fetchPokeData();
   }, [pokeId]);
 
-  // function to delete pokemon from current team
+  // function to delete pokemon from current teams
   const removePoke = () => {
-    const copy = currTeam.slice(teamIndex - 1);
+    const copy = [...currTeam];
+    copy.splice(teamIndex, 1);
     setCurrTeam(copy);
   };
 
@@ -53,7 +54,7 @@ const TeamMember: React.FC<{ pokeId: number; teamIndex: number }> = ({
         <h1
           className={pokeId ? "font-semibold" : "font-semibold text-gray-400"}
         >
-          #{teamIndex}
+          #{teamIndex + 1}
         </h1>
         <img
           className={`pokeball h-40 w-40 rounded-full m-4 ${
