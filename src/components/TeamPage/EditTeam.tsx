@@ -3,6 +3,9 @@ import { useState, useEffect } from "react";
 import useTeam from "../../context/usePoke";
 import backendApi from "../../service/backendApi";
 
+// import style
+import { TeamTitle } from "./TeamPageStyle";
+
 type pokeTeam = {
   id: number;
   name: string;
@@ -46,9 +49,7 @@ const EditTeam: React.FC<{ team: pokeTeam }> = ({ team }) => {
   return (
     <div className="EditTeam">
       <div className="w-full">
-        <h2 className="text-xl font-bold px-5 py-2 my-2 text-white w-full bg-blue-800 shadow-lg">
-          Edit your team
-        </h2>
+        <TeamTitle>Edit your team</TeamTitle>
         <div className="p-5">
           <div className="mb-3 font-semibold text-lg">
             <label htmlFor="team-name">Your team's name:</label>
