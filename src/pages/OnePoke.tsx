@@ -33,6 +33,7 @@ const OnePoke = () => {
   // import context for adding the current pokemon to the current team
   const { currTeam, setCurrTeam } = addTeam();
   const [teamFull, setTeamFull] = useState<boolean>(false);
+  const [addSuccess, setAddSuccess] = useState<boolean>(false);
 
   //TODO show message when added succesfully!
   function addTeamMemb(id: number) {
@@ -41,12 +42,19 @@ const OnePoke = () => {
       return 1;
     }
     setCurrTeam([...currTeam, id]);
+    setAddSuccess(true);
     return 1;
   }
+  // show add message of team member temporarily
+  useEffect(() => {
+    setTimeout(() => {
+      setAddSuccess(false);
+    }, 3500);
+  }, [addSuccess]);
 
   // show error message of full team only temporarily
   useEffect(() => {
-    const intervalId = setTimeout(() => {
+    setTimeout(() => {
       setTeamFull(false);
     }, 2500);
   }, [teamFull]);
@@ -303,6 +311,9 @@ const OnePoke = () => {
           </button>
           <p className="absolute text-center text-sm text-red-500 inset-x-1/4">
             {teamFull ? "Your team is full!" : ""}
+          </p>
+          <p className="absolute text-center text-sm text-green-600 inset-x-1/4">
+            {addSuccess ? `Added successfully!` : ""}
           </p>
         </div>
       </div>
