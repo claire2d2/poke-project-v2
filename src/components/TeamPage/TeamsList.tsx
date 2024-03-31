@@ -16,7 +16,7 @@ type pokeTeam = {
 };
 
 const TeamsList = () => {
-  const { currTeam } = useTeam();
+  const { currTeam, setCurrTeam } = useTeam();
 
   const [teamList, setTeamList] = useState<Array<pokeTeam>>([]);
   // get the team names, and team members from the backend API
@@ -63,26 +63,39 @@ const TeamsList = () => {
   }
 
   return (
-    <div className="TeamsList h-3/4  px-3 overflow-scroll no-scrollbar bg-green-200">
-      <h2 className="text-xl font-bold my-2">List of teams</h2>
+    <div className="TeamsList h-3/4 overflow-scroll no-scrollbar">
+      <h2 className="text-xl font-bold px-5 py-2 my-2 text-white w-full bg-blue-800 shadow-lg">
+        List of teams
+      </h2>
       {teamList.length === 0
         ? "No teams at the moment ..."
         : teamList
             ?.filter((team) => team.archived === true)
             .map((team) => {
               return (
-                <div className key={team.id}>
-                  <h3 className="font-semibold">
-                    {team.name} {team.id}
+                <div className="pl-5 pr-2" key={team.id}>
+                  <h3 className="font-bold capitalize text-blue-800 my-1 drop-shadow-sm">
+                    {team.name} :
                   </h3>
-                  <div className="relative group bg-orange-100 border border-solid border-gray-50 rounded-xl hover:bg-orange-200">
+                  <div className="relative flex py-2 items-center group bg-white rounded-xl hover:bg-orange-100 shadow-md">
                     {/* button to delete team if possible, only visible when hovering on the team */}
                     <button
                       onClick={() => handleDelete(team.id)}
-                      className="absolute right-2 text-gray-500 text-xl font-bold hidden group-hover:block hover:text-red-500"
+                      className="absolute m-0 top-0 right-3 text-gray-500 font-bold hidden group-hover:inline hover:text-red-500"
                     >
                       x
                     </button>
+
+                    <div className="flex items-center">
+                      {team.members.map((member: number) => {
+                        return <SmallSprite pokeId={Number(member)} />;
+                      })}
+                    </div>
+                    {/* edit button */}
+                    <button className="scale-50 bg-gray-500 hover:bg-orange-500 p-1 rounded-lg transition-all">
+                      <img src={editIcon} className="p-1" />
+                    </button>
+                    {/* //! dialog when trying to delete team here */}
                     <dialog
                       key={team.id}
                       ref={deleteModal}
@@ -113,11 +126,6 @@ const TeamsList = () => {
                         </button>
                       </div>
                     </dialog>
-                    <div className="flex items-center">
-                      {team.members.map((member: number) => {
-                        return <SmallSprite pokeId={Number(member)} />;
-                      })}
-                    </div>
                   </div>
                 </div>
               );

@@ -48,7 +48,7 @@ const CreateTeam = () => {
   };
 
   return (
-    <div className="flex flex-col  overflow-scroll no-scrollbar bg-blue-100 h-full w-full content-center">
+    <div className="flex flex-col  overflow-scroll no-scrollbar bg-orange-50 h-full w-full content-center shadow-xl">
       <div className="h-1/4 py-6 px-3 ">
         <h1 className="font-bold text-2xl">Create a team</h1>
         <div>
