@@ -14,7 +14,7 @@ type pokeTeam = {
 };
 
 const EditTeam: React.FC<{ team: pokeTeam }> = ({ team }) => {
-  const { currTeam, setCurrTeam, setTeamToEdit } = useTeam();
+  const { currTeam, setCurrTeam, setTeamToEdit, isShiny } = useTeam();
   const [teamName, setTeamName] = useState<string>(team.name);
 
   // post to backend API when clicking on save button
@@ -27,6 +27,7 @@ const EditTeam: React.FC<{ team: pokeTeam }> = ({ team }) => {
     try {
       const response = await backendApi.patch<pokeTeam>(`/teams/${team.id}`, {
         name: teamName,
+        isShiny: isShiny,
         archived: true,
         members: currTeam,
       });

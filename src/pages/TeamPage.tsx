@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 
 //import context
 import useTeam from "../context/usePoke";
@@ -9,9 +9,10 @@ import TeamMember from "../components/TeamPage/TeamMember";
 import HandleTeam from "../components/TeamPage/HandleTeam";
 import FindPoke from "../components/TeamPage/FindPoke";
 import ResetButton from "../components/TeamPage/ResetButton";
+import ShinyButton from "../components/TeamPage/ShinyButton";
 
 const TeamPage = () => {
-  const { currTeam, setCurrTeam } = useTeam();
+  const { currTeam } = useTeam();
 
   let emptyTeam: Array = [];
 
@@ -34,7 +35,7 @@ const TeamPage = () => {
           {/* 
           Button to make sprites shiny 
           */}
-          <button>✨</button>
+          <ShinyButton />
         </div>
         <div className="absolute bottom-2 right-2">
           {/*

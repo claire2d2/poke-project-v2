@@ -4,7 +4,6 @@ import backendApi from "../../service/backendApi";
 // import team components
 import SmallSprite from "./SmallSprite";
 import editIcon from "../../assets/edit_team.png";
-import deleteIcon from "../../assets/delete_team.png";
 
 // import style
 import { TeamTitle } from "./TeamPageStyle";
@@ -13,13 +12,15 @@ import { TeamTitle } from "./TeamPageStyle";
 import useTeam from "../../context/usePoke";
 
 type pokeTeam = {
+  id: number;
   name: string;
   archived: boolean;
+  isShiny: boolean;
   members: Array<number>;
 };
 
 const TeamsList = () => {
-  const { currTeam, setCurrTeam, setTeamToEdit } = useTeam();
+  const { currTeam, setCurrTeam, setTeamToEdit, setIsShiny } = useTeam();
 
   const [teamList, setTeamList] = useState<Array<pokeTeam>>([]);
   // get the team names, and team members from the backend API
@@ -37,6 +38,16 @@ const TeamsList = () => {
   }, [currTeam]);
 
   // when clicking on edit icon, set current team to the team, set archived to false
+
+  async function updateTeams(id) {
+    try {
+      const response = await backendApi.patch(`/teams/${id}`, {
+        archived: true,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
   async function editTeam(id: number) {
     try {
       // sets trying to edit team to archived: false so that it doesn't appear in the teams list
@@ -48,6 +59,7 @@ const TeamsList = () => {
         `/teams/${id}`
       );
       setCurrTeam(teamResponse.data.members);
+      setIsShiny(teamResponse.data.isShiny);
       setTeamToEdit(teamResponse.data);
     } catch (error) {
       console.log(error);
@@ -55,6 +67,9 @@ const TeamsList = () => {
   }
 
   const handleEdit = (id: number) => {
+    teamList.forEach((team) => {
+      updateTeams(team.id);
+    });
     editTeam(id);
   };
   // use state to determine which is the current team to delete
@@ -110,7 +125,12 @@ const TeamsList = () => {
 
                     <div className="flex items-center">
                       {team.members.map((member: number) => {
-                        return <SmallSprite pokeId={Number(member)} />;
+                        return (
+                          <SmallSprite
+                            pokeId={Number(member)}
+                            shinyState={team.isShiny}
+                          />
+                        );
                       })}
                     </div>
                     {/* edit button */}
