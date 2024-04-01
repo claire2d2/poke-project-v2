@@ -13,7 +13,7 @@ type PokeCardProps = {
 
 const PokeCard: React.FC<PokeCardProps> = ({ pokeData }) => {
   return (
-    <div className="flex flex-col align-center justify-center items-center gap-2">
+    <div className="flex flex-col align-center justify-center items-center">
       <img src={pokeData.image} alt={pokeData.name} />
       <h1 className="text-center text-lg font-medium">
         {pokeData.name.charAt(0).toUpperCase() + pokeData.name.slice(1)}
