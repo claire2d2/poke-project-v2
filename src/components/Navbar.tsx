@@ -25,7 +25,12 @@ const Navbar = () => {
             <li className={`${linkStyle} ${hoverLink}`}>Your Team</li>
           </Link>
           <li className={`${linkStyle} ${hoverLink}`}>Take a pika-ture</li>
-          <li className={`${linkStyle} ${hoverLink}`}>PokeQuiz</li>
+          <li
+            onClick={() => navigate("/quiz")}
+            className={`${linkStyle} ${hoverLink}`}
+          >
+            PokeQuiz
+          </li>
         </ul>
       </div>
     </nav>
