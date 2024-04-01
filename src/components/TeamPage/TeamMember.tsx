@@ -24,7 +24,7 @@ const TeamMember: React.FC<{ pokeId: number; teamIndex: number }> = ({
   teamIndex,
 }) => {
   const [pokeData, setPokeData] = useState<pokeObject | null>(null);
-  const { currTeam, setCurrTeam } = useTeam();
+  const { currTeam, setCurrTeam, setTeamFull } = useTeam();
 
   async function fetchPokeData() {
     try {
@@ -50,7 +50,7 @@ const TeamMember: React.FC<{ pokeId: number; teamIndex: number }> = ({
 
   return (
     <div className="h-full flex flex-row">
-      <div className="group flex flex-col items-center justify-center max-w-60 border border-gray-100 rounded-xl shadow hover:shadow-lg p-4 hover:bg-blue-50  transition-all">
+      <div className="group flex flex-col items-center justify-center max-w-60  border-gray-300 rounded-xl shadow hover:shadow-lg p-4 hover:bg-blue-50  hover:border transition-all">
         <h1
           className={pokeId ? "font-semibold" : "font-semibold text-gray-400"}
         >

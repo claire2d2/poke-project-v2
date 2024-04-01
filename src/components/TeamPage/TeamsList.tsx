@@ -6,6 +6,9 @@ import SmallSprite from "./SmallSprite";
 import editIcon from "../../assets/edit_team.png";
 import deleteIcon from "../../assets/delete_team.png";
 
+// import style
+import { TeamTitle } from "./TeamPageStyle";
+
 // import global state
 import useTeam from "../../context/usePoke";
 
@@ -85,9 +88,7 @@ const TeamsList = () => {
 
   return (
     <div className="TeamsList h-3/4 overflow-scroll no-scrollbar">
-      <h2 className="text-xl font-bold px-5 py-2 my-2 text-white w-full bg-blue-800 shadow-lg">
-        List of teams
-      </h2>
+      <TeamTitle>List of teams</TeamTitle>
       {teamList.length === 0
         ? "No teams at the moment ..."
         : teamList

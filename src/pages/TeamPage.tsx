@@ -18,8 +18,13 @@ const TeamPage = () => {
 
   return (
     <div className="TeamPage flex h-full w-full items-stretch">
-      <div className="FindPokemon hidden">
-        <FindPoke />
+      <div
+        // bar the expands when hovering on it
+        className="FindPokemon group w-1/6 bg-gray-200 hover:w-1/6 transition-all"
+      >
+        <div className="group-hover:block transition-all">
+          <FindPoke />
+        </div>
       </div>
       <div className="TeamView overflow-scroll no-scrollbar h-full w-full md:basis-2/3 flex flex-col md:flex-row md:flex-wrap gap-4 items-center justify-around md:justify-center">
         {currTeam.map((poke: number, index: number) => {
