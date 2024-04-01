@@ -1,6 +1,5 @@
 import { useState, useEffect, ChangeEventHandler } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import pokeApi from "../service/pokeApi";
 
 // import components useful for the page
 import { PokeAttr } from "../components/OnePokePage/OnePokeStyle";
@@ -22,7 +21,6 @@ const subTitleStyle =
 const OnePoke = () => {
   // declare navigate function
   const navigate = useNavigate();
-
   // use state to get the wanted pokemon from the pokemonlist? state
   const [pokeData, setPokeData] = useState<PokeData | null>(null);
 
@@ -37,20 +35,29 @@ const OnePoke = () => {
   const [pokeSpecies, setPokeSpecies] = useState<PokeDexData | null>(null);
 
   // import context for adding the current pokemon to the current team
-  const { addTeamMemb, teamFull } = addTeam();
+  const { currTeam, addTeamMemb, teamFull, removeTeamMemb } = addTeam();
 
   // handle add success, team is full messages
   const [msgTeamFull, setMsgTeamFull] = useState<boolean>(false);
   const [addSuccess, setAddSuccess] = useState<boolean>(false);
+  const [undoAdd, setUndoAdd] = useState<boolean>(false);
 
   // when button is clicked, add pokémon to team if team isn't full yet
   const handleAddPoke = () => {
     if (teamFull) {
+      setAddSuccess(false);
       setMsgTeamFull(true);
       return 1;
     }
+    setUndoAdd(false);
     setAddSuccess(true);
     addTeamMemb(Number(pokeId));
+  };
+
+  const handleRemovePoke = () => {
+    removeTeamMemb(Number(pokeId));
+    setUndoAdd(true);
+    setAddSuccess(false);
   };
 
   // erase team is full message after 2.5 seconds
@@ -64,8 +71,8 @@ const OnePoke = () => {
   useEffect(() => {
     setTimeout(() => {
       setAddSuccess(false);
-    }, 3500);
-  }, [addSuccess]);
+    }, 4000);
+  }, [undoAdd]);
 
   const handleGameChange = (e: ChangeEventHandler<HTMLSelectElement>) => {
     // sets the game
@@ -241,8 +248,22 @@ const OnePoke = () => {
           <p className="absolute text-center text-sm text-red-500 inset-x-1/4">
             {msgTeamFull ? "Your team is full!" : ""}
           </p>
-          <p className="absolute text-center text-sm text-green-600 inset-x-1/4">
-            {addSuccess ? `Added successfully!` : ""}
+          <p className="absolute text-center text-sm text-gray-600 inset-x-10">
+            {addSuccess ? (
+              <div className="flex w-full">
+                <div>Added successfully! </div>
+                <button
+                  className="underline underline-offset-1"
+                  onClick={() => {
+                    handleRemovePoke();
+                  }}
+                >
+                  Undo
+                </button>
+              </div>
+            ) : (
+              ""
+            )}
           </p>
         </div>
       </div>

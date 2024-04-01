@@ -1,5 +1,5 @@
 import React from "react";
-import pokeApi from "../../service/pokeApi";
+import { fetchPokeData } from "../FetchPokeData";
 import { useState, useEffect } from "react";
 import useTeam from "../../context/usePoke";
 
@@ -19,17 +19,8 @@ const TeamMember: React.FC<{ pokeId: number; teamIndex: number }> = ({
   const [pokeData, setPokeData] = useState<PokeData | null>(null);
   const { removeTeamMemb } = useTeam();
 
-  async function fetchPokeData() {
-    try {
-      const response = await pokeApi.get<PokeData>(`/pokemon/${pokeId}`);
-      setPokeData(response.data);
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
   useEffect(() => {
-    fetchPokeData();
+    fetchPokeData(pokeId);
   }, [pokeId]);
 
   // TODO create code for "loading" situation
