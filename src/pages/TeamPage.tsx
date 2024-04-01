@@ -1,3 +1,5 @@
+import { useRef, useState } from "react";
+
 //import context
 import useTeam from "../context/usePoke";
 
@@ -6,6 +8,7 @@ import useTeam from "../context/usePoke";
 import TeamMember from "../components/TeamPage/TeamMember";
 import HandleTeam from "../components/TeamPage/HandleTeam";
 import FindPoke from "../components/TeamPage/FindPoke";
+import ResetButton from "../components/TeamPage/ResetButton";
 
 const TeamPage = () => {
   const { currTeam, setCurrTeam } = useTeam();
@@ -26,7 +29,19 @@ const TeamPage = () => {
           <FindPoke />
         </div>
       </div>
-      <div className="TeamView overflow-scroll no-scrollbar h-full w-full md:basis-2/3 flex flex-col md:flex-row md:flex-wrap gap-4 items-center justify-around md:justify-center">
+      <div className="TeamView relative overflow-scroll no-scrollbar h-full w-full md:basis-2/3 flex flex-col md:flex-row md:flex-wrap gap-4 items-center justify-around md:justify-center">
+        <div className="absolute top-2 right-2">
+          {/* 
+          Button to make sprites shiny 
+          */}
+          <button>✨</button>
+        </div>
+        <div className="absolute bottom-2 right-2">
+          {/*
+           Reset button 
+          */}
+          <ResetButton />
+        </div>
         {currTeam.map((poke: number, index: number) => {
           return (
             <div key={index} className="lg:basis-1/4 ">
@@ -52,7 +67,3 @@ const TeamPage = () => {
 };
 
 export default TeamPage;
-
-//reuse the pokecard component and setting up logic in place so that
-//all favorited pokemons are passed as props
-//--> array for favorites that is limited to length 6?
