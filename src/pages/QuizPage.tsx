@@ -1,47 +1,74 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import whoIsThatPokemonSound from "../../public/who-s-that-pokemon.mp3";
 
-const QuizPage = () => {
-  const [pokemonList, setPokemonList] = useState([]);
-  const [correctAnswer, setCorrectAnswer] = useState("");
-  const [options, setOptions] = useState([]);
-  const [feedback, setFeedback] = useState("");
-  const [pokemonImage, setPokemonImage] = useState("");
+type PokeImage = {
+  other: {
+    "official-artwork": {
+      front_default: string;
+    };
+  };
+};
+
+type PokeType = {
+  type: {
+    name: string;
+  };
+};
+
+type PokemonData = {
+  name: string;
+  sprites: PokeImage;
+  types: PokeType[];
+};
+
+const QuizPage: React.FC = () => {
+  const [pokemonList, setPokemonList] = useState<PokemonData[]>([]);
+  const [correctAnswer, setCorrectAnswer] = useState<string>("");
+  const [options, setOptions] = useState<string[]>([]);
+  const [feedback, setFeedback] = useState<string>("");
+  const [pokemonImage, setPokemonImage] = useState<string>("");
+  const [isMuted, setIsMuted] = useState<boolean>(false);
 
   useEffect(() => {
-    // Fetch the list of Pokémon from the API
     const fetchPokemonList = async () => {
       try {
         const response = await axios.get(
           "https://pokeapi.co/api/v2/pokemon?limit=386"
         );
-        const pokemonData = response.data.results;
+        const pokemonData: PokemonData[] = response.data.results;
         setPokemonList(pokemonData);
       } catch (error) {
         console.error("Error fetching Pokémon list:", error);
       }
     };
 
-    fetchPokemonList();
-  }, []);
+    if (pokemonList.length === 0) {
+      fetchPokemonList();
+    }
+  }, [pokemonList]);
 
   useEffect(() => {
-    // Once the list of Pokémon is fetched, select a random Pokémon as the correct answer
-    if (pokemonList.length > 0) {
+    if (pokemonList.length > 0 && correctAnswer === "") {
       const randomIndex = Math.floor(Math.random() * pokemonList.length);
       const randomPokemon = pokemonList[randomIndex];
       setCorrectAnswer(randomPokemon.name);
-      // Fetch additional data including the image URL
       axios
         .get(`https://pokeapi.co/api/v2/pokemon/${randomPokemon.name}`)
         .then((response) => {
-          setPokemonImage(response.data.sprites.front_default);
+          setPokemonImage(
+            response.data.sprites.other["official-artwork"].front_default
+          );
         })
         .catch((error) => {
           console.error("Error fetching Pokémon image:", error);
         });
-      // Select two additional random Pokémon as incorrect options
-      const incorrectOptions = [];
+    }
+  }, [pokemonList, correctAnswer]);
+
+  useEffect(() => {
+    if (correctAnswer !== "") {
+      const incorrectOptions: string[] = [];
       while (incorrectOptions.length < 2) {
         const randomIndex = Math.floor(Math.random() * pokemonList.length);
         const randomPokemon = pokemonList[randomIndex];
@@ -52,31 +79,37 @@ const QuizPage = () => {
           incorrectOptions.push(randomPokemon.name);
         }
       }
-      // Shuffle the options (correct + incorrect) for better presentation
-      const allOptions = [correctAnswer, ...incorrectOptions];
+      const allOptions = [...incorrectOptions, correctAnswer];
       const shuffledOptions = allOptions.sort(() => Math.random() - 0.5);
       setOptions(shuffledOptions);
     }
-  }, [pokemonList, correctAnswer]);
+  }, [correctAnswer, pokemonList]);
 
-  const handleAnswerSelection = (selectedAnswer) => {
+  const handleAnswerSelection = (selectedAnswer: string) => {
     if (selectedAnswer === correctAnswer) {
-      // Provide feedback for correct answer
       setFeedback("Great job! You got it right!");
     } else {
-      // Provide feedback for incorrect answer
       setFeedback("Uh-oh, better go back to our Pokédex and keep learning!");
     }
+  };
+
+  const toggleMute = () => {
+    setIsMuted((prevMuted) => !prevMuted);
+  };
+
+  const reloadPokemon = () => {
+    setCorrectAnswer("");
+    setOptions([]);
+    setFeedback("");
+    setPokemonImage("");
   };
 
   return (
     <div>
       {correctAnswer && options.length === 3 && (
         <div>
-          {/* Display the silhouette or visual representation of the Pokémon */}
-          <p>Guess the Pokémon:</p>
+          <p>Who's that Pokémon?</p>
           <img src={pokemonImage} alt={correctAnswer} />
-          {/* Display the three options for the user to choose */}
           <ul>
             {options.map((option, index) => (
               <li key={index} onClick={() => handleAnswerSelection(option)}>
@@ -84,12 +117,17 @@ const QuizPage = () => {
               </li>
             ))}
           </ul>
-          {/* Display feedback */}
           <p>{feedback}</p>
         </div>
       )}
-      {/* Placeholder until Pokémon data is fetched */}
       {!correctAnswer && <p>Loading...</p>}
+      <div>
+        <button onClick={reloadPokemon}>Reload Pokémon</button>
+      </div>
+      <audio autoPlay={!isMuted} src={whoIsThatPokemonSound} muted={isMuted} />
+      <div>
+        <button onClick={toggleMute}>{isMuted ? "Unmute" : "Mute"}</button>
+      </div>
     </div>
   );
 };
