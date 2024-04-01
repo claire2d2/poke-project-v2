@@ -39,14 +39,14 @@ const Sidebar: React.FC<Props> = ({ search, setSearch }) => {
   }, []);
 
   const pokeGeneration = generation.slice(0, 3).map((gen, index) => (
-    <div className="flex gap-2">
+    <div className="flex gap-2" key={index}>
       <input
         type="checkbox"
         name={`generation/${index + 1}`}
         id={`generation/${index + 1}`}
         className="cursor-pointer"
       />
-      <label key={index} htmlFor={`generation/${index + 1}`}>
+      <label htmlFor={`generation/${index + 1}`}>
         {`${gen.name.slice(0, 1).toUpperCase()}${gen.name.slice(
           1,
           10
@@ -70,14 +70,14 @@ const Sidebar: React.FC<Props> = ({ search, setSearch }) => {
   }, []);
 
   const pokeColor = color.map((col, index) => (
-    <div className="flex gap-2">
+    <div className="flex gap-2" key={index}>
       <input
         type="checkbox"
         name={`pokemon-color/${index + 1}`}
         id={`pokemon-color/${index + 1}`}
         className="cursor-pointer"
       />
-      <label key={index} htmlFor={`pokemon-color/${index + 1}`}>
+      <label htmlFor={`pokemon-color/${index + 1}`}>
         {col.name.slice(0, 1).toUpperCase() + col.name.slice(1)}
       </label>
     </div>
@@ -98,14 +98,14 @@ const Sidebar: React.FC<Props> = ({ search, setSearch }) => {
   }, []);
 
   const pokeType = type.map((typ, index) => (
-    <div className="flex gap-2">
+    <div className="flex gap-2" key={index}>
       <input
         type="checkbox"
         name={`type/${index + 1}`}
         id={`type/${index + 1}`}
         className="cursor-pointer"
       />
-      <label key={index} htmlFor={`type/${index + 1}`}>
+      <label htmlFor={`type/${index + 1}`}>
         {typ.name.slice(0, 1).toUpperCase() + typ.name.slice(1)}
       </label>
     </div>

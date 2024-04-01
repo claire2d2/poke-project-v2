@@ -1,59 +1,27 @@
-import { useEffect, useState } from "react";
-import pokeApi from "../service/pokeApi";
 import PokeType from "./PokeType";
 
-type SpriteData = {
-  other: {
-    "official-artwork": {
-      front_default: string;
-    };
-  };
+type PokeObject = {
+  id: number;
+  name: string;
+  image: string;
+  type: string[];
 };
 
-type TypesData = {
-  type: { name: string };
+type PokeCardProps = {
+  pokeData: PokeObject;
 };
 
-type PokeData = {
-  species: { name: string };
-  sprites: SpriteData;
-  types: TypesData[];
-};
-
-const PokeCard: React.FC<{ pokeName: string }> = ({ pokeName }) => {
-  const [pokeData, setPokeData] = useState<PokeData | null>(null);
-
-  async function fetchPokeImage() {
-    try {
-      const { data } = await pokeApi.get<PokeData>(`/pokemon/${pokeName}`);
-      setPokeData(data);
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  useEffect(() => {
-    fetchPokeImage();
-  }, [pokeName]);
-
-  if (!pokeData) {
-    return <div>Loading...</div>;
-  }
-
+const PokeCard: React.FC<PokeCardProps> = ({ pokeData }) => {
   return (
     <div className="flex flex-col align-center justify-center items-center gap-2">
-      <img
-        src={pokeData.sprites.other["official-artwork"].front_default}
-        alt={pokeData.species.name}
-      />
+      <img src={pokeData.image} alt={pokeData.name} />
       <h1 className="text-center text-lg font-medium">
-        {pokeData.species.name.charAt(0).toUpperCase() +
-          pokeData.species.name.slice(1)}
+        {pokeData.name.charAt(0).toUpperCase() + pokeData.name.slice(1)}
       </h1>
       <div className="flex flex-wrap gap-3 justify-center">
-        {pokeData.types && pokeData.types.length > 0 ? (
-          pokeData.types.map((typeData, index) => (
-            <PokeType key={index} typeData={typeData.type.name} />
+        {pokeData.type && pokeData.type.length > 0 ? (
+          pokeData.type.map((typeData, index) => (
+            <PokeType key={index} typeData={typeData} />
           ))
         ) : (
           <p>No types</p>
