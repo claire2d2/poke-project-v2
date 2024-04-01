@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import pokeLogo from "../assets/poke_logo.png";
 
 const Navbar = () => {
@@ -21,7 +21,9 @@ const Navbar = () => {
       </div>
       <div className="Links flex items-center pr-5">
         <ul className="flex flex-row gap-3">
-          <li className={`${linkStyle} ${hoverLink}`}>Your Team</li>
+          <Link to="/team">
+            <li className={`${linkStyle} ${hoverLink}`}>Your Team</li>
+          </Link>
           <li className={`${linkStyle} ${hoverLink}`}>Take a pika-ture</li>
           <li
             onClick={() => navigate("/quiz")}
