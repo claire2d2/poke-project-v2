@@ -93,8 +93,10 @@ const OnePoke = () => {
   }
 
   // fetch the pokemon data using pokeApi
-  fetchPokeData(pokeId, setPokeData);
-  fetchPokeDexData(pokeId, setPokeSpecies);
+  useEffect(() => {
+    fetchPokeData(pokeId, setPokeData);
+    fetchPokeDexData(pokeId, setPokeSpecies);
+  }, [pokeId]);
 
   // If the pokemon does not exist or data is still loading
   if (!pokeData && !pokeSpecies) {
@@ -138,7 +140,7 @@ const OnePoke = () => {
         <div className="leftSide basis-2/5 shadow-lg h-full">
           <img
             className="mx-auto h-full"
-            src={pokeData.sprites.other["official-artwork"].front_default}
+            src={pokeData?.sprites.other["official-artwork"].front_default}
             alt={`official artwork  of ${pokeData.species.name}`}
           />
         </div>
@@ -152,7 +154,7 @@ const OnePoke = () => {
             <PokeAttr title="Height"> {pokeData.height * 10} cm</PokeAttr>
             <PokeAttr title="Weight"> {pokeData.weight / 10} kg</PokeAttr>
             <PokeAttr title="Types">
-              {pokeData.types.map((pokeType) => {
+              {pokeData?.types.map((pokeType) => {
                 return (
                   <span
                     className="basis-1/6 text-center text-sm mx-1"
