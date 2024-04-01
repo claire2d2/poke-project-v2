@@ -1,5 +1,4 @@
 import { createContext, useState, useEffect } from "react";
-import { unstable_renderSubtreeIntoContainer } from "react-dom";
 
 export const PokeContext = createContext();
 
@@ -16,7 +15,8 @@ function PokeContextWrapper({ children }) {
   // if team already exists, we keep it even if page is refreshed
   let initialTeam: Array<number>;
   if (localStorage.getItem("currPokeTeam")) {
-    initialTeam = JSON.parse(localStorage.getItem("currPokeTeam"));
+    const history = localStorage.getItem("currPokeTeam");
+    initialTeam = JSON.parse(history);
   } else {
     initialTeam = [];
   }
@@ -33,7 +33,7 @@ function PokeContextWrapper({ children }) {
     }
   }, [currTeam]);
 
-  // update local storage to store the current team every time it is changed
+  // update local storage to store the current team and team status every time it is changed
   useEffect(() => {
     localStorage.setItem("currPokeTeam", JSON.stringify(currTeam));
   }, [currTeam]);
@@ -41,8 +41,29 @@ function PokeContextWrapper({ children }) {
   useEffect(() => {
     localStorage.setItem("TeamFull", JSON.stringify(teamFull));
   }, [teamFull]);
+
   // state to know whether the "current" team on the teams page is a new team or an already created team
   const [teamToEdit, setTeamToEdit] = useState<pokeTeam | null>(null);
+
+  // function to add a pokemon to the team
+
+  function addTeamMemb(id: number) {
+    if (currTeam.length > 5) {
+      setTeamFull(true);
+      return 1;
+    }
+    setCurrTeam([...currTeam, id]);
+    return 1;
+  }
+
+  // function to remove a pokefrom from the team
+  // function to delete pokemon from current teams
+
+  function removeTeamMemb(index: number) {
+    const copy = [...currTeam];
+    copy.splice(index, 1);
+    setCurrTeam(copy);
+  }
 
   // state for showing the pokemon list
   const [pokeList, setPokeList] = useState(null);
@@ -53,6 +74,8 @@ function PokeContextWrapper({ children }) {
         setCurrTeam,
         teamFull,
         setTeamFull,
+        addTeamMemb,
+        removeTeamMemb,
         teamToEdit,
         setTeamToEdit,
         pokeList,

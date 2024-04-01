@@ -90,7 +90,7 @@ const FindPoke = () => {
             placeholder="Pikachoose..."
           />
           <ul className="bg-white w-full hidden group-focus-within:block">
-            {filtList.length > 15
+            {filtList.length > 15 || pokeName === ""
               ? "Please refine your search"
               : filtList.length === 0
               ? "No pokemon with that name"

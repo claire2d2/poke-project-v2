@@ -24,7 +24,7 @@ export type PokeImage = {
     };
   };
 };
-export type PokeType = {
+export type PokeTypeLabel = {
   type: {
     name: string;
   };
