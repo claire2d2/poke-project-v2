@@ -8,6 +8,7 @@ import AllPokemon from "./pages/AllPokemon";
 import OnePoke from "./pages/OnePoke";
 import NotFound from "./pages/NotFound";
 import TeamPage from "./pages/TeamPage";
+import PictureTime from "./pages/PictureTime";
 import QuizPage from "./pages/QuizPage";
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
               <Route path=":pokeId" element={<OnePoke />} />
             </Route>
             <Route path="team" element={<TeamPage />} />
+            <Route path="pikature" element={<PictureTime />} />
             <Route path="quiz" element={<QuizPage />} />
             <Route path="*" element={<NotFound />} />
           </Route>
