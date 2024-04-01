@@ -1,38 +1,46 @@
-import TeamMember from "../components/TeamMember";
-import CreateTeam from "../components/CreateTeam";
-import { useState } from "react";
+//import context
+import useTeam from "../context/usePoke";
 
-type pokeMemb = {
-  index: number;
-  pokeIndex: number;
-};
+// import relevant components
+
+import TeamMember from "../components/TeamPage/TeamMember";
+import HandleTeam from "../components/TeamPage/HandleTeam";
+import FindPoke from "../components/TeamPage/FindPoke";
 
 const TeamPage = () => {
-  const [team, setTeam] = useState<Array<number>>([0, 25, 0, 0, 0, 0]);
-  // TODO create function to set the pokemon Ids in the team array
+  const { currTeam, setCurrTeam } = useTeam();
 
-  const teamArray = [
-    { index: 1, pokeIndex: team[0] },
-    { index: 2, pokeIndex: team[1] },
-    { index: 3, pokeIndex: team[2] },
-    { index: 4, pokeIndex: team[3] },
-    { index: 5, pokeIndex: team[4] },
-    { index: 6, pokeIndex: team[5] },
-  ];
+  let emptyTeam: Array = [];
+
+  for (let i = 0; i < 6 - currTeam.length; i++) {
+    emptyTeam.unshift({ num: 0, index: 5 - i });
+  }
 
   return (
-    <div className="TeamPage flex h-fit">
-      <div className="TeamView basis-4/5 flex flex-wrap">
-        {teamArray.map((poke: pokeMemb) => {
+    <div className="TeamPage flex h-full w-full items-stretch">
+      <div className="FindPokemon hidden">
+        <FindPoke />
+      </div>
+      <div className="TeamView overflow-scroll no-scrollbar h-full w-full md:basis-2/3 flex flex-col md:flex-row md:flex-wrap gap-4 items-center justify-around md:justify-center">
+        {currTeam.map((poke: number, index: number) => {
           return (
-            <div key={poke.index} className="m-3">
-              <TeamMember pokeId={poke.pokeIndex} />
+            <div key={index} className="lg:basis-1/4 ">
+              <TeamMember pokeId={poke} teamIndex={index} />
             </div>
           );
         })}
+        {currTeam.length < 6
+          ? emptyTeam.map((emp) => {
+              return (
+                <div key={emp.index} className="lg:basis-1/4 ">
+                  <TeamMember pokeId={emp.num} teamIndex={emp.index} />
+                </div>
+              );
+            })
+          : ""}
       </div>
-      <div className="CreateTeam basis-1/5">
-        <CreateTeam />
+      <div className="HandleTeam hidden md:basis-1/3 md:flex md:h-full">
+        <HandleTeam />
       </div>
     </div>
   );

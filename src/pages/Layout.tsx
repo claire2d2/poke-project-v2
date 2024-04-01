@@ -7,7 +7,7 @@ const Layout = () => {
     <div className="flex flex-col h-full">
       <Navbar />
 
-      <div className="Outlet h-full">
+      <div className="Outlet overflow-scroll no-scrollbar md:h-full">
         <Outlet />
       </div>
 
