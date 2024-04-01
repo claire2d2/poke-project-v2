@@ -125,7 +125,12 @@ const TeamsList = () => {
 
                     <div className="flex items-center">
                       {team.members.map((member: number) => {
-                        return <SmallSprite pokeId={Number(member)} />;
+                        return (
+                          <SmallSprite
+                            pokeId={Number(member)}
+                            shinyState={team.isShiny}
+                          />
+                        );
                       })}
                     </div>
                     {/* edit button */}

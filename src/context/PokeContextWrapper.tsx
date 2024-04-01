@@ -77,8 +77,20 @@ function PokeContextWrapper({ children }) {
   }, [isShiny]);
 
   // state to know whether the "current" team on the teams page is a new team or an already created team
-  const [teamToEdit, setTeamToEdit] = useState<pokeTeam | null>(null);
+  let initEdit: pokeTeam;
 
+  if (localStorage.getItem("Editing")) {
+    const history = localStorage.getItem("Editing");
+    initEdit = JSON.parse(history);
+  } else {
+    initEdit = null;
+  }
+
+  const [teamToEdit, setTeamToEdit] = useState<pokeTeam | null>(initEdit);
+
+  useEffect(() => {
+    localStorage.setItem("Editing", JSON.stringify(teamToEdit));
+  }, [teamToEdit]);
   // function to add a pokemon to the team
 
   function addTeamMemb(id: number) {
