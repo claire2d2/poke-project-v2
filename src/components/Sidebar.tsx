@@ -19,6 +19,10 @@ const Sidebar: React.FC<Props> = ({ search, setSearch }) => {
   const [color, setColor] = useState<Array<Filter>>([]);
   const [type, setType] = useState<Array<Filter>>([]);
 
+  const [isOpenGeneration, setIsOpenGeneration] = useState<Boolean>(false);
+  const [isOpenColor, setIsOpenColor] = useState<Boolean>(false);
+  const [isOpenType, setIsOpenType] = useState<Boolean>(false);
+
   // Search bar filter
   const handleSearch = (e: React.FormEvent<HTMLInputElement>) => {
     setSearch(e.currentTarget.value);
@@ -128,19 +132,34 @@ const Sidebar: React.FC<Props> = ({ search, setSearch }) => {
       </div>
 
       <div className="generation flex flex-col">
-        <h1 className="text-lg">Generation</h1>
-        {pokeGeneration}
+        <button
+          className="text-lg text-left"
+          onClick={() => setIsOpenGeneration((prev) => !prev)}
+        >
+          Generation
+        </button>
+        {isOpenGeneration ? pokeGeneration : null}
       </div>
 
       {/* TO DO: Automation based on API */}
       <div className="color flex flex-col">
-        <h1 className="text-lg">Color</h1>
-        {pokeColor}
+        <button
+          className="text-lg text-left"
+          onClick={() => setIsOpenColor((prev) => !prev)}
+        >
+          Color
+        </button>
+        {isOpenColor ? pokeColor : null}
       </div>
 
       <div className="type flex flex-col">
-        <h1 className="text-lg">Type</h1>
-        {pokeType}
+        <button
+          className="text-lg text-left"
+          onClick={() => setIsOpenType((prev) => !prev)}
+        >
+          Type
+        </button>
+        {isOpenType ? pokeType : null}
       </div>
     </div>
   );
