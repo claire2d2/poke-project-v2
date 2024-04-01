@@ -11,6 +11,8 @@ import { PokeDexData } from "../components/OnePokePage/PokeDexData";
 import OutsidePerim from "../components/OnePokePage/OutsidePerim";
 import LoadingPage from "../components/OnePokePage/LoadingPage";
 import addTeam from "../context/usePoke";
+import { fetchPokeData, fetchPokeDexData } from "../components/FetchPokeData";
+import { showDexEntry } from "../components/OnePokePage/ShowPokeDexFunc";
 
 // styling for the page
 const titleStyle = "text-4xl text-center font-extrabold text-yellow-400";
@@ -25,26 +27,39 @@ const OnePoke = () => {
   const [pokeData, setPokeData] = useState<PokeData | null>(null);
 
   // use state to change the game for pokedex section
-  const [pokeGame, setPokeGame] = useState<string | null>(null);
+  const [pokeGame, setPokeGame] = useState<string>("default");
+  const [dexDescr, setDexDescr] = useState<string>(
+    "Please choose a game to see the corresponding PokeDex entry!"
+  );
+  const [gameSprite, setGameSprite] = useState<string>("");
 
   // use state to get data from the pokemon species
   const [pokeSpecies, setPokeSpecies] = useState<PokeDexData | null>(null);
 
   // import context for adding the current pokemon to the current team
-  const { currTeam, setCurrTeam } = addTeam();
-  const [teamFull, setTeamFull] = useState<boolean>(false);
+  const { addTeamMemb, teamFull } = addTeam();
+
+  // handle add success, team is full messages
+  const [msgTeamFull, setMsgTeamFull] = useState<boolean>(false);
   const [addSuccess, setAddSuccess] = useState<boolean>(false);
 
-  //TODO show message when added succesfully!
-  function addTeamMemb(id: number) {
-    if (currTeam.length > 5) {
-      setTeamFull(true);
+  // when button is clicked, add pokémon to team if team isn't full yet
+  const handleAddPoke = () => {
+    if (teamFull) {
+      setMsgTeamFull(true);
       return 1;
     }
-    setCurrTeam([...currTeam, id]);
     setAddSuccess(true);
-    return 1;
-  }
+    addTeamMemb(Number(pokeId));
+  };
+
+  // erase team is full message after 2.5 seconds
+  useEffect(() => {
+    setTimeout(() => {
+      setMsgTeamFull(false);
+    }, 2500);
+  }, [msgTeamFull]);
+
   // show add message of team member temporarily
   useEffect(() => {
     setTimeout(() => {
@@ -52,102 +67,15 @@ const OnePoke = () => {
     }, 3500);
   }, [addSuccess]);
 
-  // show error message of full team only temporarily
-  useEffect(() => {
-    setTimeout(() => {
-      setTeamFull(false);
-    }, 2500);
-  }, [teamFull]);
-
   const handleGameChange = (e: ChangeEventHandler<HTMLSelectElement>) => {
     // sets the game
     setPokeGame(e.target.value);
     // sets the sprite depending on the game
   };
 
-  let dexDescr: string =
-    "Please choose a game to see the corresponding PokeDex entry!";
-  let gameSprite: string = pokeData?.sprites.front_default;
-  switch (pokeGame) {
-    case "red-blue": {
-      gameSprite =
-        pokeData?.sprites.versions["generation-i"]["red-blue"].front_default;
-      const copy = pokeSpecies?.flavor_text_entries.filter(
-        (entry) => entry.language.name === "en" && entry.version.name === "red"
-      );
-      dexDescr = copy[0].flavor_text;
-      break;
-    }
-    case "yellow": {
-      gameSprite =
-        pokeData?.sprites.versions["generation-i"].yellow.front_default;
-      const copy = pokeSpecies?.flavor_text_entries.filter(
-        (entry) =>
-          entry.language.name === "en" && entry.version.name === "yellow"
-      );
-      dexDescr = copy[0].flavor_text;
-      break;
-    }
-    case "silver": {
-      gameSprite =
-        pokeData?.sprites.versions["generation-ii"].silver.front_default;
-      const copy = pokeSpecies?.flavor_text_entries.filter(
-        (entry) =>
-          entry.language.name === "en" && entry.version.name === "silver"
-      );
-      dexDescr = copy[0].flavor_text;
-      break;
-    }
-    case "gold": {
-      gameSprite =
-        pokeData?.sprites.versions["generation-ii"].gold.front_default;
-      const copy = pokeSpecies?.flavor_text_entries.filter(
-        (entry) => entry.language.name === "en" && entry.version.name === "gold"
-      );
-      dexDescr = copy[0].flavor_text;
-      break;
-    }
-    case "crystal": {
-      gameSprite =
-        pokeData?.sprites.versions["generation-ii"].crystal.front_default;
-      const copy = pokeSpecies?.flavor_text_entries.filter(
-        (entry) =>
-          entry.language.name === "en" && entry.version.name === "crystal"
-      );
-      dexDescr = copy[0].flavor_text;
-      break;
-    }
-    case "ruby": {
-      pokeData?.sprites.versions["generation-iii"]["ruby-sapphire"]
-        .front_default;
-      const copy = pokeSpecies?.flavor_text_entries.filter(
-        (entry) => entry.language.name === "en" && entry.version.name === "ruby"
-      );
-      dexDescr = copy[0].flavor_text;
-      break;
-    }
-    case "sapphire": {
-      gameSprite =
-        pokeData?.sprites.versions["generation-iii"]["ruby-sapphire"]
-          .front_default;
-      const copy = pokeSpecies?.flavor_text_entries.filter(
-        (entry) =>
-          entry.language.name === "en" && entry.version.name === "sapphire"
-      );
-      dexDescr = copy[0].flavor_text;
-      break;
-    }
-    case "emerald": {
-      gameSprite =
-        pokeData?.sprites.versions["generation-iii"].emerald.front_default;
-      const copy = pokeSpecies?.flavor_text_entries.filter(
-        (entry) =>
-          entry.language.name === "en" && entry.version.name === "emerald"
-      );
-      dexDescr = copy[0].flavor_text;
-      break;
-    }
-  }
+  useEffect(() => {
+    showDexEntry(pokeGame, setGameSprite, setDexDescr, pokeData, pokeSpecies);
+  }, [pokeGame]);
 
   // get the pokemon name from the url
   const { pokeId } = useParams<number>();
@@ -157,24 +85,9 @@ const OnePoke = () => {
     return <OutsidePerim />;
   }
 
-  // fetch the pokemon using pokeApi
-  async function fetchPokeData() {
-    try {
-      const response = await pokeApi.get<PokeData>(`/pokemon/${pokeId}`);
-      setPokeData(response.data);
-      const pokedex = await pokeApi.get<PokeDexData>(
-        `/pokemon-species/${pokeId}`
-      );
-      setPokeSpecies(pokedex.data);
-    } catch (e) {
-      console.log(e);
-    }
-  }
-
-  // use effect to launch the fetch function once mounted
-  useEffect(() => {
-    fetchPokeData();
-  }, [pokeId]);
+  // fetch the pokemon data using pokeApi
+  fetchPokeData(pokeId, setPokeData);
+  fetchPokeDexData(pokeId, setPokeSpecies);
 
   // If the pokemon does not exist or data is still loading
   if (!pokeData && !pokeSpecies) {
@@ -184,14 +97,23 @@ const OnePoke = () => {
   // make games option array
   let gamesArray: Array<string> = [];
   // if trying to look at pokemon other than gen-1 to gen-3
-  if (pokeData.id > 386) {
+  if (pokeId > 386) {
     return <OutsidePerim />;
-  } else if (pokeData.id > 251) {
-    gamesArray = ["ruby", "sapphire", "emerald"];
-  } else if (pokeData.id > 151 && pokeData.id < 252) {
-    gamesArray = ["silver", "gold", "crystal", "ruby", "sapphire", "emerald"];
+  } else if (pokeId > 251) {
+    gamesArray = ["default", "ruby", "sapphire", "emerald"];
+  } else if (pokeId > 151 && pokeData.id < 252) {
+    gamesArray = [
+      "default",
+      "silver",
+      "gold",
+      "crystal",
+      "ruby",
+      "sapphire",
+      "emerald",
+    ];
   } else {
     gamesArray = [
+      "default",
       "red-blue",
       "yellow",
       "silver",
@@ -247,9 +169,12 @@ const OnePoke = () => {
               <h2 className={subTitleStyle}>PokeDex Entry</h2>
               <PokeAttr title="Game">
                 <select onChange={handleGameChange} id="gameChange">
-                  <option value={null}>Default</option>
                   {gamesArray.map((game) => {
-                    return <option value={game}>{game}</option>;
+                    return (
+                      <option className="capitalize" value={game}>
+                        {game}
+                      </option>
+                    );
                   })}
                 </select>
               </PokeAttr>
@@ -258,7 +183,11 @@ const OnePoke = () => {
             <div className="flex m-2 p-2 gap-2 border-8 border-double border-gray-100">
               <img
                 className="basis-1/6 object-scale-down"
-                src={gameSprite}
+                src={
+                  pokeGame === "default"
+                    ? pokeData.sprites.front_default
+                    : gameSprite
+                }
                 alt="sprite of pokemon"
               />
 
@@ -304,13 +233,13 @@ const OnePoke = () => {
 
         <div className="relative">
           <button
-            onClick={() => addTeamMemb(pokeData.id)}
+            onClick={() => handleAddPoke()}
             className="mx-3 bg-yellow-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-yellow-600 hover:border-blue-500 rounded"
           >
             Add Pokemon to my team
           </button>
           <p className="absolute text-center text-sm text-red-500 inset-x-1/4">
-            {teamFull ? "Your team is full!" : ""}
+            {msgTeamFull ? "Your team is full!" : ""}
           </p>
           <p className="absolute text-center text-sm text-green-600 inset-x-1/4">
             {addSuccess ? `Added successfully!` : ""}
