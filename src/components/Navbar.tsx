@@ -23,7 +23,12 @@ const Navbar = () => {
         <ul className="flex flex-row gap-3">
           <li className={`${linkStyle} ${hoverLink}`}>Your Team</li>
           <li className={`${linkStyle} ${hoverLink}`}>Take a pika-ture</li>
-          <li className={`${linkStyle} ${hoverLink}`}>PokeQuiz</li>
+          <li
+            onClick={() => navigate("/quiz")}
+            className={`${linkStyle} ${hoverLink}`}
+          >
+            PokeQuiz
+          </li>
         </ul>
       </div>
     </nav>
