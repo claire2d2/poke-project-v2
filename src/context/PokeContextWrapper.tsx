@@ -13,13 +13,34 @@ type pokeTeam = {
 };
 
 function PokeContextWrapper({ children }) {
-  const [currTeam, setCurrTeam] = useState<Array<number>>([]);
+  // if team already exists, we keep it even if page is refreshed
+  let initialTeam: Array<number>;
+  if (localStorage.getItem("currPokeTeam")) {
+    initialTeam = JSON.parse(localStorage.getItem("currPokeTeam"));
+  } else {
+    initialTeam = [];
+  }
+
+  const [currTeam, setCurrTeam] = useState<Array<number>>(initialTeam);
+  const [teamFull, setTeamFull] = useState<boolean>(false);
+
+  // update whether current team is full ornot
+  useEffect(() => {
+    if (currTeam.length > 5) {
+      setTeamFull(true);
+    } else {
+      setTeamFull(false);
+    }
+  }, [currTeam]);
 
   // update local storage to store the current team every time it is changed
   useEffect(() => {
     localStorage.setItem("currPokeTeam", JSON.stringify(currTeam));
   }, [currTeam]);
 
+  useEffect(() => {
+    localStorage.setItem("TeamFull", JSON.stringify(teamFull));
+  }, [teamFull]);
   // state to know whether the "current" team on the teams page is a new team or an already created team
   const [teamToEdit, setTeamToEdit] = useState<pokeTeam | null>(null);
 
@@ -30,6 +51,8 @@ function PokeContextWrapper({ children }) {
       value={{
         currTeam,
         setCurrTeam,
+        teamFull,
+        setTeamFull,
         teamToEdit,
         setTeamToEdit,
         pokeList,
