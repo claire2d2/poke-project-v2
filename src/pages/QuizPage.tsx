@@ -75,7 +75,9 @@ const QuizPage: React.FC = () => {
       setFeedback("Great job! You got it right!");
       setCorrectAnswerSelected(true);
     } else {
-      setFeedback("Uh-oh, better go back to our Pokédex and keep learning!");
+      setFeedback(
+        `Uh-oh, it's actually ${correctAnswer}! Better go back to our Pokédex and keep studying!`
+      );
       setCorrectAnswerSelected(false);
     }
   };
