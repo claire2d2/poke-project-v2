@@ -8,7 +8,8 @@ import FaveButton from "../components/FaveButton";
 type PokeObject = {
   id: number;
   name: string;
-  url: string;
+  image: string;
+  type: string[];
 };
 
 const useDebouncedValue = (inputValue: string, delay: number) => {
@@ -64,7 +65,7 @@ const AllPokemon = () => {
             >
               <Link to={`/pokemon/${onePoke.id}`}>
                 <div className="flex flex-col w-auto justify-center items-center">
-                  <PokeCard pokeName={onePoke.name} />
+                  <PokeCard pokeData={onePoke} />
                 </div>
               </Link>
               <FaveButton pokeId={onePoke.id} heartSize={2} />
