@@ -2,20 +2,13 @@ import pokeApi from "../../service/pokeApi";
 import { useState, useEffect } from "react";
 import { PokeData } from "../../components/OnePokeData";
 
+import { fetchPokeData } from "../FetchPokeData";
+
 const SmallSprite: React.FC<{ pokeId: number }> = ({ pokeId }) => {
   const [pokeData, setPokeData] = useState<PokeData | null>(null);
 
-  async function fetchPokeImage() {
-    try {
-      const { data } = await pokeApi.get<PokeData>(`/pokemon/${pokeId}`);
-      setPokeData(data);
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
   useEffect(() => {
-    fetchPokeImage();
+    fetchPokeData(pokeId);
   }, [pokeId]);
 
   if (!pokeData) {
