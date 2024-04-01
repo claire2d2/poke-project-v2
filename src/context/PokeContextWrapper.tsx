@@ -21,6 +21,15 @@ function PokeContextWrapper({ children }) {
     initialTeam = [];
   }
 
+  // state to see whether current pokemon team is shiny or not
+  let initShiny: boolean;
+  if (localStorage.getItem("IsShiny")) {
+    const history = localStorage.getItem("IsShiny");
+    initShiny = JSON.parse(history);
+  } else {
+    initShiny = false;
+  }
+
   const [currTeam, setCurrTeam] = useState<Array<number>>(initialTeam);
   const [teamFull, setTeamFull] = useState<boolean>(false);
   const [isEmpty, setIsEmpty] = useState<boolean>(true);
@@ -39,6 +48,17 @@ function PokeContextWrapper({ children }) {
     }
   }, [currTeam]);
 
+  // is shiny
+  const [isShiny, setIsShiny] = useState<boolean>(initShiny);
+
+  function makeItShiny() {
+    if (isShiny) {
+      setIsShiny(false);
+    } else {
+      setIsShiny(true);
+    }
+  }
+
   // update local storage to store the current team and team status every time it is changed
   useEffect(() => {
     localStorage.setItem("currPokeTeam", JSON.stringify(currTeam));
@@ -51,6 +71,10 @@ function PokeContextWrapper({ children }) {
   useEffect(() => {
     localStorage.setItem("IsEmpty", JSON.stringify(isEmpty));
   }, [isEmpty]);
+
+  useEffect(() => {
+    localStorage.setItem("IsShiny", JSON.stringify(isShiny));
+  }, [isShiny]);
 
   // state to know whether the "current" team on the teams page is a new team or an already created team
   const [teamToEdit, setTeamToEdit] = useState<pokeTeam | null>(null);
@@ -67,7 +91,6 @@ function PokeContextWrapper({ children }) {
   }
 
   // function to remove a pokefrom from the team
-  // function to delete pokemon from current teams
 
   function removeTeamMemb(index: number) {
     const copy = [...currTeam];
@@ -88,6 +111,9 @@ function PokeContextWrapper({ children }) {
         setIsEmpty,
         addTeamMemb,
         removeTeamMemb,
+        isShiny,
+        setIsShiny,
+        makeItShiny,
         teamToEdit,
         setTeamToEdit,
         pokeList,

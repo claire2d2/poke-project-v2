@@ -12,15 +12,16 @@ import { PokeData } from "../OnePokeData";
 import { PokeTypeLabel } from "../OnePokeData";
 import PokeType from "../PokeType";
 
-const TeamMember: React.FC<{ pokeId: number; teamIndex: number }> = ({
-  pokeId,
-  teamIndex,
-}) => {
+const TeamMember: React.FC<{
+  pokeId: number;
+  teamIndex: number;
+  isShiny: boolean;
+}> = ({ pokeId, teamIndex }) => {
   const [pokeData, setPokeData] = useState<PokeData | null>(null);
-  const { removeTeamMemb } = useTeam();
+  const { removeTeamMemb, isShiny } = useTeam();
 
   useEffect(() => {
-    fetchPokeData(pokeId);
+    fetchPokeData(pokeId, setPokeData);
   }, [pokeId]);
 
   // TODO create code for "loading" situation
@@ -39,7 +40,13 @@ const TeamMember: React.FC<{ pokeId: number; teamIndex: number }> = ({
               ? "bg-orange-100 group-hover:bg-orange-200 group-hover:scale-105 "
               : "bg-gray-200"
           } transition-all`}
-          src={pokeId ? pokeData?.sprites.front_default : pokeBall}
+          src={
+            pokeId
+              ? isShiny
+                ? pokeData?.sprites.front_shiny
+                : pokeData?.sprites.front_default
+              : pokeBall
+          }
           alt="pokeball"
         />
         <h2 className="capitalize text-xl font-semibold my-2 group-hover:text-orange-500  transition-all">

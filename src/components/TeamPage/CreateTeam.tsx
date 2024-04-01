@@ -1,5 +1,5 @@
 // import use state and API
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import useTeam from "../../context/usePoke";
 import backendApi from "../../service/backendApi";
 
@@ -9,11 +9,12 @@ import { TeamTitle } from "./TeamPageStyle";
 type pokeTeam = {
   name: string;
   archived: boolean;
+  isShiny: boolean;
   members: Array<number>;
 };
 
 const CreateTeam = () => {
-  const { currTeam, setCurrTeam } = useTeam();
+  const { currTeam, setCurrTeam, isShiny, setIsShiny } = useTeam();
   const [teamName, setTeamName] = useState<string>("");
 
   // TODO if name exists, error!
@@ -29,10 +30,12 @@ const CreateTeam = () => {
       const response = await backendApi.post<pokeTeam>(`/teams`, {
         name: teamName,
         archived: true,
+        isShiny: isShiny,
         members: currTeam,
       });
       // empty current team when submitting
       setCurrTeam([]);
+      setIsShiny(false);
       setTeamName("");
     } catch (error) {
       console.log(error);

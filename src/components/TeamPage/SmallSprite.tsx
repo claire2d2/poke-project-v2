@@ -8,7 +8,7 @@ const SmallSprite: React.FC<{ pokeId: number }> = ({ pokeId }) => {
   const [pokeData, setPokeData] = useState<PokeData | null>(null);
 
   useEffect(() => {
-    fetchPokeData(pokeId);
+    fetchPokeData(pokeId, setPokeData);
   }, [pokeId]);
 
   if (!pokeData) {
