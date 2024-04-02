@@ -1,8 +1,31 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import whoIsThatPokemonSound from "../../public/who-s-that-pokemon.mp3";
+import backgroundImage from "../../public/who-s-that-pokemon-bg.jpeg";
 
-// Define types
+type PokeImage = {
+  other: {
+    "official-artwork": {
+      front_default: string;
+    };
+  };
+};
+
+type PokeType = {
+  type: {
+    name: string;
+  };
+};
+
+type PokemonData = {
+  name: string;
+  sprites: PokeImage;
+  types: PokeType[];
+};
+
+function playWhoIsThatPokemonSound() {
+  new Audio(whoIsThatPokemonSound).play();
+}
 
 const QuizPage: React.FC = () => {
   const [pokemonList, setPokemonList] = useState<PokemonData[]>([]);
@@ -92,10 +115,14 @@ const QuizPage: React.FC = () => {
     setFeedback("");
     setPokemonImage("");
     setCorrectAnswerSelected(false);
+    if (!isMuted) {
+      playWhoIsThatPokemonSound();
+    }
   };
 
   const handlePlayClick = () => {
     setShowModal(false);
+    playWhoIsThatPokemonSound();
   };
 
   return (
@@ -148,36 +175,54 @@ const QuizPage: React.FC = () => {
       )}
 
       {!showModal && (
-        <div>
-          <p>Who's that Pokémon</p>
-          <img
-            src={pokemonImage}
-            alt={correctAnswer}
-            className="rounded-md shadow-md"
-            style={{
-              filter:
-                correctAnswerSelected || feedback !== ""
-                  ? "none"
-                  : "brightness(0%)",
-            }}
-          />
-          <ul>
-            {options.map((option, index) => (
-              <li key={index} onClick={() => handleAnswerSelection(option)}>
-                {option}
-              </li>
-            ))}
-          </ul>
-          <p>{feedback}</p>
+        <div className="flex flex-col align-center m-10">
+          <p className="font-press-start right-0">{feedback}</p>
+          <div className="game-container flex flex-row justify-between items-center mb-5 mt-5">
+            <ul className="leading-10">
+              {options.map((option, index) => (
+                <li
+                  className="bg-red-500 hover:bg-red-700 text-white font-bold text-xl text-center py-2 px-4 rounded-full w-48 m-5"
+                  key={index}
+                  onClick={() => handleAnswerSelection(option)}
+                >
+                  {option.charAt(0).toUpperCase() + option.slice(1)}
+                </li>
+              ))}
+            </ul>
+
+            <div
+              style={{ backgroundImage: `url(${backgroundImage})` }}
+              className="w-3/4 bg-cover bg-center p-9 rounded-md"
+            >
+              <img
+                src={pokemonImage}
+                alt={correctAnswer}
+                className="rounded-md"
+                style={{
+                  filter:
+                    correctAnswerSelected || feedback !== ""
+                      ? "none"
+                      : "brightness(0%)",
+                }}
+              />
+            </div>
+          </div>
+          <div className="flex flex-row gap-3 justify-end">
+            <button
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full w-48"
+              onClick={reloadPokemon}
+            >
+              Reload Pokémon
+            </button>
+            <button
+              className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full w-36"
+              onClick={toggleMute}
+            >
+              {isMuted ? "Unmute" : "Mute"}
+            </button>
+          </div>
         </div>
       )}
-
-      <audio autoPlay={!isMuted} src={whoIsThatPokemonSound} muted={isMuted} />
-
-      <div>
-        <button onClick={toggleMute}>{isMuted ? "Unmute" : "Mute"}</button>
-        <button onClick={reloadPokemon}>Reload Pokémon</button>
-      </div>
     </div>
   );
 };
