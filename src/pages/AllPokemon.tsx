@@ -46,7 +46,7 @@ const AllPokemon = () => {
     const fetchFilteredPokemon = async () => {
       try {
         const { data } = await backendApi.get(
-          `/pokemons?name_like=${debouncedSearch}`
+          `/pokemons?e_embed=favorite&name_like=${debouncedSearch}`
         );
         setPokemon(data);
       } catch (error) {
