@@ -23,8 +23,10 @@ type PokemonData = {
   types: PokeType[];
 };
 
-function playWhoIsThatPokemonSound() {
-  new Audio(whoIsThatPokemonSound).play();
+function playWhoIsThatPokemonSound(isMuted: boolean) {
+  if (!isMuted) {
+    new Audio(whoIsThatPokemonSound).play();
+  }
 }
 
 const QuizPage: React.FC = () => {
@@ -60,7 +62,10 @@ const QuizPage: React.FC = () => {
     if (!showModal && pokemonList.length > 0 && correctAnswer === "") {
       const randomIndex = Math.floor(Math.random() * pokemonList.length);
       const randomPokemon = pokemonList[randomIndex];
-      setCorrectAnswer(randomPokemon.name);
+      const capitalizedCorrectAnswer =
+        randomPokemon.name.charAt(0).toUpperCase() +
+        randomPokemon.name.slice(1);
+      setCorrectAnswer(capitalizedCorrectAnswer);
       axios
         .get(`https://pokeapi.co/api/v2/pokemon/${randomPokemon.name}`)
         .then((response) => {
@@ -80,11 +85,14 @@ const QuizPage: React.FC = () => {
       while (incorrectOptions.length < 2) {
         const randomIndex = Math.floor(Math.random() * pokemonList.length);
         const randomPokemon = pokemonList[randomIndex];
+        const capitalizedIncorrectOption =
+          randomPokemon.name.charAt(0).toUpperCase() +
+          randomPokemon.name.slice(1);
         if (
           randomPokemon.name !== correctAnswer &&
-          !incorrectOptions.includes(randomPokemon.name)
+          !incorrectOptions.includes(capitalizedIncorrectOption)
         ) {
-          incorrectOptions.push(randomPokemon.name);
+          incorrectOptions.push(capitalizedIncorrectOption);
         }
       }
       const allOptions = [...incorrectOptions, correctAnswer];
@@ -115,58 +123,55 @@ const QuizPage: React.FC = () => {
     setFeedback("");
     setPokemonImage("");
     setCorrectAnswerSelected(false);
-    if (!isMuted) {
-      playWhoIsThatPokemonSound();
-    }
+    playWhoIsThatPokemonSound(isMuted);
   };
 
   const handlePlayClick = () => {
     setShowModal(false);
-    playWhoIsThatPokemonSound();
+    playWhoIsThatPokemonSound(isMuted);
   };
 
   return (
     <div>
       {showModal && (
-        <div className="fixed z-10 inset-0 overflow-y-auto">
-          <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-            <div
-              className="fixed inset-0 transition-opacity"
-              aria-hidden="true"
-            >
-              <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
-            </div>
+        <div
+          style={{ backgroundImage: `url(${backgroundImage})` }}
+          className="fixed z-10 inset-0 bg-cover"
+        >
+          <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center">
+            <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
 
-            <span
-              className="hidden sm:inline-block sm:align-middle sm:h-screen"
-              aria-hidden="true"
-            ></span>
-
-            <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
-              <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                <div className="sm:flex sm:items-start">
-                  <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-                    <h3
-                      className="text-lg leading-6 font-medium text-gray-900"
-                      id="modal-title"
-                    >
-                      Who's that Pokémon?
-                    </h3>
-                    <div className="mt-2">
-                      <p className="text-sm text-gray-500">
-                        Click the button below to start playing!
-                      </p>
-                    </div>
+            <div className="align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all p-10 flex flex-col gap-5">
+              <div className="bg-white">
+                <div className="text-center">
+                  <h3 className="text-lg font-medium text-gray-900 mb-5">
+                    Who's that Pokémon?!
+                  </h3>
+                  <div className="flex flex-col gap-3 text-center">
+                    <p className="text-sm text-gray-500">
+                      Click the play button below to start playing!
+                    </p>
+                    <p className="text-sm text-gray-500">
+                      (Don't forget to click the mute button if you're not in
+                      the mood for sound)
+                    </p>
                   </div>
                 </div>
               </div>
-              <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+              <div className="flex flex-row justify-center">
                 <button
                   onClick={handlePlayClick}
                   type="button"
                   className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:ml-3 sm:w-auto sm:text-sm"
                 >
                   Play
+                </button>
+                <button
+                  onClick={toggleMute}
+                  type="button"
+                  className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-gray-500 text-base font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 sm:ml-3 sm:w-auto sm:text-sm"
+                >
+                  {isMuted ? "Unmute" : "Mute"}
                 </button>
               </div>
             </div>
@@ -176,19 +181,23 @@ const QuizPage: React.FC = () => {
 
       {!showModal && (
         <div className="flex flex-col align-center m-10">
-          <p className="font-press-start right-0">{feedback}</p>
           <div className="game-container flex flex-row justify-between items-center mb-5 mt-5">
-            <ul className="leading-10">
-              {options.map((option, index) => (
-                <li
-                  className="bg-red-500 hover:bg-red-700 text-white font-bold text-xl text-center py-2 px-4 rounded-full w-48 m-5"
-                  key={index}
-                  onClick={() => handleAnswerSelection(option)}
-                >
-                  {option.charAt(0).toUpperCase() + option.slice(1)}
-                </li>
-              ))}
-            </ul>
+            <div className="flex flex-col">
+              <h1 className="mb-10 text-center font-press-start">
+                Who's that Pokemon?!
+              </h1>
+              <ul className="leading-10">
+                {options.map((option, index) => (
+                  <li
+                    className="bg-red-500 hover:bg-red-700 text-white font-bold text-xl text-center py-2 px-4 rounded-full w-48 m-5"
+                    key={index}
+                    onClick={() => handleAnswerSelection(option)}
+                  >
+                    {option}
+                  </li>
+                ))}
+              </ul>
+            </div>
 
             <div
               style={{ backgroundImage: `url(${backgroundImage})` }}
@@ -207,6 +216,7 @@ const QuizPage: React.FC = () => {
               />
             </div>
           </div>
+          <p className="font-press-start right-0 mb-5">{feedback}</p>
           <div className="flex flex-row gap-3 justify-end">
             <button
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full w-48"
