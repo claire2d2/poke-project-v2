@@ -62,7 +62,10 @@ const QuizPage: React.FC = () => {
     if (!showModal && pokemonList.length > 0 && correctAnswer === "") {
       const randomIndex = Math.floor(Math.random() * pokemonList.length);
       const randomPokemon = pokemonList[randomIndex];
-      setCorrectAnswer(randomPokemon.name);
+      const capitalizedCorrectAnswer =
+        randomPokemon.name.charAt(0).toUpperCase() +
+        randomPokemon.name.slice(1);
+      setCorrectAnswer(capitalizedCorrectAnswer);
       axios
         .get(`https://pokeapi.co/api/v2/pokemon/${randomPokemon.name}`)
         .then((response) => {
@@ -82,11 +85,14 @@ const QuizPage: React.FC = () => {
       while (incorrectOptions.length < 2) {
         const randomIndex = Math.floor(Math.random() * pokemonList.length);
         const randomPokemon = pokemonList[randomIndex];
+        const capitalizedIncorrectOption =
+          randomPokemon.name.charAt(0).toUpperCase() +
+          randomPokemon.name.slice(1);
         if (
           randomPokemon.name !== correctAnswer &&
-          !incorrectOptions.includes(randomPokemon.name)
+          !incorrectOptions.includes(capitalizedIncorrectOption)
         ) {
-          incorrectOptions.push(randomPokemon.name);
+          incorrectOptions.push(capitalizedIncorrectOption);
         }
       }
       const allOptions = [...incorrectOptions, correctAnswer];
@@ -152,7 +158,7 @@ const QuizPage: React.FC = () => {
                   </div>
                 </div>
               </div>
-              <div className="bg-gray-50 flex flex-row justify-center">
+              <div className="flex flex-row justify-center">
                 <button
                   onClick={handlePlayClick}
                   type="button"
@@ -175,19 +181,23 @@ const QuizPage: React.FC = () => {
 
       {!showModal && (
         <div className="flex flex-col align-center m-10">
-          <p className="font-press-start right-0">{feedback}</p>
           <div className="game-container flex flex-row justify-between items-center mb-5 mt-5">
-            <ul className="leading-10">
-              {options.map((option, index) => (
-                <li
-                  className="bg-red-500 hover:bg-red-700 text-white font-bold text-xl text-center py-2 px-4 rounded-full w-48 m-5"
-                  key={index}
-                  onClick={() => handleAnswerSelection(option)}
-                >
-                  {option.charAt(0).toUpperCase() + option.slice(1)}
-                </li>
-              ))}
-            </ul>
+            <div className="flex flex-col">
+              <h1 className="mb-10 text-center font-press-start">
+                Who's that Pokemon?!
+              </h1>
+              <ul className="leading-10">
+                {options.map((option, index) => (
+                  <li
+                    className="bg-red-500 hover:bg-red-700 text-white font-bold text-xl text-center py-2 px-4 rounded-full w-48 m-5"
+                    key={index}
+                    onClick={() => handleAnswerSelection(option)}
+                  >
+                    {option}
+                  </li>
+                ))}
+              </ul>
+            </div>
 
             <div
               style={{ backgroundImage: `url(${backgroundImage})` }}
@@ -206,6 +216,7 @@ const QuizPage: React.FC = () => {
               />
             </div>
           </div>
+          <p className="font-press-start right-0 mb-5">{feedback}</p>
           <div className="flex flex-row gap-3 justify-end">
             <button
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full w-48"
