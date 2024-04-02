@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import backendApi from "../service/backendApi";
 import Sidebar from "../components/Sidebar";
 import PokeCard from "../components/PokeCard";
@@ -34,14 +34,31 @@ const useDebouncedValue = (inputValue: string, delay: number) => {
 const AllPokemon = () => {
   const [pokemon, setPokemon] = useState<Array<PokeObject>>([]);
   const [search, setSearch] = useState<string>("");
-  const [favoritePokemonIds, setFavoritePokemonIds] = useState<number[]>([]);
-  const [showFavorites, setShowFavorites] = useState<boolean>(false);
+
+  // const [favoritePokemonIds, setFavoritePokemonIds] = useState<number[]>([]);
+  // const [showFavorites, setShowFavorites] = useState<boolean>(false);
   const debouncedSearch = useDebouncedValue(search, 300);
+
+  const [searchParams, setSearchParams] = useSearchParams();
+  const searchFilter = searchParams.get("name");
+  const generationFilter = searchParams.get("generation");
+  const typeFilter = searchParams.get("type");
+
+  let searchParamsURL = "?_embed=favorites";
 
   // Fetch Pokemon data
   async function fetchAllPokemon() {
     try {
-      const { data } = await backendApi.get("/pokemons");
+      if (searchFilter) {
+        searchParamsURL += `&name_like=${searchFilter}`;
+      }
+      if (generationFilter) {
+        searchParamsURL += `&generation=${generationFilter}`;
+      }
+      if (typeFilter) {
+        searchParamsURL += `&type=${typeFilter}`;
+      }
+      const { data } = await backendApi.get("/pokemons" + searchParamsURL);
       setPokemon(data);
     } catch (error) {
       console.log(error);
@@ -50,7 +67,7 @@ const AllPokemon = () => {
 
   useEffect(() => {
     fetchAllPokemon();
-  }, [debouncedSearch]);
+  }, [debouncedSearch, searchParams]);
 
   // Sort by A-Z filter
   const sortPokemonByAZ = () => {
@@ -69,30 +86,30 @@ const AllPokemon = () => {
   };
 
   // Sort by favorites
-  const fetchFavoritePokemonIds = async () => {
-    try {
-      const { data } = await backendApi.get("/favorite");
-      setFavoritePokemonIds(data.map((favorite: any) => favorite.pokemonId));
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // const fetchFavoritePokemonIds = async () => {
+  //   try {
+  //     const { data } = await backendApi.get("/favorite");
+  //     setFavoritePokemonIds(data.map((favorite: any) => favorite.pokemonId));
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
-  const filterByFavorites = () => {
-    if (showFavorites) {
-      fetchAllPokemon();
-    } else {
-      const favoritePokemon = pokemon.filter((onePoke) =>
-        favoritePokemonIds.includes(onePoke.id)
-      );
-      setPokemon(favoritePokemon);
-    }
-    setShowFavorites(!showFavorites);
-  };
+  // const filterByFavorites = () => {
+  //   if (showFavorites) {
+  //     fetchAllPokemon();
+  //   } else {
+  //     const favoritePokemon = pokemon.filter((onePoke) =>
+  //       favoritePokemonIds.includes(onePoke.id)
+  //     );
+  //     setPokemon(favoritePokemon);
+  //   }
+  //   setShowFavorites(!showFavorites);
+  // };
 
-  useEffect(() => {
-    fetchFavoritePokemonIds();
-  }, []);
+  // useEffect(() => {
+  //   fetchFavoritePokemonIds();
+  // }, [generation]);
 
   return (
     <div className="flex">
@@ -113,24 +130,24 @@ const AllPokemon = () => {
               Z-A
             </button>
           </div>
-          <div className="flex gap-2">
+          {/* <div className="flex gap-2">
             <button
               onClick={filterByFavorites}
               className="bg-blue-200 rounded-lg py-0.5 px-2"
             >
               {showFavorites ? "Show all" : "Show favorites"}
             </button>
-          </div>
+          </div> */}
         </div>
         <div className="grid grid-cols-6 grid-flow-row gap-2">
           {pokemon
-            .filter(
-              (onePoke) =>
-                onePoke.name &&
-                onePoke.name
-                  .toLowerCase()
-                  .includes(debouncedSearch.toLowerCase())
-            )
+            // .filter(
+            //   (onePoke) =>
+            //     onePoke.name &&
+            //     onePoke.name
+            //       .toLowerCase()
+            //       .includes(debouncedSearch.toLowerCase())
+            // )
             .map((onePoke) => (
               <div
                 key={onePoke.id}
