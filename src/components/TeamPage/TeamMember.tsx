@@ -18,7 +18,7 @@ const TeamMember: React.FC<{
   isShiny: boolean;
 }> = ({ pokeId, teamIndex }) => {
   const [pokeData, setPokeData] = useState<PokeData | null>(null);
-  const { currTeam, setCurrTeam, removeTeamMemb, isShiny } = useTeam();
+  const { removeTeamMemb, isShiny } = useTeam();
 
   useEffect(() => {
     fetchPokeData(pokeId, setPokeData);
@@ -26,18 +26,8 @@ const TeamMember: React.FC<{
 
   // TODO create code for "loading" situation
 
-  // TODO make element draggable
-
-  const handleDragStart = (e) => {
-    e.dataTransfer.setData("text/plain", JSON.stringify(teamIndex));
-  };
-
   return (
-    <div
-      className="h-full flex flex-row"
-      draggable="true"
-      onDragStart={handleDragStart}
-    >
+    <div className="h-full flex flex-row">
       <div className="group flex flex-col items-center justify-center max-w-60  border-gray-300 rounded-xl shadow hover:shadow-lg p-4 hover:bg-blue-50  hover:border transition-all">
         <h1
           className={pokeId ? "font-semibold" : "font-semibold text-gray-400"}

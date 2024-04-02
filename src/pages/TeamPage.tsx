@@ -12,38 +12,12 @@ import ResetButton from "../components/TeamPage/ResetButton";
 import ShinyButton from "../components/TeamPage/ShinyButton";
 
 const TeamPage = () => {
-  const { currTeam, setCurrTeam } = useTeam();
+  const { currTeam } = useTeam();
 
   let emptyTeam: Array = [];
 
   for (let i = 0; i < 6 - currTeam.length; i++) {
     emptyTeam.unshift({ num: 0, index: 5 - i });
-  }
-
-  // test drag and drop
-
-  function handleOnDragOver(e) {
-    e.preventDefault();
-  }
-
-  function handleOnDrop(e, index) {
-    e.preventDefault();
-    const data = JSON.parse(e.dataTransfer.getData("text/plain"));
-    swapPoke(data, index);
-  }
-
-  function swapPoke(fromPokeIndex: number, toPokeIndex: number) {
-    const copy = [...currTeam];
-    const fromPoke = copy[fromPokeIndex];
-    const toPoke = copy[toPokeIndex];
-
-    if (fromPoke && toPoke) {
-      console.log("is this working");
-      copy[fromPokeIndex] = toPoke;
-      copy[toPokeIndex] = fromPoke;
-    }
-
-    setCurrTeam(copy);
   }
 
   return (
@@ -71,12 +45,7 @@ const TeamPage = () => {
         </div>
         {currTeam.map((poke: number, index: number) => {
           return (
-            <div
-              key={index}
-              className="lg:basis-1/4 "
-              onDrop={(e) => handleOnDrop(e, index)}
-              onDragOver={handleOnDragOver}
-            >
+            <div key={index} className="lg:basis-1/4 ">
               <TeamMember pokeId={poke} teamIndex={index} />
             </div>
           );
