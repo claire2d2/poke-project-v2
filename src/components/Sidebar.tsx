@@ -28,20 +28,35 @@ const Sidebar: React.FC<Props> = ({ search, setSearch }) => {
 
   // Search bar filter
   const handleSearch = (e: React.FormEvent<HTMLInputElement>) => {
-    setSearch(e.currentTarget.value);
-    searchParams.set("name", e.currentTarget.value);
+    const searchValue = e.currentTarget.value;
+    setSearch(searchValue);
+    if (searchValue) {
+      searchParams.set("name", searchValue);
+    } else {
+      searchParams.delete("name");
+    }
     setSearchParams(searchParams);
   };
 
   // Generation filter
   const handleGenerationFilter = (e: React.FormEvent<HTMLInputElement>) => {
-    searchParams.set("generation", e.currentTarget.value);
+    const isChecked = e.currentTarget.checked;
+    if (isChecked) {
+      searchParams.set("generation", e.currentTarget.value);
+    } else {
+      searchParams.delete("generation", e.currentTarget.value);
+    }
     setSearchParams(searchParams);
   };
 
   // Type filter
   const handleTypeFilter = (e: any) => {
-    searchParams.set("type", e.currentTarget.value);
+    const isChecked = e.currentTarget.checked;
+    if (isChecked) {
+      searchParams.set("type", e.currentTarget.value);
+    } else {
+      searchParams.delete("type", e.currentTarget.value);
+    }
     setSearchParams(searchParams);
   };
 

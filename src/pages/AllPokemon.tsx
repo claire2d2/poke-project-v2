@@ -49,6 +49,9 @@ const AllPokemon = () => {
   // Fetch Pokemon data
   async function fetchAllPokemon() {
     try {
+      if (!searchParamsURL) {
+        searchParamsURL = "";
+      }
       if (searchFilter) {
         searchParamsURL += `&name_like=${searchFilter}`;
       }
