@@ -4,6 +4,8 @@ import pokeApi from "../service/pokeApi";
 type Props = {
   search: string;
   setSearch: (search: string) => void;
+  setSelectedTypes: (cb: (state: string[]) => string[]) => void;
+  setSelectedGenerations: (cb: (state: string[]) => string[]) => void;
 };
 
 // Type
@@ -14,25 +16,62 @@ type FilterData = {
   results: Array<Filter>;
 };
 
-const Sidebar: React.FC<Props> = ({ search, setSearch }) => {
-  const [generation, setGeneration] = useState<Array<Filter>>([]);
-  const [color, setColor] = useState<Array<Filter>>([]);
+const Sidebar: React.FC<Props> = ({
+  search,
+  setSearch,
+  setSelectedTypes,
+  setSelectedGenerations,
+}) => {
+  const [generation, setGeneration] = useState<Array<string>>([]);
   const [type, setType] = useState<Array<Filter>>([]);
 
+  // State for toggle filters
   const [isOpenGeneration, setIsOpenGeneration] = useState<Boolean>(false);
-  const [isOpenColor, setIsOpenColor] = useState<Boolean>(false);
   const [isOpenType, setIsOpenType] = useState<Boolean>(false);
 
-  // Search bar filter
+  // Search filter
   const handleSearch = (e: React.FormEvent<HTMLInputElement>) => {
     setSearch(e.currentTarget.value);
   };
+
+  // Generation filter
+  const handleGenerationFilter = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const isChecked = e.currentTarget.checked;
+    const value = e.currentTarget.value;
+    if (isChecked) {
+      setSelectedGenerations((currentGenerations) => {
+        return [...currentGenerations, value];
+      });
+    } else {
+      setSelectedGenerations((currentGenerations) => {
+        return currentGenerations.filter((generation) => generation !== value);
+      });
+    }
+  };
+
+  // Type filter
+  const handleTypeFilter = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const isChecked = e.currentTarget.checked;
+    const value = e.currentTarget.value;
+    if (isChecked) {
+      setSelectedTypes((currentTypes) => {
+        return [...currentTypes, value];
+      });
+    } else {
+      setSelectedTypes((currentTypes) => {
+        return currentTypes.filter((type) => type !== value);
+      });
+    }
+  };
+
+  // Retrieve filters from PokeAPI ----------
 
   // Retrieve generation filters
   async function fetchGenerationFilters() {
     try {
       const { data } = await pokeApi.get<FilterData>("/generation");
-      setGeneration(data.results);
+      const result = data.results.slice(0, 3);
+      setGeneration(result);
     } catch (error) {
       console.log(error);
     }
@@ -42,12 +81,14 @@ const Sidebar: React.FC<Props> = ({ search, setSearch }) => {
     fetchGenerationFilters();
   }, []);
 
-  const pokeGeneration = generation.slice(0, 3).map((gen, index) => (
+  const pokeGeneration = generation.map((gen, index) => (
     <div className="flex gap-2" key={index}>
       <input
         type="checkbox"
         name={`generation/${index + 1}`}
         id={`generation/${index + 1}`}
+        value={gen.name.split("-")[1]}
+        onChange={handleGenerationFilter} // Add event handler here
         className="cursor-pointer"
       />
       <label htmlFor={`generation/${index + 1}`}>
@@ -59,39 +100,12 @@ const Sidebar: React.FC<Props> = ({ search, setSearch }) => {
     </div>
   ));
 
-  // Retrieve color filters
-  async function fetchColorFilters() {
-    try {
-      const { data } = await pokeApi.get<FilterData>("/pokemon-color");
-      setColor(data.results);
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  useEffect(() => {
-    fetchColorFilters();
-  }, []);
-
-  const pokeColor = color.map((col, index) => (
-    <div className="flex gap-2" key={index}>
-      <input
-        type="checkbox"
-        name={`pokemon-color/${index + 1}`}
-        id={`pokemon-color/${index + 1}`}
-        className="cursor-pointer"
-      />
-      <label htmlFor={`pokemon-color/${index + 1}`}>
-        {col.name.slice(0, 1).toUpperCase() + col.name.slice(1)}
-      </label>
-    </div>
-  ));
-
   // Retrieve type filters
   async function fetchTypeFilters() {
     try {
       const { data } = await pokeApi.get<FilterData>("/type");
-      setType(data.results);
+      const result = data.results;
+      setType(result);
     } catch (error) {
       console.log(error);
     }
@@ -107,6 +121,8 @@ const Sidebar: React.FC<Props> = ({ search, setSearch }) => {
         type="checkbox"
         name={`type/${index + 1}`}
         id={`type/${index + 1}`}
+        value={typ.name}
+        onChange={handleTypeFilter}
         className="cursor-pointer"
       />
       <label htmlFor={`type/${index + 1}`}>
@@ -115,8 +131,9 @@ const Sidebar: React.FC<Props> = ({ search, setSearch }) => {
     </div>
   ));
 
+  // Component
   return (
-    <div className="w-52 bg-blue-200 flex flex-col gap-5 p-2">
+    <div className="w-52 h-screen bg-blue-200 flex flex-col gap-5 p-2">
       <div className="searchbar">
         <h1 className="text-lg">Search Pokemon</h1>
         <label htmlFor="search">
@@ -139,17 +156,6 @@ const Sidebar: React.FC<Props> = ({ search, setSearch }) => {
           Generation
         </button>
         {isOpenGeneration ? pokeGeneration : null}
-      </div>
-
-      {/* TO DO: Automation based on API */}
-      <div className="color flex flex-col">
-        <button
-          className="text-lg text-left"
-          onClick={() => setIsOpenColor((prev) => !prev)}
-        >
-          Color
-        </button>
-        {isOpenColor ? pokeColor : null}
       </div>
 
       <div className="type flex flex-col">
