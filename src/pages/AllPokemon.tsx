@@ -6,12 +6,17 @@ import PokeCard from "../components/PokeCard";
 import FaveButton from "../components/FaveButton";
 
 // Type
+type favorite = {
+  pokemonId: number;
+  id: number;
+};
 type PokeObject = {
   id: number;
   name: string;
   image: string;
   type: string[];
   generation: string;
+  favorite: favorite[];
 };
 
 // Debounced for search bar
@@ -46,7 +51,7 @@ const AllPokemon = () => {
     const fetchFilteredPokemon = async () => {
       try {
         const { data } = await backendApi.get(
-          `/pokemons?e_embed=favorite&name_like=${debouncedSearch}`
+          `/pokemons?_embed=favorite&name_like=${debouncedSearch}`
         );
         setPokemon(data);
       } catch (error) {
@@ -72,6 +77,32 @@ const AllPokemon = () => {
     );
     setPokemon(sortedPokemon);
   };
+  
+  // Sort by favorites
+  const fetchFavoritePokemonIds = async () => {
+    try {
+      const { data } = await backendApi.get("/favorite");
+      setFavoritePokemonIds(data.map((favorite: any) => favorite.pokemonId));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const filterByFavorites = () => {
+    if (showFavorites) {
+      fetchFilteredPokemon();
+    } else {
+      const favoritePokemon = pokemon.filter((onePoke) =>
+        favoritePokemonIds.includes(onePoke.id)
+      );
+      setPokemon(favoritePokemon);
+    }
+    setShowFavorites(!showFavorites);
+  };
+
+  useEffect(() => {
+    fetchFavoritePokemonIds();
+  }, []);
 
   let displayedPoke;
   if (selectedTypes.length || selectedGenerations.length) {
@@ -99,6 +130,10 @@ const AllPokemon = () => {
       />
       <div className="flex flex-col gap-2 p-2 w-full">
         <div className="flex justify-between">
+          {/* //! Test */}
+          <div>
+            <button onClick={deleteAllFaves}>Reset faves</button>
+          </div>
           <div className="flex gap-2">
             <button
               onClick={sortPokemonByAZ}
@@ -125,7 +160,14 @@ const AllPokemon = () => {
                   <PokeCard pokeData={onePoke} />
                 </div>
               </Link>
-              <FaveButton pokeId={onePoke.id} heartSize={2} />
+              <div>
+                  {onePoke.favorite.length === 0 ? "not a fave" : "fave"}
+                  <FaveButton
+                    isFave={onePoke.favorite.length === 0 ? false : true}
+                    currPoke={onePoke}
+                    heartSize={3}
+                  />
+                </div>
             </div>
           ))}
         </div>
