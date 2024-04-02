@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 import pokeApi from "../service/pokeApi";
-import { useSearchParams } from "react-router-dom";
 
 type Props = {
   search: string;
   setSearch: (search: string) => void;
+  setSelectedTypes: (cb: (state: string[]) => string[]) => void;
+  setSelectedGenerations: (cb: (state: string[]) => string[]) => void;
 };
 
 // Type
@@ -15,7 +16,12 @@ type FilterData = {
   results: Array<Filter>;
 };
 
-const Sidebar: React.FC<Props> = ({ search, setSearch }) => {
+const Sidebar: React.FC<Props> = ({
+  search,
+  setSearch,
+  setSelectedTypes,
+  setSelectedGenerations,
+}) => {
   const [generation, setGeneration] = useState<Array<string>>([]);
   const [type, setType] = useState<Array<Filter>>([]);
 
@@ -23,41 +29,39 @@ const Sidebar: React.FC<Props> = ({ search, setSearch }) => {
   const [isOpenGeneration, setIsOpenGeneration] = useState<Boolean>(false);
   const [isOpenType, setIsOpenType] = useState<Boolean>(false);
 
-  // searchParams
-  const [searchParams, setSearchParams] = useSearchParams();
-
-  // Search bar filter
+  // Search filter
   const handleSearch = (e: React.FormEvent<HTMLInputElement>) => {
-    const searchValue = e.currentTarget.value;
-    setSearch(searchValue);
-    if (searchValue) {
-      searchParams.set("name", searchValue);
-    } else {
-      searchParams.delete("name");
-    }
-    setSearchParams(searchParams);
+    setSearch(e.currentTarget.value);
   };
 
   // Generation filter
-  const handleGenerationFilter = (e: React.FormEvent<HTMLInputElement>) => {
+  const handleGenerationFilter = (e: React.ChangeEvent<HTMLInputElement>) => {
     const isChecked = e.currentTarget.checked;
+    const value = e.currentTarget.value;
     if (isChecked) {
-      searchParams.set("generation", e.currentTarget.value);
+      setSelectedGenerations((currentGenerations) => {
+        return [...currentGenerations, value];
+      });
     } else {
-      searchParams.delete("generation", e.currentTarget.value);
+      setSelectedGenerations((currentGenerations) => {
+        return currentGenerations.filter((generation) => generation !== value);
+      });
     }
-    setSearchParams(searchParams);
   };
 
   // Type filter
-  const handleTypeFilter = (e: any) => {
+  const handleTypeFilter = (e: React.ChangeEvent<HTMLInputElement>) => {
     const isChecked = e.currentTarget.checked;
+    const value = e.currentTarget.value;
     if (isChecked) {
-      searchParams.set("type", e.currentTarget.value);
+      setSelectedTypes((currentTypes) => {
+        return [...currentTypes, value];
+      });
     } else {
-      searchParams.delete("type", e.currentTarget.value);
+      setSelectedTypes((currentTypes) => {
+        return currentTypes.filter((type) => type !== value);
+      });
     }
-    setSearchParams(searchParams);
   };
 
   // Retrieve filters from PokeAPI ----------
@@ -84,8 +88,8 @@ const Sidebar: React.FC<Props> = ({ search, setSearch }) => {
         name={`generation/${index + 1}`}
         id={`generation/${index + 1}`}
         value={gen.name.split("-")[1]}
+        onChange={handleGenerationFilter} // Add event handler here
         className="cursor-pointer"
-        onChange={handleGenerationFilter}
       />
       <label htmlFor={`generation/${index + 1}`}>
         {`${gen.name.slice(0, 1).toUpperCase()}${gen.name.slice(
