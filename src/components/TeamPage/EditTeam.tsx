@@ -47,6 +47,12 @@ const EditTeam: React.FC<{ team: pokeTeam }> = ({ team }) => {
     setTeamName(value);
   };
 
+  // handle user wanting to create a new team
+
+  const switchToCreate = () => {
+    setTeamToEdit(null);
+    setCurrTeam([]);
+  };
   return (
     <div className="EditTeam">
       <div className="w-full">
@@ -69,6 +75,14 @@ const EditTeam: React.FC<{ team: pokeTeam }> = ({ team }) => {
           >
             Save
           </button>
+          <div>
+            <button
+              onClick={() => switchToCreate()}
+              className="bg-orange-500 text-white rounded-lg px-2 py-1 font-semibold mt-3 hover:bg-orange-600"
+            >
+              Create a new team
+            </button>
+          </div>
         </div>
       </div>
     </div>
