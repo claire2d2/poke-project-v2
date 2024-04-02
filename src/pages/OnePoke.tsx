@@ -254,7 +254,7 @@ const OnePoke = () => {
           onClick={() => navigate("/pokemon")}
           className="mx-3 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
         >
-          Back
+          All Pokémon
         </button>
         <div className="flex gap-10">
           <button
