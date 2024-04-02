@@ -43,22 +43,26 @@ const AllPokemon = () => {
 
   const debouncedSearch = useDebouncedValue(search, 300);
 
+  const [favoritePokemonIds, setFavoritePokemonIds] = useState<number[]>([]);
+  const [showFavorites, setShowFavorites] = useState<boolean>(false);
+
   const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
   const [selectedGenerations, setSelectedGenerations] = useState<string[]>([]);
 
   // Fetch Pokemon data
-  useEffect(() => {
-    const fetchFilteredPokemon = async () => {
-      try {
-        const { data } = await backendApi.get(
-          `/pokemons?_embed=favorite&name_like=${debouncedSearch}`
-        );
-        setPokemon(data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
 
+  const fetchFilteredPokemon = async () => {
+    try {
+      const { data } = await backendApi.get(
+        `/pokemons?_embed=favorite&name_like=${debouncedSearch}`
+      );
+      setPokemon(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
     fetchFilteredPokemon();
   }, [debouncedSearch]);
 
@@ -77,7 +81,7 @@ const AllPokemon = () => {
     );
     setPokemon(sortedPokemon);
   };
-  
+
   // Sort by favorites
   const fetchFavoritePokemonIds = async () => {
     try {
@@ -130,10 +134,6 @@ const AllPokemon = () => {
       />
       <div className="flex flex-col gap-2 p-2 w-full">
         <div className="flex justify-between">
-          {/* //! Test */}
-          <div>
-            <button onClick={deleteAllFaves}>Reset faves</button>
-          </div>
           <div className="flex gap-2">
             <button
               onClick={sortPokemonByAZ}
@@ -146,6 +146,14 @@ const AllPokemon = () => {
               className="bg-blue-200 rounded-lg py-0.5 px-2"
             >
               Z-A
+            </button>
+          </div>
+          <div className="flex gap-2">
+            <button
+              onClick={filterByFavorites}
+              className="bg-blue-200 rounded-lg py-0.5 px-2"
+            >
+              {showFavorites ? "Show all" : "Show favorites"}
             </button>
           </div>
         </div>
@@ -161,13 +169,12 @@ const AllPokemon = () => {
                 </div>
               </Link>
               <div>
-                  {onePoke.favorite.length === 0 ? "not a fave" : "fave"}
-                  <FaveButton
-                    isFave={onePoke.favorite.length === 0 ? false : true}
-                    currPoke={onePoke}
-                    heartSize={3}
-                  />
-                </div>
+                <FaveButton
+                  isFave={onePoke.favorite.length === 0 ? false : true}
+                  currPoke={onePoke}
+                  heartSize={3}
+                />
+              </div>
             </div>
           ))}
         </div>
