@@ -1,5 +1,6 @@
 import { useState, useEffect, ChangeEventHandler } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import backendApi from "../service/backendApi";
 
 // import components useful for the page
 import { PokeAttr } from "../components/OnePokePage/OnePokeStyle";
@@ -18,11 +19,26 @@ const titleStyle = "text-4xl text-center font-extrabold text-yellow-400";
 const subTitleStyle =
   "text-2xl p-1 text-blue-900 font-semibold hover:text-blue-700";
 
+// Type
+type favorite = {
+  pokemonId: number;
+  id: number;
+};
+type PokeObject = {
+  id: number;
+  name: string;
+  image: string;
+  type: string[];
+  favorite: favorite[];
+};
+
 const OnePoke = () => {
   // declare navigate function
   const navigate = useNavigate();
   // use state to get the wanted pokemon from the pokemonlist? state
   const [pokeData, setPokeData] = useState<PokeData | null>(null);
+  const [pokeStatus, setPokeStatus] = useState<PokeObject | null>(null);
+  const [isFave, setIsFave] = useState<number>(0);
 
   // use state to change the game for pokedex section
   const [pokeGame, setPokeGame] = useState<string>("default");
@@ -35,7 +51,7 @@ const OnePoke = () => {
   const [pokeSpecies, setPokeSpecies] = useState<PokeDexData | null>(null);
 
   // import context for adding the current pokemon to the current team
-  const { currTeam, addTeamMemb, teamFull, removeTeamMemb } = addTeam();
+  const { addTeamMemb, teamFull, removeTeamMemb } = addTeam();
 
   // handle add success, team is full messages
   const [msgTeamFull, setMsgTeamFull] = useState<boolean>(false);
@@ -92,14 +108,27 @@ const OnePoke = () => {
     return <OutsidePerim />;
   }
 
+  // see if pokemon has a favorite or not
+  async function checkPokeStatus(pokeId: number) {
+    try {
+      const response = await backendApi.get<PokeObject>(
+        `pokemons/${pokeId}?_embed=favorite`
+      );
+      setPokeStatus(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   // fetch the pokemon data using pokeApi
   useEffect(() => {
     fetchPokeData(pokeId, setPokeData);
     fetchPokeDexData(pokeId, setPokeSpecies);
+    checkPokeStatus(pokeId);
   }, [pokeId]);
 
   // If the pokemon does not exist or data is still loading
-  if (!pokeData && !pokeSpecies) {
+  if (!pokeData && !pokeSpecies && !pokeStatus) {
     return <LoadingPage />;
   }
 
@@ -148,7 +177,12 @@ const OnePoke = () => {
           {/* Describe here the physical charact of the pokemon */}
           <div className="flex justify-between">
             <h2 className={subTitleStyle}>Physical characteristics</h2>
-            <FaveButton pokeId={pokeData.id} heartSize={4} />
+            {pokeStatus?.favorite.length}
+            <FaveButton
+              isFave={pokeStatus?.favorite.length > 0}
+              currPoke={pokeStatus}
+              heartSize={4}
+            />
           </div>
           <div className="p-1">
             <PokeAttr title="Height"> {pokeData.height * 10} cm</PokeAttr>
@@ -160,7 +194,6 @@ const OnePoke = () => {
                     className="basis-1/6 text-center text-sm mx-1"
                     key={pokeType.type.name}
                   >
-                    {" "}
                     <PokeType typeData={pokeType.type.name} />
                   </span>
                 );

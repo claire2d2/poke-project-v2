@@ -6,11 +6,16 @@ import PokeCard from "../components/PokeCard";
 import FaveButton from "../components/FaveButton";
 
 // Type
+type favorite = {
+  pokemonId: number;
+  id: number;
+};
 type PokeObject = {
   id: number;
   name: string;
   image: string;
   type: string[];
+  favorite: favorite[];
 };
 
 // Debounced for search bar
@@ -41,7 +46,7 @@ const AllPokemon = () => {
   // Fetch Pokemon data
   async function fetchAllPokemon() {
     try {
-      const { data } = await backendApi.get("/pokemons");
+      const { data } = await backendApi.get("/pokemons?_embed=favorite");
       setPokemon(data);
     } catch (error) {
       console.log(error);
@@ -94,11 +99,27 @@ const AllPokemon = () => {
     fetchFavoritePokemonIds();
   }, []);
 
+  async function deleteAllFaves() {
+    for (let i = 5; i < 18; i++) {
+      try {
+        // Make delete request to delete the favorite
+        const response = await backendApi.delete(`/favorite/${i}`);
+        console.log(response);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  }
+
   return (
     <div className="flex">
       <Sidebar search={search} setSearch={setSearch} />
       <div className="flex flex-col gap-2 p-2 w-full">
         <div className="flex justify-between">
+          {/* //! Test */}
+          <div>
+            <button onClick={deleteAllFaves}>Reset faves</button>
+          </div>
           <div className="flex gap-2">
             <button
               onClick={sortPokemonByAZ}
@@ -141,7 +162,14 @@ const AllPokemon = () => {
                     <PokeCard pokeData={onePoke} />
                   </div>
                 </Link>
-                <FaveButton pokeId={onePoke.id} heartSize={2} />
+                <div>
+                  {onePoke.favorite.length === 0 ? "not a fave" : "fave"}
+                  <FaveButton
+                    isFave={onePoke.favorite.length === 0 ? false : true}
+                    currPoke={onePoke}
+                    heartSize={3}
+                  />
+                </div>
               </div>
             ))}
         </div>
