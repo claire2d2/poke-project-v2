@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import backendApi from "../service/backendApi";
 
 // import components useful for the page
-import { PokeAttr } from "../components/OnePokePage/OnePokeStyle";
+
 import PokeType from "../components/PokeType";
 import FaveButton from "../components/FaveButton";
 import { PokeData } from "../components/OnePokeData";
@@ -14,8 +14,9 @@ import addTeam from "../context/usePoke";
 import { fetchPokeData, fetchPokeDexData } from "../components/FetchPokeData";
 import { showDexEntry } from "../components/OnePokePage/ShowPokeDexFunc";
 
-// nav buttons on the bottom of the page
-import NavButton from "../components/OnePokePage/NavButton";
+// import styling components
+import { PokeAttr } from "../components/OnePokePage/OnePokeStyle";
+import { NavButton } from "../components/OnePokePage/OnePokeStyle";
 
 // styling for the page
 const titleStyle = "text-4xl text-center font-extrabold text-yellow-400";
@@ -176,11 +177,11 @@ const OnePoke = () => {
             alt={`official artwork  of ${pokeData?.species.name}`}
           />
         </div>
-        <div className="rightSide flex flex-col h-full basis-3/5 border-solid border border-gray-100">
+        <div className="rightSide flex flex-col md:text-left text-center h-full basis-3/5 border-solid border border-gray-100">
           {/* Describe here the physical charact of the pokemon */}
           <div className="flex justify-between">
             <h2 className={subTitleStyle}>Physical characteristics</h2>
-            {pokeStatus?.favorite.length}
+
             <FaveButton
               isFave={
                 pokeStatus !== null ? pokeStatus.favorite?.length > 0 : false
@@ -197,16 +198,18 @@ const OnePoke = () => {
               {pokeData !== null ? pokeData?.weight / 10 : "data loading"} kg
             </PokeAttr>
             <PokeAttr title="Types">
-              {pokeData?.types.map((pokeType) => {
-                return (
-                  <span
-                    className="basis-1/6 text-center text-sm mx-1"
-                    key={pokeType.type.name}
-                  >
-                    <PokeType typeData={pokeType.type.name} />
-                  </span>
-                );
-              })}
+              <div className="flex justify-center md:justify-start">
+                {pokeData?.types.map((pokeType) => {
+                  return (
+                    <span
+                      className="md:basis-1/6 w-1/3 text-center text-sm mx-1"
+                      key={pokeType.type.name}
+                    >
+                      <PokeType typeData={pokeType.type.name} />
+                    </span>
+                  );
+                })}
+              </div>
             </PokeAttr>
             <PokeAttr title="Cry">
               <audio className="" controls>
@@ -218,7 +221,7 @@ const OnePoke = () => {
             </PokeAttr>
           </div>
           {/* Here the customisable data */}
-          <div className="pokeDex">
+          <div className="pokeDex flex flex-col">
             <div className="flex justify-between">
               <h2 className={subTitleStyle}>PokeDex Entry</h2>
               <PokeAttr title="Game">
@@ -234,9 +237,9 @@ const OnePoke = () => {
               </PokeAttr>
             </div>
 
-            <div className="flex m-2 p-2 gap-2 border-8 border-double border-gray-100">
+            <div className="flex md:flex-row flex-col w-full m-2 p-2 md:gap-2 gap-1 border-8 border-double border-gray-100">
               <img
-                className="basis-1/6 object-scale-down"
+                className="md:basis-1/6 h-20 object-scale-down"
                 src={
                   pokeGame === "default"
                     ? pokeData?.sprites.front_default
@@ -245,7 +248,7 @@ const OnePoke = () => {
                 alt="sprite of pokemon"
               />
 
-              <div className="mx-auto p-5 basis-4/6 font-press-start text-xs">
+              <div className="mx-auto p-5 basis-4/6 font-press-start text-xs ">
                 <PokeAttr title="Genus">
                   {pokeSpecies?.genera[7].genus}
                 </PokeAttr>
@@ -262,11 +265,11 @@ const OnePoke = () => {
           </div>
         </div>
       </div>
-      <div className="flex justify-between px-10">
+      <div className="flex md:flex-row flex-col gap-3 md:gap-0 md:justify-center md:justify-between px-10">
         <NavButton disabled={false} color="blue" navTo="/pokemon">
           All Pokémon
         </NavButton>
-        <div className="flex gap-10">
+        <div className="flex gap-10 justify-center">
           <NavButton
             disabled={pokeData?.id === 1 ? true : false}
             color="orange"
