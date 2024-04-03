@@ -16,7 +16,7 @@ type pokeTeam = {
   name: string;
   archived: boolean;
   isShiny: boolean;
-  members: Array<number>;
+  members: number[];
 };
 
 const TeamsList = () => {
@@ -39,9 +39,9 @@ const TeamsList = () => {
 
   // when clicking on edit icon, set current team to the team, set archived to false
 
-  async function updateTeams(id) {
+  async function updateTeams(id: number) {
     try {
-      const response = await backendApi.patch(`/teams/${id}`, {
+      await backendApi.patch(`/teams/${id}`, {
         archived: true,
       });
     } catch (error) {
@@ -51,13 +51,11 @@ const TeamsList = () => {
   async function editTeam(id: number) {
     try {
       // sets trying to edit team to archived: false so that it doesn't appear in the teams list
-      const archiveResponse = await backendApi.patch(`/teams/${id}`, {
+      await backendApi.patch(`/teams/${id}`, {
         archived: false,
       });
       // getting the relevant team info to set the chosen team to display
-      const teamResponse = await backendApi.get<Array<pokeTeam>>(
-        `/teams/${id}`
-      );
+      const teamResponse = await backendApi.get<pokeTeam>(`/teams/${id}`);
       setCurrTeam(teamResponse.data.members);
       setIsShiny(teamResponse.data.isShiny);
       setTeamToEdit(teamResponse.data);
@@ -75,7 +73,7 @@ const TeamsList = () => {
   // use state to determine which is the current team to delete
   const [teamToDel, setTeamToDel] = useState<number | null>(null);
   // delete teams when clicking on delete button
-  async function deleteTeam(id: number) {
+  async function deleteTeam(id: number | null) {
     try {
       const response = await backendApi.delete<Array<pokeTeam>>(`/teams/${id}`);
       console.log(response);
@@ -86,19 +84,19 @@ const TeamsList = () => {
     }
   }
 
-  const handleDelete = (id: number) => {
+  const handleDelete = (id: number | null) => {
     setTeamToDel(id);
     openDeleteModal();
   };
 
   // dialog to confirm that user does want to delete a team
-  const deleteModal = useRef();
+  const deleteModal = useRef<HTMLDialogElement | null>(null);
 
   function openDeleteModal() {
-    deleteModal.current.showModal();
+    deleteModal.current?.showModal();
   }
   function closeDeleteModal() {
-    deleteModal.current.close();
+    deleteModal.current?.close();
   }
 
   return (

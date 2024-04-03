@@ -1,4 +1,4 @@
-import React from "react";
+import React, { DragEvent } from "react";
 import { fetchPokeData } from "../FetchPokeData";
 import { useState, useEffect } from "react";
 import useTeam from "../../context/usePoke";
@@ -18,7 +18,7 @@ const TeamMember: React.FC<{
   isShiny: boolean;
 }> = ({ pokeId, teamIndex }) => {
   const [pokeData, setPokeData] = useState<PokeData | null>(null);
-  const { currTeam, setCurrTeam, removeTeamMemb, isShiny } = useTeam();
+  const { removeTeamMemb, isShiny } = useTeam();
 
   useEffect(() => {
     fetchPokeData(pokeId, setPokeData);
@@ -28,7 +28,7 @@ const TeamMember: React.FC<{
 
   // TODO make element draggable
 
-  const handleDragStart = (e) => {
+  const handleDragStart = (e: DragEvent<HTMLElement>) => {
     e.dataTransfer.setData("text/plain", JSON.stringify(teamIndex));
   };
 

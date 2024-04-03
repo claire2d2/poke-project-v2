@@ -1,6 +1,6 @@
-import React, { Children } from "react";
+import React, { ReactNode } from "react";
 
-export const PokeAttr: React.FC<{ title: string; children: any }> = ({
+export const PokeAttr: React.FC<{ title: string; children: ReactNode }> = ({
   title,
   children,
 }) => {

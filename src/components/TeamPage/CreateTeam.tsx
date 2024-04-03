@@ -1,5 +1,5 @@
 // import use state and API
-import { useState } from "react";
+import { useState, ChangeEvent, MouseEvent } from "react";
 import useTeam from "../../context/usePoke";
 import backendApi from "../../service/backendApi";
 
@@ -20,14 +20,14 @@ const CreateTeam = () => {
   // TODO if name exists, error!
 
   // post to backend API when clicking on save button
-  async function addTeam(e) {
+  async function addTeam(e: MouseEvent<HTMLElement>) {
     e.preventDefault();
     // if team isn't full return (button is disabled, but just in case)
     if (currTeam.length < 6) {
       return;
     }
     try {
-      const response = await backendApi.post<pokeTeam>(`/teams`, {
+      await backendApi.post<pokeTeam>(`/teams`, {
         name: teamName,
         archived: true,
         isShiny: isShiny,
@@ -44,8 +44,8 @@ const CreateTeam = () => {
 
   // handle the input changes for setting the new team name
 
-  const handleName = (e) => {
-    const value = e.target.value;
+  const handleName = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.currentTarget.value;
     setTeamName(value);
   };
 

@@ -3,7 +3,14 @@ import { PokeData } from "../../components/OnePokeData";
 import pokeApi from "../../service/pokeApi";
 import addTeam from "../../context/usePoke";
 
-const ChosenPoke: React.FC<{ id: number }> = ({ id }) => {
+type pokeTeam = {
+  id: number;
+  name: string;
+  archived: boolean;
+  members: Array<number>;
+};
+
+const ChosenPoke: React.FC<{ id: number | null }> = ({ id }) => {
   const [pokeData, setPokeData] = useState<PokeData | null>(null);
 
   async function fetchPokeData() {
@@ -21,7 +28,7 @@ const ChosenPoke: React.FC<{ id: number }> = ({ id }) => {
   // add to team
 
   // import context for adding the current pokemon to the current team
-  const { currTeam, setCurrTeam, teamFull, setTeamFull } = addTeam();
+  const { currTeam, setCurrTeam, teamFull } = addTeam();
 
   //TODO show message when added succesfully!
   function addTeamMemb() {

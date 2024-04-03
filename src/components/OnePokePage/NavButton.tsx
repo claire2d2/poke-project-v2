@@ -1,10 +1,11 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
 
 const NavButton: React.FC<{
   color: string;
   disabled: boolean;
   navTo: string;
+  children: ReactNode;
 }> = ({ color, disabled, navTo, children }) => {
   const navigate = useNavigate();
   return (
