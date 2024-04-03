@@ -1,27 +1,29 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+//import axios from "axios";
 import whoIsThatPokemonSound from "../../public/who-s-that-pokemon.mp3";
 import backgroundImage from "../../public/who-s-that-pokemon-bg.jpeg";
+import TrainQuiz from "../components/QuizPage/TrainQuiz";
+import ScoreQuiz from "../components/QuizPage/ScoreQuiz";
 
-type PokeImage = {
-  other: {
-    "official-artwork": {
-      front_default: string;
-    };
-  };
-};
+// type PokeImage = {
+//   other: {
+//     "official-artwork": {
+//       front_default: string;
+//     };
+//   };
+// };
 
-type PokeType = {
-  type: {
-    name: string;
-  };
-};
+// type PokeType = {
+//   type: {
+//     name: string;
+//   };
+// };
 
-type PokemonData = {
-  name: string;
-  sprites: PokeImage;
-  types: PokeType[];
-};
+// type PokemonData = {
+//   name: string;
+//   sprites: PokeImage;
+//   types: PokeType[];
+// };
 
 function playWhoIsThatPokemonSound(isMuted: boolean) {
   if (!isMuted) {
@@ -30,101 +32,106 @@ function playWhoIsThatPokemonSound(isMuted: boolean) {
 }
 
 const QuizPage: React.FC = () => {
-  const [pokemonList, setPokemonList] = useState<PokemonData[]>([]);
-  const [correctAnswer, setCorrectAnswer] = useState<string>("");
-  const [options, setOptions] = useState<string[]>([]);
-  const [feedback, setFeedback] = useState<string>("");
-  const [pokemonImage, setPokemonImage] = useState<string>("");
+  //const [pokemonList, setPokemonList] = useState<PokemonData[]>([]);
+  // const [correctAnswer, setCorrectAnswer] = useState<string>("");
+  //const [options, setOptions] = useState<string[]>([]);
+  // const [feedback, setFeedback] = useState<string>("");
+  // const [pokemonImage, setPokemonImage] = useState<string>("");
   const [isMuted, setIsMuted] = useState<boolean>(false);
-  const [correctAnswerSelected, setCorrectAnswerSelected] =
-    useState<boolean>(false);
+  // const [correctAnswerSelected, setCorrectAnswerSelected] =
+  //   useState<boolean>(false);
   const [showModal, setShowModal] = useState<boolean>(true);
+  const [mode, setMode] = useState<string>("score");
 
-  useEffect(() => {
-    const fetchPokemonList = async () => {
-      try {
-        const response = await axios.get(
-          "https://pokeapi.co/api/v2/pokemon?limit=386"
-        );
-        const pokemonData: PokemonData[] = response.data.results;
-        setPokemonList(pokemonData);
-      } catch (error) {
-        console.error("Error fetching Pokémon list:", error);
-      }
-    };
-
-    if (pokemonList.length === 0) {
-      fetchPokemonList();
-    }
-  }, [pokemonList]);
-
-  useEffect(() => {
-    if (!showModal && pokemonList.length > 0 && correctAnswer === "") {
-      const randomIndex = Math.floor(Math.random() * pokemonList.length);
-      const randomPokemon = pokemonList[randomIndex];
-      const capitalizedCorrectAnswer =
-        randomPokemon.name.charAt(0).toUpperCase() +
-        randomPokemon.name.slice(1);
-      setCorrectAnswer(capitalizedCorrectAnswer);
-      axios
-        .get(`https://pokeapi.co/api/v2/pokemon/${randomPokemon.name}`)
-        .then((response) => {
-          setPokemonImage(
-            response.data.sprites.other["official-artwork"].front_default
-          );
-        })
-        .catch((error) => {
-          console.error("Error fetching Pokémon image:", error);
-        });
-    }
-  }, [pokemonList, correctAnswer, showModal]);
-
-  useEffect(() => {
-    if (!showModal && correctAnswer !== "") {
-      const incorrectOptions: string[] = [];
-      while (incorrectOptions.length < 2) {
-        const randomIndex = Math.floor(Math.random() * pokemonList.length);
-        const randomPokemon = pokemonList[randomIndex];
-        const capitalizedIncorrectOption =
-          randomPokemon.name.charAt(0).toUpperCase() +
-          randomPokemon.name.slice(1);
-        if (
-          randomPokemon.name !== correctAnswer &&
-          !incorrectOptions.includes(capitalizedIncorrectOption)
-        ) {
-          incorrectOptions.push(capitalizedIncorrectOption);
-        }
-      }
-      const allOptions = [...incorrectOptions, correctAnswer];
-      const shuffledOptions = allOptions.sort(() => Math.random() - 0.5);
-      setOptions(shuffledOptions);
-    }
-  }, [correctAnswer, pokemonList, showModal]);
-
-  const handleAnswerSelection = (selectedAnswer: string) => {
-    if (selectedAnswer === correctAnswer) {
-      setFeedback("Great job! You got it right!");
-      setCorrectAnswerSelected(true);
-    } else {
-      setFeedback(
-        `Uh-oh, it's actually ${correctAnswer}! Better go back to our Pokédex and keep studying!`
-      );
-      setCorrectAnswerSelected(false);
-    }
+  const handleModeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setMode(e.target.value); // Update the selected mode when the dropdown value changes
   };
+
+  // useEffect(() => {
+  //   const fetchPokemonList = async () => {
+  //     try {
+  //       const response = await axios.get(
+  //         "https://pokeapi.co/api/v2/pokemon?limit=386"
+  //       );
+  //       const pokemonData: PokemonData[] = response.data.results;
+  //       setPokemonList(pokemonData);
+  //     } catch (error) {
+  //       console.error("Error fetching Pokémon list:", error);
+  //     }
+  //   };
+
+  //   if (pokemonList.length === 0) {
+  //     fetchPokemonList();
+  //   }
+  // }, [pokemonList]);
+
+  // useEffect(() => {
+  //   if (!showModal && pokemonList.length > 0 && correctAnswer === "") {
+  //     const randomIndex = Math.floor(Math.random() * pokemonList.length);
+  //     const randomPokemon = pokemonList[randomIndex];
+  //     const capitalizedCorrectAnswer =
+  //       randomPokemon.name.charAt(0).toUpperCase() +
+  //       randomPokemon.name.slice(1);
+  //     setCorrectAnswer(capitalizedCorrectAnswer);
+  //     axios
+  //       .get(`https://pokeapi.co/api/v2/pokemon/${randomPokemon.name}`)
+  //       .then((response) => {
+  //         setPokemonImage(
+  //           response.data.sprites.other["official-artwork"].front_default
+  //         );
+  //       })
+  //       .catch((error) => {
+  //         console.error("Error fetching Pokémon image:", error);
+  //       });
+  //   }
+  // }, [pokemonList, correctAnswer, showModal]);
+
+  // useEffect(() => {
+  //   if (!showModal && correctAnswer !== "") {
+  //     const incorrectOptions: string[] = [];
+  //     while (incorrectOptions.length < 2) {
+  //       const randomIndex = Math.floor(Math.random() * pokemonList.length);
+  //       const randomPokemon = pokemonList[randomIndex];
+  //       const capitalizedIncorrectOption =
+  //         randomPokemon.name.charAt(0).toUpperCase() +
+  //         randomPokemon.name.slice(1);
+  //       if (
+  //         randomPokemon.name !== correctAnswer &&
+  //         !incorrectOptions.includes(capitalizedIncorrectOption)
+  //       ) {
+  //         incorrectOptions.push(capitalizedIncorrectOption);
+  //       }
+  //     }
+  //     const allOptions = [...incorrectOptions, correctAnswer];
+  //     const shuffledOptions = allOptions.sort(() => Math.random() - 0.5);
+  //     setOptions(shuffledOptions);
+  //   }
+  // }, [correctAnswer, pokemonList, showModal]);
+
+  // const handleAnswerSelection = (selectedAnswer: string) => {
+  //   if (selectedAnswer === correctAnswer) {
+  //     setFeedback("Great job! You got it right!");
+  //     setCorrectAnswerSelected(true);
+  //   } else {
+  //     setFeedback(
+  //       `Uh-oh, it's actually ${correctAnswer}! Better go back to our Pokédex and keep studying!`
+  //     );
+  //     setCorrectAnswerSelected(false);
+  //   }
+  // };
 
   const toggleMute = () => {
     setIsMuted((prevMuted) => !prevMuted);
   };
 
-  const reloadPokemon = () => {
-    setCorrectAnswer("");
-    setOptions([]);
-    setFeedback("");
-    setPokemonImage("");
-    setCorrectAnswerSelected(false);
-    playWhoIsThatPokemonSound(isMuted);
-  };
+  // const reloadPokemon = () => {
+  //   setCorrectAnswer("");
+  //   setOptions([]);
+  //   setFeedback("");
+  //   setPokemonImage("");
+  //   setCorrectAnswerSelected(false);
+  //   playWhoIsThatPokemonSound(isMuted);
+  // };
 
   const handlePlayClick = () => {
     setShowModal(false);
@@ -132,7 +139,7 @@ const QuizPage: React.FC = () => {
   };
 
   return (
-    <div>
+    <div className="parent-div-QuizPage-includes-modal h-full">
       {showModal && (
         <div
           style={{ backgroundImage: `url(${backgroundImage})` }}
@@ -162,7 +169,8 @@ const QuizPage: React.FC = () => {
               <div className="flex flex-row justify-center">
                 <select
                   className="rounded-full"
-                  //onChange={(e) => setSelectedOption(e.target.value)}
+                  onChange={handleModeChange}
+                  value={mode}
                 >
                   <option value="score">Score Quiz</option>
                   <option value="train">Train Quiz</option>
@@ -188,6 +196,19 @@ const QuizPage: React.FC = () => {
       )}
 
       {!showModal && (
+        <div className="div-from-QuizPage-containing components h-full">
+          {mode === "score" ? (
+            <ScoreQuiz /> // Render ScoreQuiz component if mode is 'score'
+          ) : (
+            <TrainQuiz /> // Render TrainQuiz component if mode is 'train'
+          )}
+        </div>
+      )}
+    </div>
+  );
+};
+
+/* {!showModal && (
         <div className="flex flex-col align-center m-10">
           <div className="game-container flex flex-row justify-between items-center mb-5 mt-5">
             <div className="flex flex-col">
@@ -243,6 +264,6 @@ const QuizPage: React.FC = () => {
       )}
     </div>
   );
-};
+}; */
 
 export default QuizPage;
