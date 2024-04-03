@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 import Instruction from "../components/PicturePage/Instruction";
 import backendApi from "../service/backendApi";
@@ -44,6 +44,16 @@ const PictureTime = () => {
     "h-full w-1/2 p-1 mx-3 rounded-lg bg-blue-200 flex flex-col items-center justify-center";
   const trainerHover = "hover:border-2 hover:border-blue-200 hover:scale-105";
   const trainerTitle = "my-1 font-bold font-xl";
+
+  // dialog that opens with image when clicking on cheese
+  const pictureModal = useRef<HTMLDialogElement | null>(null);
+
+  function openPicModal() {
+    pictureModal.current?.showModal();
+  }
+  function closePicModal() {
+    pictureModal.current?.close();
+  }
 
   if (!teamList) {
     return <div>Nope!</div>;
@@ -91,24 +101,18 @@ const PictureTime = () => {
           test test
         </Instruction>
       </div>
-      <div className="w-full text-center"> Chheeeeeese!</div>
-      <div className="h-4/5 w-4/5 absolute">
-        TEST
+      <div className="w-full text-center">
+        <button onClick={openPicModal}>Cheeese!</button>
+      </div>
+
+      <dialog ref={pictureModal} className="no-scrollbar">
         <FinalPicture
           chosenTrainer={mayImg}
           pokeTeamId={chosenTeam}
           chosenImg={backgroundImg}
+          closeModal={() => closePicModal}
         />
-        {/* <div className="imageZone relative">
-          <img src={backgroundImg} alt="" />
-          <div className="absolute top-0 flex items-center">
-            {teamList[0].members.map((member: number) => {
-              return <SmallSprite pokeId={Number(member)} shinyState={true} />;
-            })}
-          </div> */}
-        {/* </div>  */}
-        <button>Take a picture</button>
-      </div>
+      </dialog>
     </div>
   );
 };
