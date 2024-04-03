@@ -14,6 +14,9 @@ import addTeam from "../context/usePoke";
 import { fetchPokeData, fetchPokeDexData } from "../components/FetchPokeData";
 import { showDexEntry } from "../components/OnePokePage/ShowPokeDexFunc";
 
+// nav buttons on the bottom of the page
+import NavButton from "../components/OnePokePage/NavButton";
+
 // styling for the page
 const titleStyle = "text-4xl text-center font-extrabold text-yellow-400";
 const subTitleStyle =
@@ -250,27 +253,24 @@ const OnePoke = () => {
         </div>
       </div>
       <div className="flex justify-between px-10">
-        <button
-          onClick={() => navigate("/pokemon")}
-          className="mx-3 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
-        >
-          Back
-        </button>
+        <NavButton disabled={false} color="blue" navTo="/pokemon">
+          All Pokémon
+        </NavButton>
         <div className="flex gap-10">
-          <button
+          <NavButton
             disabled={pokeData.id === 1 ? true : false}
-            className="transition-all bg-orange-500 hover:bg-rose-500 text-white  font-bold py-2 px-4 rounded-full disabled:bg-gray-300"
-            onClick={() => navigate(`/pokemon/${pokeData.id - 1}`)}
+            color="orange"
+            navTo={`/pokemon/${pokeData.id - 1}`}
           >
             Prev
-          </button>
-          <button
+          </NavButton>
+          <NavButton
             disabled={pokeData.id === 386 ? true : false}
-            className="transition-all bg-orange-500 hover:bg-rose-500 text-white font-bold py-2 px-4 rounded-full disabled:bg-gray-300"
-            onClick={() => navigate(`/pokemon/${pokeData.id + 1}`)}
+            color="orange"
+            navTo={`/pokemon/${pokeData.id + 1}`}
           >
             Next
-          </button>
+          </NavButton>
         </div>
 
         <div className="relative">
