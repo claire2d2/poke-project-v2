@@ -181,12 +181,12 @@ const QuizPage: React.FC = () => {
 
       {!showModal && (
         <div className="flex flex-col align-center m-10">
-          <div className="game-container flex flex-row justify-between items-center mb-5 mt-5">
+          <div className="game-container flex flex-col sm:flex-row justify-between items-center mb-5 mt-5">
             <div className="flex flex-col">
               <h1 className="mb-10 text-center font-press-start">
                 Who's that Pokemon?!
               </h1>
-              <ul className="leading-10">
+              <ul className="leading-10 flex flex-col items-center">
                 {options.map((option, index) => (
                   <li
                     className="bg-red-500 hover:bg-red-700 text-white font-bold text-xl text-center py-2 px-4 rounded-full w-48 m-5"
@@ -201,7 +201,7 @@ const QuizPage: React.FC = () => {
 
             <div
               style={{ backgroundImage: `url(${backgroundImage})` }}
-              className="w-3/4 bg-cover bg-center p-9 rounded-md"
+              className="md:w-3/4 bg-cover bg-center md:p-9 rounded-md"
             >
               <img
                 src={pokemonImage}
