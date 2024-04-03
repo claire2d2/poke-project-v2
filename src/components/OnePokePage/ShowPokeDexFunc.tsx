@@ -1,11 +1,13 @@
-import pokeApi from "../service/pokeApi";
-import { PokeData } from "./OnePokeData";
-import { PokeDexData, pokeDexEntry } from "./OnePokePage/PokeDexData";
+import { PokeData } from "../OnePokeData";
+import { PokeDexData, pokeDexEntry } from "../OnePokePage/PokeDexData";
+import { Dispatch, SetStateAction } from "react";
+
+type SetData = Dispatch<SetStateAction<string>>;
 
 export function showDexEntry(
   pokeGame: string,
-  setGameSprite,
-  setDexDescr,
+  setGameSprite: SetData,
+  setDexDescr: SetData,
   pokeData: PokeData,
   pokeSpecies: PokeDexData
 ) {

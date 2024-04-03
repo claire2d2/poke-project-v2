@@ -1,12 +1,12 @@
-import { useState, useEffect, ChangeEventHandler } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useState, useEffect, ChangeEvent } from "react";
+import { useParams } from "react-router-dom";
 import backendApi from "../service/backendApi";
 
 // import components useful for the page
 import { PokeAttr } from "../components/OnePokePage/OnePokeStyle";
 import PokeType from "../components/PokeType";
 import FaveButton from "../components/FaveButton";
-import { PokeData } from "../components/OnePokePage/OnePokeData";
+import { PokeData } from "../components/OnePokeData";
 import { PokeDexData } from "../components/OnePokePage/PokeDexData";
 import OutsidePerim from "../components/OnePokePage/OutsidePerim";
 import LoadingPage from "../components/OnePokePage/LoadingPage";
@@ -36,12 +36,9 @@ type PokeObject = {
 };
 
 const OnePoke = () => {
-  // declare navigate function
-  const navigate = useNavigate();
   // use state to get the wanted pokemon from the pokemonlist? state
   const [pokeData, setPokeData] = useState<PokeData | null>(null);
   const [pokeStatus, setPokeStatus] = useState<PokeObject | null>(null);
-  const [isFave, setIsFave] = useState<number>(0);
 
   // use state to change the game for pokedex section
   const [pokeGame, setPokeGame] = useState<string>("default");
@@ -52,6 +49,16 @@ const OnePoke = () => {
 
   // use state to get data from the pokemon species
   const [pokeSpecies, setPokeSpecies] = useState<PokeDexData | null>(null);
+
+  // get the pokemon name from the url
+  const { pokeId } = useParams<string>();
+
+  // fetch the pokemon data using pokeApi
+  useEffect(() => {
+    fetchPokeData(Number(pokeId), setPokeData);
+    fetchPokeDexData(Number(pokeId), setPokeSpecies);
+    checkPokeStatus(Number(pokeId));
+  }, [pokeId]);
 
   // import context for adding the current pokemon to the current team
   const { addTeamMemb, teamFull, removeTeamMemb } = addTeam();
@@ -93,21 +100,21 @@ const OnePoke = () => {
     }, 4000);
   }, [undoAdd]);
 
-  const handleGameChange = (e: ChangeEventHandler<HTMLSelectElement>) => {
+  const handleGameChange = (e: ChangeEvent<HTMLSelectElement>) => {
     // sets the game
-    setPokeGame(e.target.value);
+    const selectedGame = e.target.value;
+    setPokeGame(selectedGame);
     // sets the sprite depending on the game
   };
 
   useEffect(() => {
-    showDexEntry(pokeGame, setGameSprite, setDexDescr, pokeData, pokeSpecies);
-  }, [pokeGame]);
-
-  // get the pokemon name from the url
-  const { pokeId } = useParams<number>();
+    if (pokeData !== null && pokeSpecies !== null) {
+      showDexEntry(pokeGame, setGameSprite, setDexDescr, pokeData, pokeSpecies);
+    }
+  }, [pokeGame, pokeData, pokeSpecies]);
 
   // if pokemon outside of gen 1-3, return
-  if (pokeId > 386 && pokeId < 1026) {
+  if (Number(pokeId) > 386 && Number(pokeId) < 1026) {
     return <OutsidePerim />;
   }
 
@@ -123,13 +130,6 @@ const OnePoke = () => {
     }
   }
 
-  // fetch the pokemon data using pokeApi
-  useEffect(() => {
-    fetchPokeData(pokeId, setPokeData);
-    fetchPokeDexData(pokeId, setPokeSpecies);
-    checkPokeStatus(pokeId);
-  }, [pokeId]);
-
   // If the pokemon does not exist or data is still loading
   if (!pokeData && !pokeSpecies && !pokeStatus) {
     return <LoadingPage />;
@@ -138,11 +138,11 @@ const OnePoke = () => {
   // make games option array
   let gamesArray: Array<string> = [];
   // if trying to look at pokemon other than gen-1 to gen-3
-  if (pokeId > 386) {
+  if (Number(pokeId) > 386) {
     return <OutsidePerim />;
-  } else if (pokeId > 251) {
+  } else if (Number(pokeId) > 251) {
     gamesArray = ["default", "ruby", "sapphire", "emerald"];
-  } else if (pokeId > 151 && pokeData.id < 252) {
+  } else if (Number(pokeId) > 151 && pokeData !== null && pokeData.id < 252) {
     gamesArray = [
       "default",
       "silver",
@@ -173,7 +173,7 @@ const OnePoke = () => {
           <img
             className="mx-auto h-full"
             src={pokeData?.sprites.other["official-artwork"].front_default}
-            alt={`official artwork  of ${pokeData.species.name}`}
+            alt={`official artwork  of ${pokeData?.species.name}`}
           />
         </div>
         <div className="rightSide flex flex-col h-full basis-3/5 border-solid border border-gray-100">
@@ -182,14 +182,20 @@ const OnePoke = () => {
             <h2 className={subTitleStyle}>Physical characteristics</h2>
             {pokeStatus?.favorite.length}
             <FaveButton
-              isFave={pokeStatus?.favorite.length > 0}
+              isFave={
+                pokeStatus !== null ? pokeStatus.favorite?.length > 0 : false
+              }
               currPoke={pokeStatus}
               heartSize={4}
             />
           </div>
           <div className="p-1">
-            <PokeAttr title="Height"> {pokeData.height * 10} cm</PokeAttr>
-            <PokeAttr title="Weight"> {pokeData.weight / 10} kg</PokeAttr>
+            <PokeAttr title="Height">
+              {pokeData !== null ? pokeData?.height * 10 : "data loading"} cm
+            </PokeAttr>
+            <PokeAttr title="Weight">
+              {pokeData !== null ? pokeData?.weight / 10 : "data loading"} kg
+            </PokeAttr>
             <PokeAttr title="Types">
               {pokeData?.types.map((pokeType) => {
                 return (
@@ -204,7 +210,10 @@ const OnePoke = () => {
             </PokeAttr>
             <PokeAttr title="Cry">
               <audio className="" controls>
-                <source src={pokeData.cries.latest} type="audio/ogg" />
+                <source
+                  src={pokeData !== null ? pokeData.cries.latest : ""}
+                  type="audio/ogg"
+                />
               </audio>
             </PokeAttr>
           </div>
@@ -230,7 +239,7 @@ const OnePoke = () => {
                 className="basis-1/6 object-scale-down"
                 src={
                   pokeGame === "default"
-                    ? pokeData.sprites.front_default
+                    ? pokeData?.sprites.front_default
                     : gameSprite
                 }
                 alt="sprite of pokemon"
@@ -245,8 +254,9 @@ const OnePoke = () => {
                     {pokeSpecies?.habitat.name}
                   </span>
                 </PokeAttr>
-                <PokeAttr title="Pokedex Description" />
-                <p>{dexDescr}</p>
+                <PokeAttr title="Pokedex Description">
+                  <p>{dexDescr}</p>
+                </PokeAttr>
               </div>
             </div>
           </div>
@@ -258,16 +268,16 @@ const OnePoke = () => {
         </NavButton>
         <div className="flex gap-10">
           <NavButton
-            disabled={pokeData.id === 1 ? true : false}
+            disabled={pokeData?.id === 1 ? true : false}
             color="orange"
-            navTo={`/pokemon/${pokeData.id - 1}`}
+            navTo={`/pokemon/${Number(pokeId) - 1}`}
           >
             Prev
           </NavButton>
           <NavButton
-            disabled={pokeData.id === 386 ? true : false}
+            disabled={pokeData?.id === 386 ? true : false}
             color="orange"
-            navTo={`/pokemon/${pokeData.id + 1}`}
+            navTo={`/pokemon/${Number(pokeId) + 1}`}
           >
             Next
           </NavButton>

@@ -1,6 +1,7 @@
 // type for data to fetch from pokeapi/pokemon/id
 export type PokeImage = {
   front_default: string;
+  front_shiny: string;
   other: {
     "official-artwork": {
       front_default: string;
@@ -38,5 +39,5 @@ export type PokeData = {
   };
   species: { name: string };
   sprites: PokeImage;
-  types: Array<PokeType>;
+  types: Array<PokeTypeLabel>;
 };

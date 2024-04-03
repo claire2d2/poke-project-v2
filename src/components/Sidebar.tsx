@@ -22,12 +22,12 @@ const Sidebar: React.FC<Props> = ({
   setSelectedTypes,
   setSelectedGenerations,
 }) => {
-  const [generation, setGeneration] = useState<Array<string>>([]);
+  const [generation, setGeneration] = useState<Array<Filter>>([]);
   const [type, setType] = useState<Array<Filter>>([]);
 
   // State for toggle filters
-  const [isOpenGeneration, setIsOpenGeneration] = useState<Boolean>(false);
-  const [isOpenType, setIsOpenType] = useState<Boolean>(false);
+  const [isOpenGeneration, setIsOpenGeneration] = useState<boolean>(false);
+  const [isOpenType, setIsOpenType] = useState<boolean>(false);
 
   // Search filter
   const handleSearch = (e: React.FormEvent<HTMLInputElement>) => {
