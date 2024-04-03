@@ -2,18 +2,8 @@ import CreateTeam from "./CreateTeam";
 import EditTeam from "./EditTeam";
 import TeamsList from "./TeamsList";
 
-import backendApi from "../../service/backendApi";
-
 // import use state
 import useTeam from "../../context/usePoke";
-
-// import for style
-
-type pokeTeam = {
-  name: string;
-  archived: boolean;
-  members: Array<number>;
-};
 
 const HandleTeam = () => {
   const { teamToEdit } = useTeam();
