@@ -6,6 +6,7 @@ type Props = {
   setSearch: (search: string) => void;
   setSelectedTypes: (cb: (state: string[]) => string[]) => void;
   setSelectedGenerations: (cb: (state: string[]) => string[]) => void;
+  setSelectedColors: (cb: (state: string[]) => string[]) => void;
 };
 
 // Type
@@ -21,13 +22,16 @@ const Sidebar: React.FC<Props> = ({
   setSearch,
   setSelectedTypes,
   setSelectedGenerations,
+  setSelectedColors,
 }) => {
   const [generation, setGeneration] = useState<Array<Filter>>([]);
-  const [type, setType] = useState<Array<Filter>>([]);
+  const [type, setType] = useState<Array<Filter>>([]); // Type filters
+  const [color, setColor] = useState<Array<Filter>>([]); // Color filters
 
   // State for toggle filters
   const [isOpenGeneration, setIsOpenGeneration] = useState<Boolean>(false);
   const [isOpenType, setIsOpenType] = useState<Boolean>(false);
+  const [isOpenColor, setIsOpenColor] = useState<Boolean>(false);
 
   // Search filter
   const handleSearch = (e: React.FormEvent<HTMLInputElement>) => {
@@ -64,6 +68,21 @@ const Sidebar: React.FC<Props> = ({
     }
   };
 
+  // Color filter
+  const handleColorFilter = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const isChecked = e.currentTarget.checked;
+    const value = e.currentTarget.value;
+    if (isChecked) {
+      setSelectedColors((current) => {
+        return [...current, value];
+      });
+    } else {
+      setSelectedColors((current) => {
+        return current.filter((col) => col !== value);
+      });
+    }
+  };
+
   // Retrieve filters from PokeAPI ----------
 
   // Retrieve generation filters
@@ -88,7 +107,7 @@ const Sidebar: React.FC<Props> = ({
         name={`generation/${index + 1}`}
         id={`generation/${index + 1}`}
         value={gen.name.split("-")[1]}
-        onChange={handleGenerationFilter} // Add event handler here
+        onChange={handleGenerationFilter}
         className="cursor-pointer"
       />
       <label htmlFor={`generation/${index + 1}`}>
@@ -131,6 +150,42 @@ const Sidebar: React.FC<Props> = ({
     </div>
   ));
 
+  // Retrieve color filters
+  async function fetchColorFilters() {
+    try {
+      const { data } = await pokeApi.get<FilterData>("/pokemon-color");
+      const result = data.results;
+      setColor(result); // Set color state
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    fetchColorFilters();
+  }, []);
+
+  const pokeColor = color.map(
+    (
+      col,
+      index // Use color state here
+    ) => (
+      <div className="flex gap-2" key={index}>
+        <input
+          type="checkbox"
+          name={`color/${index + 1}`}
+          id={`color/${index + 1}`}
+          value={col.name}
+          onChange={handleColorFilter}
+          className="cursor-pointer"
+        />
+        <label htmlFor={`color/${index + 1}`}>
+          {col.name.slice(0, 1).toUpperCase() + col.name.slice(1)}
+        </label>
+      </div>
+    )
+  );
+
   // Component
   return (
     <div className="w-52 h-screen bg-blue-200 flex flex-col gap-5 p-2">
@@ -166,6 +221,16 @@ const Sidebar: React.FC<Props> = ({
           Type
         </button>
         {isOpenType ? pokeType : null}
+      </div>
+
+      <div className="color flex flex-col">
+        <button
+          className="text-lg text-left"
+          onClick={() => setIsOpenColor((prev) => !prev)}
+        >
+          Color
+        </button>
+        {isOpenColor ? pokeColor : null}
       </div>
     </div>
   );
