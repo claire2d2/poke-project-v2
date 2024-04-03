@@ -144,14 +144,14 @@ const QuizPage: React.FC = () => {
             <div className="align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all p-10 flex flex-col gap-5">
               <div className="bg-white">
                 <div className="text-center">
-                  <h3 className="text-lg font-medium text-gray-900 mb-5">
+                  <h3 className="text-lg font-press-start font-medium text-gray-900 mb-5">
                     Who's that Pokémon?!
                   </h3>
                   <div className="flex flex-col gap-3 text-center">
-                    <p className="text-sm text-gray-500">
+                    <p className="text-sm">
                       Click the play button below to start playing!
                     </p>
-                    <p className="text-sm text-gray-500">
+                    <p className="text-sm">
                       (Don't forget to click the mute button if you're not in
                       the mood for sound)
                     </p>
@@ -162,14 +162,14 @@ const QuizPage: React.FC = () => {
                 <button
                   onClick={handlePlayClick}
                   type="button"
-                  className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:ml-3 sm:w-auto sm:text-sm"
+                  className="w-full inline-flex justify-center rounded-full border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:ml-3 sm:w-auto sm:text-sm"
                 >
                   Play
                 </button>
                 <button
                   onClick={toggleMute}
                   type="button"
-                  className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-gray-500 text-base font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 sm:ml-3 sm:w-auto sm:text-sm"
+                  className="w-full inline-flex justify-center rounded-full border border-transparent shadow-sm px-4 py-2 bg-gray-500 text-base font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 sm:ml-3 sm:w-auto sm:text-sm"
                 >
                   {isMuted ? "Unmute" : "Mute"}
                 </button>
