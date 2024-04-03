@@ -6,6 +6,14 @@ import backendApi from "../service/backendApi";
 import mistyImg from "../assets/Misty.png";
 import ashImg from "../assets/Ash_Ketchum.png";
 
+type pokeTeam = {
+  id: number;
+  name: string;
+  archived: boolean;
+  isShiny: boolean;
+  members: number[];
+};
+
 const PictureTime = () => {
   const [teamList, setTeamList] = useState<Array<pokeTeam>>([]);
   // get the team names, and team members from the backend API
@@ -45,11 +53,10 @@ const PictureTime = () => {
         </Instruction>
         <Instruction instrStep={2} stepName="Choose your team">
           <div>
-            {teamList ? (
+            {teamList.length === 0 ? (
               "There are no teams at the moment ..."
             ) : (
               <select id="teamChange">
-                {" "}
                 <option value="-1">Choose a team...</option>
                 {teamList.map((team) => {
                   return (
@@ -57,7 +64,7 @@ const PictureTime = () => {
                       {team.name}
                     </option>
                   );
-                })}{" "}
+                })}
               </select>
             )}
           </div>

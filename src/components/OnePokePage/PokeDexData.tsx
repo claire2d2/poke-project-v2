@@ -1,5 +1,3 @@
-import { PokeData } from "./OnePokeData";
-
 // data to fetch from the pokeapi/pokemon-species/id
 export type pokeDexEntry = {
   flavor_text: string;

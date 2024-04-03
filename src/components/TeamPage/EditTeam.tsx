@@ -1,5 +1,5 @@
 // import use state and API
-import { useState, useEffect } from "react";
+import { useState, ChangeEvent, MouseEvent } from "react";
 import useTeam from "../../context/usePoke";
 import backendApi from "../../service/backendApi";
 
@@ -18,14 +18,14 @@ const EditTeam: React.FC<{ team: pokeTeam }> = ({ team }) => {
   const [teamName, setTeamName] = useState<string>(team.name);
 
   // post to backend API when clicking on save button
-  async function editTeam(e) {
+  async function editTeam(e: MouseEvent<HTMLElement>) {
     e.preventDefault();
     // if team isn't full return (button is disabled, but just in case)
     if (currTeam.length < 6) {
       return;
     }
     try {
-      const response = await backendApi.patch<pokeTeam>(`/teams/${team.id}`, {
+      await backendApi.patch<pokeTeam>(`/teams/${team.id}`, {
         name: teamName,
         isShiny: isShiny,
         archived: true,
@@ -42,7 +42,7 @@ const EditTeam: React.FC<{ team: pokeTeam }> = ({ team }) => {
 
   // handle the input changes for changing the current team name
 
-  const handleName = (e) => {
+  const handleName = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setTeamName(value);
   };

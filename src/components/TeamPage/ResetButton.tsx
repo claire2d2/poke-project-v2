@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import { useRef, useState } from "react";
 import useTeam from "../../context/usePoke";
 
 const ResetButton = () => {
@@ -6,16 +6,15 @@ const ResetButton = () => {
 
   // if checkbox for reset has already been checked, set initial value to "true"
 
-  let initialResetCheck: boolean;
-  if (localStorage.getItem("resetInfoChecked")) {
-    initialResetCheck = JSON.parse(localStorage.getItem("resetInfoChecked"));
-  } else {
-    initialResetCheck = false;
+  let initialResetCheck = false;
+  const resetInfoChecked = localStorage.getItem("resetInfoChecked");
+  if (resetInfoChecked !== null) {
+    initialResetCheck = JSON.parse(resetInfoChecked);
   }
   const [resetCheck, setResetCheck] = useState<boolean>(initialResetCheck);
 
   // modal will pop-up if reset button is clicked
-  const resetModal = useRef();
+  const resetModal = useRef<HTMLDialogElement | null>(null);
 
   const resetTeam = () => {
     closeResetModal();
@@ -27,10 +26,10 @@ const ResetButton = () => {
       resetTeam();
       return;
     }
-    resetModal.current.showModal();
+    resetModal.current?.showModal();
   }
   function closeResetModal() {
-    resetModal.current.close();
+    resetModal.current?.close();
   }
 
   // ensure modal doesn't pop up again if checkbox has been checked

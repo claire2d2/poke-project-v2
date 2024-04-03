@@ -1,6 +1,4 @@
-import { createContext, useState, useEffect } from "react";
-
-export const PokeContext = createContext();
+import { createContext, useState, useEffect, ReactNode } from "react";
 
 // declare team type
 
@@ -8,27 +6,48 @@ type pokeTeam = {
   id: number;
   name: string;
   archived: boolean;
+  isShiny: boolean;
   members: Array<number>;
 };
 
-function PokeContextWrapper({ children }) {
+type PokeContextType = {
+  currTeam: number[];
+  setCurrTeam: React.Dispatch<React.SetStateAction<Array<number>>>;
+  teamFull: boolean;
+  setTeamFull: React.Dispatch<React.SetStateAction<boolean>>;
+  isEmpty: boolean;
+  setIsEmpty: React.Dispatch<React.SetStateAction<boolean>>;
+  isShiny: boolean;
+  setIsShiny: React.Dispatch<React.SetStateAction<boolean>>;
+  teamToEdit: pokeTeam | null;
+  setTeamToEdit: React.Dispatch<React.SetStateAction<pokeTeam | null>>;
+  addTeamMemb: (id: number) => void;
+  removeTeamMemb: (id: number) => void;
+  makeItShiny: (isShiny: boolean) => void;
+};
+
+export const PokeContext = createContext<PokeContextType | null>(null);
+
+function PokeContextWrapper({ children }: { children: ReactNode }) {
   // if team already exists, we keep it even if page is refreshed
-  let initialTeam: Array<number>;
+  let initialTeam: Array<number> = [];
   if (localStorage.getItem("currPokeTeam")) {
     const history = localStorage.getItem("currPokeTeam");
-    initialTeam = JSON.parse(history);
-  } else {
-    initialTeam = [];
+    if (history !== null) {
+      initialTeam = JSON.parse(history);
+    }
   }
 
   // state to see whether current pokemon team is shiny or not
-  let initShiny: boolean;
+  let initShiny: boolean = false;
   if (localStorage.getItem("IsShiny")) {
     const history = localStorage.getItem("IsShiny");
-    initShiny = JSON.parse(history);
-  } else {
-    initShiny = false;
+    if (history !== null) {
+      initShiny = JSON.parse(history);
+    }
   }
+
+  // states to check on the team status : useful for when adding pokemon to the team
 
   const [currTeam, setCurrTeam] = useState<Array<number>>(initialTeam);
   const [teamFull, setTeamFull] = useState<boolean>(false);
@@ -77,13 +96,13 @@ function PokeContextWrapper({ children }) {
   }, [isShiny]);
 
   // state to know whether the "current" team on the teams page is a new team or an already created team
-  let initEdit: pokeTeam;
+  let initEdit: pokeTeam | null = null;
 
   if (localStorage.getItem("Editing")) {
     const history = localStorage.getItem("Editing");
-    initEdit = JSON.parse(history);
-  } else {
-    initEdit = null;
+    if (history !== null) {
+      initEdit = JSON.parse(history);
+    }
   }
 
   const [teamToEdit, setTeamToEdit] = useState<pokeTeam | null>(initEdit);
@@ -110,8 +129,6 @@ function PokeContextWrapper({ children }) {
     setCurrTeam(copy);
   }
 
-  // state for showing the pokemon list
-  const [pokeList, setPokeList] = useState(null);
   return (
     <PokeContext.Provider
       value={{
@@ -128,8 +145,6 @@ function PokeContextWrapper({ children }) {
         makeItShiny,
         teamToEdit,
         setTeamToEdit,
-        pokeList,
-        setPokeList,
       }}
     >
       {children}
