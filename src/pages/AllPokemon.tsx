@@ -195,7 +195,7 @@ const AllPokemon = () => {
           <div className="flex gap-2">
             <button
               onClick={filterByFavorites}
-              className="transition-all bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-4 rounded-full sticky  font-press-start text-xs"
+              className="transition-all bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-4 rounded-full sticky font-press-start text-xs"
             >
               {showFavorites ? "Show all" : "Show favorites"}
             </button>
