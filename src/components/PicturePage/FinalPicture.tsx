@@ -35,31 +35,38 @@ const FinalPicture: React.FC<{
   }
   return (
     <div className="p-2">
-      <div className="Picture relative overflow-hidden h-full w-full mt-3 mx-5">
-        <img src={chosenImg} alt="background image" className="object-cover" />
-        <div className="pokemon absolute top-0 left-0 scale-50">
-          <PokePoser pokeId={team.members[0]} />
+      <div
+        style={{ height: "500px", width: "800px" }}
+        className="Picture relative overflow-hidden w-full mt-3 mx-5"
+      >
+        <img
+          src={chosenImg}
+          alt="background image"
+          className="object-cover h-full w-full"
+        />
+        <div className="pokemon absolute top-20 left-0 scale-50">
+          <PokePoser pokeId={team.members[0]} isShiny={team.isShiny} />
         </div>
-        <div className="pokemon absolute top-0 left-20 scale-50">
-          <PokePoser pokeId={team.members[1]} />
+        <div className="pokemon absolute top-20 left-20 scale-50">
+          <PokePoser pokeId={team.members[1]} isShiny={team.isShiny} />
         </div>
-        <div className="pokemon absolute top-0 left-40 scale-50">
-          <PokePoser pokeId={team.members[2]} />
+        <div className="pokemon absolute top-20 left-40 scale-50">
+          <PokePoser pokeId={team.members[2]} isShiny={team.isShiny} />
         </div>
-        <div className="pokemon absolute top-0 left-60 scale-50">
-          <PokePoser pokeId={team.members[3]} />
+        <div className="pokemon absolute top-20 left-60 scale-50">
+          <PokePoser pokeId={team.members[3]} isShiny={team.isShiny} />
         </div>
-        <div className="pokemon absolute top-0 -right-0 scale-50">
-          <PokePoser pokeId={team.members[4]} />
+        <div className="pokemon absolute top-20 -right-0 scale-50">
+          <PokePoser pokeId={team.members[4]} isShiny={team.isShiny} />
         </div>
-        <div className="pokemon absolute top-0 -right-20 scale-50">
-          <PokePoser pokeId={team.members[5]} />
+        <div className="pokemon absolute top-20 -right-20 scale-50">
+          <PokePoser pokeId={team.members[5]} isShiny={team.isShiny} />
         </div>
         <div className="trainer">
           <img
             src={chosenTrainer}
             alt="trainer"
-            className="absolute -bottom-40 h-full scale-150"
+            className="absolute -bottom-40 -left-20 h-full scale-150"
           />
         </div>
       </div>
