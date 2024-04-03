@@ -33,7 +33,7 @@ const FindPoke = () => {
   const [pokeName, setPokeName] = useState<string>("");
   const [pokeList, setPokeList] = useState<Array<PokeObject>>([]);
   const [filtList, setFiltList] = useState<Array<PokeObject>>(pokeList);
-  const [chosenOne, setChosenOne] = useState<number | null>(null);
+  const [chosenOne, setChosenOne] = useState<number>(0);
   const [showChosen, setShowChosen] = useState<boolean>(true);
   const debouncedSearch = useDebouncedValue(pokeName, 300);
 
