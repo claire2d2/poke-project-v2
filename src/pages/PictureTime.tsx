@@ -6,9 +6,9 @@ import backendApi from "../service/backendApi";
 import ShowChosenTeam from "../components/PicturePage/ShowChosenTeam";
 import FinalPicture from "../components/PicturePage/FinalPicture";
 
-import mistyImg from "../assets/Misty.png";
-import ashImg from "../assets/Ash_Ketchum.png";
-import backgroundImg from "../assets/backgrountest.jpg";
+import mayImg from "../assets/trainer-may.png";
+import brendanImg from "../assets/trainer-brendan.png";
+import backgroundImg from "../assets/background1.jpg";
 
 type pokeTeam = {
   name: string;
@@ -57,11 +57,11 @@ const PictureTime = () => {
         <Instruction stepName="1. Choose your trainer">
           <div className="flex m-5 h-3/4 justify-center gap-3">
             <button className={`${trainerStyle} ${trainerHover}`}>
-              <img src={ashImg} alt="" className="h-3/4 object-contain" />
+              <img src={brendanImg} alt="" className="h-3/4 object-contain" />
               <h4 className={trainerTitle}>Ash</h4>
             </button>
             <button className={`${trainerStyle} ${trainerHover}`}>
-              <img src={mistyImg} alt="" className="h-3/4 object-contain" />
+              <img src={mayImg} alt="" className="h-3/4 object-contain" />
               <h4 className={trainerTitle}>Misty</h4>
             </button>
           </div>
@@ -92,10 +92,10 @@ const PictureTime = () => {
         </Instruction>
       </div>
       <div className="w-full text-center"> Chheeeeeese!</div>
-      <div>
+      <div className="h-4/5 w-4/5 absolute">
         TEST
         <FinalPicture
-          chosenTrainer={mistyImg}
+          chosenTrainer={mayImg}
           pokeTeamId={chosenTeam}
           chosenImg={backgroundImg}
         />
