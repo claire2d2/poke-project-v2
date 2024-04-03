@@ -1,7 +1,7 @@
-import { useState } from "react";
-
 //import context
 import useTeam from "../context/usePoke";
+
+import { DragEvent } from "react";
 
 // import relevant components
 
@@ -12,9 +12,9 @@ import ResetButton from "../components/TeamPage/ResetButton";
 import ShinyButton from "../components/TeamPage/ShinyButton";
 
 const TeamPage = () => {
-  const { currTeam, setCurrTeam } = useTeam();
+  const { currTeam, setCurrTeam, isShiny } = useTeam();
 
-  let emptyTeam: Array = [];
+  const emptyTeam = [];
 
   for (let i = 0; i < 6 - currTeam.length; i++) {
     emptyTeam.unshift({ num: 0, index: 5 - i });
@@ -22,11 +22,11 @@ const TeamPage = () => {
 
   // test drag and drop
 
-  function handleOnDragOver(e) {
+  function handleOnDragOver(e: DragEvent<HTMLElement>) {
     e.preventDefault();
   }
 
-  function handleOnDrop(e, index) {
+  function handleOnDrop(e: DragEvent<HTMLElement>, index: number) {
     e.preventDefault();
     const data = JSON.parse(e.dataTransfer.getData("text/plain"));
     swapPoke(data, index);
@@ -38,7 +38,6 @@ const TeamPage = () => {
     const toPoke = copy[toPokeIndex];
 
     if (fromPoke && toPoke) {
-      console.log("is this working");
       copy[fromPokeIndex] = toPoke;
       copy[toPokeIndex] = fromPoke;
     }
@@ -77,7 +76,7 @@ const TeamPage = () => {
               onDrop={(e) => handleOnDrop(e, index)}
               onDragOver={handleOnDragOver}
             >
-              <TeamMember pokeId={poke} teamIndex={index} />
+              <TeamMember pokeId={poke} teamIndex={index} isShiny={isShiny} />
             </div>
           );
         })}
@@ -85,7 +84,11 @@ const TeamPage = () => {
           ? emptyTeam.map((emp) => {
               return (
                 <div key={emp.index} className="lg:basis-1/4 ">
-                  <TeamMember pokeId={emp.num} teamIndex={emp.index} />
+                  <TeamMember
+                    pokeId={emp.num}
+                    teamIndex={emp.index}
+                    isShiny={isShiny}
+                  />
                 </div>
               );
             })

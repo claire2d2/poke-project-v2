@@ -3,15 +3,12 @@ import { PokeData } from "../../components/OnePokeData";
 import pokeApi from "../../service/pokeApi";
 import addTeam from "../../context/usePoke";
 
-type pokeTeam = {
-  id: number;
-  name: string;
-  archived: boolean;
-  members: Array<number>;
-};
-
-const ChosenPoke: React.FC<{ id: number | null }> = ({ id }) => {
+const ChosenPoke: React.FC<{ id: number }> = ({ id }) => {
   const [pokeData, setPokeData] = useState<PokeData | null>(null);
+
+  useEffect(() => {
+    fetchPokeData();
+  }, [id]);
 
   async function fetchPokeData() {
     try {
@@ -21,9 +18,6 @@ const ChosenPoke: React.FC<{ id: number | null }> = ({ id }) => {
       console.log(error);
     }
   }
-  useEffect(() => {
-    fetchPokeData();
-  }, [id]);
 
   // add to team
 
