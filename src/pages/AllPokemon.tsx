@@ -96,7 +96,9 @@ const AllPokemon = () => {
   const fetchFavoritePokemonIds = async () => {
     try {
       const { data } = await backendApi.get("/favorite");
-      setFavoritePokemonIds(data.map((favorite: any) => favorite.pokemonId));
+      setFavoritePokemonIds(
+        data.map((favorite: favorite) => favorite.pokemonId)
+      );
     } catch (error) {
       console.log(error);
     }
