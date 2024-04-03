@@ -17,6 +17,7 @@ type PokeObject = {
   type: string[];
   generation: string;
   favorite: favorite[];
+  url: string;
 };
 
 // Debounced for search bar
