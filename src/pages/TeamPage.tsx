@@ -96,7 +96,7 @@ const TeamPage = () => {
         </div>
       </div>
       <div className="HandleTeam hidden md:basis-1/3 md:flex md:h-full">
-        <HandleTeam />
+        <HandleTeam emptyTeam={emptyTeam} />
       </div>
     </div>
   );
