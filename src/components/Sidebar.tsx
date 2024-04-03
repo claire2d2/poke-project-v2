@@ -27,9 +27,9 @@ const Sidebar: React.FC<Props> = ({
   const [color, setColor] = useState<Filter[]>([]);
 
   // State for toggle filters
-  const [isOpenGeneration, setIsOpenGeneration] = useState<Boolean>(false);
-  const [isOpenType, setIsOpenType] = useState<Boolean>(false);
-  const [isOpenColor, setIsOpenColor] = useState<Boolean>(false);
+  const [isOpenGeneration, setIsOpenGeneration] = useState<boolean>(false);
+  const [isOpenType, setIsOpenType] = useState<boolean>(false);
+  const [isOpenColor, setIsOpenColor] = useState<boolean>(false);
 
   // Search filter
   const handleSearch = (e: React.FormEvent<HTMLInputElement>) => {
@@ -39,7 +39,7 @@ const Sidebar: React.FC<Props> = ({
   // Component
   return (
     <div
-      className="w-64 bg-blue-200 flex flex-col gap-5 p-2 overflow-y-scroll overflow-x-hidden"
+      className="md:w-64 bg-blue-200 flex flex-col gap-5 p-2 overflow-y-scroll overflow-x-hidden no-scrollbar"
       style={{ height: "calc(100vh - 99px)" }}
     >
       <div className="flex flex-col">

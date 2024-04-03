@@ -12,8 +12,8 @@ type FilterData = {
 type Props = {
   color: Filter[];
   setColor: React.Dispatch<React.SetStateAction<Filter[]>>;
-  isOpenColor: Boolean;
-  setIsOpenColor: React.Dispatch<React.SetStateAction<Boolean>>;
+  isOpenColor: boolean;
+  setIsOpenColor: React.Dispatch<React.SetStateAction<boolean>>;
   setSelectedColors: (cb: (state: string[]) => string[]) => void;
 };
 

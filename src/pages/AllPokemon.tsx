@@ -143,7 +143,7 @@ const AllPokemon = () => {
     displayedPoke = pokemon;
   }
 
-  let total = displayedPoke.length;
+  const total = displayedPoke.length;
 
   return (
     <div className="flex">
@@ -159,7 +159,7 @@ const AllPokemon = () => {
         style={{ height: "calc(100vh - 99px)" }}
       >
         <div className="flex justify-between items-center">
-          <div>
+          <div className="lg:basis-1/5 basis-1/2">
             <Dropdown
               options={[
                 {
@@ -192,16 +192,16 @@ const AllPokemon = () => {
               defaultValue=""
             />
           </div>
-          <div className="flex gap-2">
+          <div className="lg:basis-1/5">
             <button
               onClick={filterByFavorites}
-              className="transition-all bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-4 rounded-full sticky font-press-start text-xs"
+              className="transition-all md:w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-4 rounded-full sticky font-press-start text-xs"
             >
               {showFavorites ? "Show all" : "Show favorites"}
             </button>
           </div>
         </div>
-        <div className="grid grid-cols-6 grid-flow-row gap-2">
+        <div className="grid  grid-cols-2 lg:grid-cols-4 xl:grid-cols-6 grid-flow-row gap-2">
           {displayedPoke.map((onePoke) => (
             <div
               key={onePoke.id}
