@@ -1,10 +1,10 @@
 import { useEffect } from "react";
 import pokeApi from "../../service/pokeApi";
 
-// Type
 type Filter = {
   name: string;
 };
+
 type FilterData = {
   results: Filter[];
 };

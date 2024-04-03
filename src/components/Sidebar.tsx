@@ -3,17 +3,16 @@ import GenerationFilter from "./Filters/GenerationFilter";
 import ColorFilter from "./Filters/ColorFilter";
 import TypeFilter from "./Filters/TypeFilter";
 
+type Filter = {
+  name: string;
+};
+
 type Props = {
   search: string;
   setSearch: (search: string) => void;
   setSelectedTypes: (cb: (state: string[]) => string[]) => void;
   setSelectedGenerations: (cb: (state: string[]) => string[]) => void;
   setSelectedColors: (cb: (state: string[]) => string[]) => void;
-};
-
-// Type
-type Filter = {
-  name: string;
 };
 
 const Sidebar: React.FC<Props> = ({

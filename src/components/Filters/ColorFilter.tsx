@@ -1,10 +1,10 @@
 import { useEffect } from "react";
 import pokeApi from "../../service/pokeApi";
 
-// Type
 type Filter = {
   name: string;
 };
+
 type FilterData = {
   results: Filter[];
 };
@@ -69,6 +69,7 @@ const ColorFilter: React.FC<Props> = ({
       </label>
     </div>
   ));
+
   return (
     <div className="type flex flex-col px-2">
       <button
