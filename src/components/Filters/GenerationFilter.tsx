@@ -29,12 +29,12 @@ const GenerationFilter: React.FC<Props> = ({
     const isChecked = e.currentTarget.checked;
     const value = e.currentTarget.value;
     if (isChecked) {
-      setSelectedGenerations((currentGenerations) => {
-        return [...currentGenerations, value];
+      setSelectedGenerations((current) => {
+        return [...current, value];
       });
     } else {
-      setSelectedGenerations((currentGenerations) => {
-        return currentGenerations.filter((generation) => generation !== value);
+      setSelectedGenerations((current) => {
+        return current.filter((generation) => generation !== value);
       });
     }
   };

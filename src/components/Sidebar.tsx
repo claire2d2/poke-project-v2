@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import pokeApi from "../service/pokeApi";
 import GenerationFilter from "./Filters/GenerationFilter";
+import ColorFilter from "./Filters/ColorFilter";
 
 type Props = {
   search: string;
@@ -54,21 +55,6 @@ const Sidebar: React.FC<Props> = ({
     }
   };
 
-  // Color filter
-  const handleColorFilter = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const isChecked = e.currentTarget.checked;
-    const value = e.currentTarget.value;
-    if (isChecked) {
-      setSelectedColors((current) => {
-        return [...current, value];
-      });
-    } else {
-      setSelectedColors((current) => {
-        return current.filter((col) => col !== value);
-      });
-    }
-  };
-
   // Retrieve type filters
   async function fetchTypeFilters() {
     try {
@@ -101,37 +87,6 @@ const Sidebar: React.FC<Props> = ({
     </div>
   ));
 
-  // Retrieve color filters
-  async function fetchColorFilters() {
-    try {
-      const { data } = await pokeApi.get<FilterData>("/pokemon-color");
-      const result = data.results;
-      setColor(result);
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  useEffect(() => {
-    fetchColorFilters();
-  }, []);
-
-  const pokeColor = color.map((col, index) => (
-    <div className="flex gap-2" key={index}>
-      <input
-        type="checkbox"
-        name={`color/${index + 1}`}
-        id={`color/${index + 1}`}
-        value={col.name}
-        onChange={handleColorFilter}
-        className="cursor-pointer"
-      />
-      <label htmlFor={`color/${index + 1}`}>
-        {col.name.slice(0, 1).toUpperCase() + col.name.slice(1)}
-      </label>
-    </div>
-  ));
-
   // Component
   return (
     <div
@@ -160,6 +115,14 @@ const Sidebar: React.FC<Props> = ({
         setSelectedGenerations={setSelectedGenerations}
       />
 
+      <ColorFilter
+        color={color}
+        setColor={setColor}
+        isOpenColor={isOpenColor}
+        setIsOpenColor={setIsOpenColor}
+        setSelectedColors={setSelectedColors}
+      />
+
       <div className="type flex flex-col px-2">
         <button
           className="font-bold text-left  flex justify-between"
@@ -176,24 +139,6 @@ const Sidebar: React.FC<Props> = ({
           )}
         </button>
         {isOpenType ? pokeType : null}
-      </div>
-
-      <div className="color flex flex-col px-2">
-        <button
-          className="font-bold text-left flex justify-between"
-          onClick={() => setIsOpenColor((prev) => !prev)}
-        >
-          {isOpenColor ? (
-            <div>
-              <p>Color ▲</p>
-            </div>
-          ) : (
-            <div>
-              <p>Color ▼</p>
-            </div>
-          )}
-        </button>
-        {isOpenColor ? pokeColor : null}
       </div>
     </div>
   );
