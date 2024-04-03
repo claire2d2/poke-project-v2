@@ -152,7 +152,10 @@ const AllPokemon = () => {
         setSelectedGenerations={setSelectedGenerations}
         setSelectedColors={setSelectedColors}
       />
-      <div className="flex flex-col gap-2 p-2 w-full">
+      <div
+        className="flex flex-col gap-2 p-2 w-full overflow-y-scroll"
+        style={{ height: "calc(100vh - 99px)" }}
+      >
         <div className="flex justify-between items-center">
           <div>
             <Dropdown
@@ -190,7 +193,7 @@ const AllPokemon = () => {
           <div className="flex gap-2">
             <button
               onClick={filterByFavorites}
-              className="transition-all bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded-full"
+              className="transition-all bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded-full sticky"
             >
               {showFavorites ? "Show all" : "Show favorites"}
             </button>

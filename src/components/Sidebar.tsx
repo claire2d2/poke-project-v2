@@ -188,15 +188,18 @@ const Sidebar: React.FC<Props> = ({
 
   // Component
   return (
-    <div className="w-52 h-screen bg-blue-200 flex flex-col gap-5 p-2">
+    <div
+      className="w-64 bg-blue-200 flex flex-col gap-5 p-2 overflow-y-scroll overflow-x-hidden"
+      style={{ height: "calc(100vh - 99px)" }}
+    >
       <div className="searchbar">
-        <h1 className="text-lg">Search Pokemon</h1>
+        <h1 className="text-lg font-bold">Search Pokemon</h1>
         <label htmlFor="search">
           <input
             type="text"
             name="search"
             id="search"
-            className="p-1 border border-blue-500 rounded"
+            className="p-2 rounded-lg bg-blue-50"
             value={search}
             onChange={handleSearch}
           ></input>
@@ -205,17 +208,18 @@ const Sidebar: React.FC<Props> = ({
 
       <div className="generation flex flex-col">
         <button
-          className="text-lg text-left"
+          className="font-bold text-left"
           onClick={() => setIsOpenGeneration((prev) => !prev)}
         >
           Generation
         </button>
+
         {isOpenGeneration ? pokeGeneration : null}
       </div>
 
       <div className="type flex flex-col">
         <button
-          className="text-lg text-left"
+          className="font-bold text-left"
           onClick={() => setIsOpenType((prev) => !prev)}
         >
           Type
@@ -225,7 +229,7 @@ const Sidebar: React.FC<Props> = ({
 
       <div className="color flex flex-col">
         <button
-          className="text-lg text-left"
+          className="font-bold text-left"
           onClick={() => setIsOpenColor((prev) => !prev)}
         >
           Color
