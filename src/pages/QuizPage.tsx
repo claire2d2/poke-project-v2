@@ -141,7 +141,7 @@ const QuizPage: React.FC = () => {
           <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center">
             <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
 
-            <div className="align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all p-10 flex flex-col gap-5">
+            <div className="align-bottom bg-white rounded-lg text-left overflow-hidden transform p-10 flex flex-col gap-5">
               <div className="bg-white">
                 <div className="text-center">
                   <h3 className="text-lg font-press-start font-medium text-gray-900 mb-5">
@@ -149,7 +149,8 @@ const QuizPage: React.FC = () => {
                   </h3>
                   <div className="flex flex-col gap-3 text-center">
                     <p className="text-sm">
-                      Click the play button below to start playing!
+                      Chose your play mode and click the play button below to
+                      start the quiz!
                     </p>
                     <p className="text-sm">
                       (Don't forget to click the mute button if you're not in
@@ -159,6 +160,13 @@ const QuizPage: React.FC = () => {
                 </div>
               </div>
               <div className="flex flex-row justify-center">
+                <select
+                  className="rounded-full"
+                  //onChange={(e) => setSelectedOption(e.target.value)}
+                >
+                  <option value="score">Score Quiz</option>
+                  <option value="train">Train Quiz</option>
+                </select>
                 <button
                   onClick={handlePlayClick}
                   type="button"
