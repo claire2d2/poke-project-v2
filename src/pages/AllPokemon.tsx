@@ -157,7 +157,11 @@ const AllPokemon = () => {
           <div>
             <Dropdown
               options={[
-                { value: "", label: "Sort by", disabled: true },
+                {
+                  value: "",
+                  label: "Sort by",
+                  disabled: true,
+                },
                 { value: "nameAsc", label: "Name asc" },
                 { value: "nameDesc", label: "Name desc" },
                 { value: "heightAsc", label: "Height asc" },
@@ -186,7 +190,7 @@ const AllPokemon = () => {
           <div className="flex gap-2">
             <button
               onClick={filterByFavorites}
-              className="transition-all bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded-full disabled:bg-gray-300"
+              className="transition-all bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded-full"
             >
               {showFavorites ? "Show all" : "Show favorites"}
             </button>
