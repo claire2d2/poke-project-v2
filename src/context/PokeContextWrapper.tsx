@@ -24,6 +24,8 @@ type PokeContextType = {
   addTeamMemb: (id: number) => void;
   removeTeamMemb: (id: number) => void;
   makeItShiny: (isShiny: boolean) => void;
+  deleteCheck: boolean;
+  setDeleteCheck: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export const PokeContext = createContext<PokeContextType | null>(null);
@@ -45,6 +47,14 @@ function PokeContextWrapper({ children }: { children: ReactNode }) {
     if (history !== null) {
       initShiny = JSON.parse(history);
     }
+  }
+
+  // if checkbox for delete modal has already been checked, set initial value to "true"
+
+  let initialDeleteCheck = false;
+  const deleteInfoChecked = localStorage.getItem("deleteInfoChecked");
+  if (deleteInfoChecked !== null) {
+    initialDeleteCheck = JSON.parse(deleteInfoChecked);
   }
 
   // states to check on the team status : useful for when adding pokemon to the team
@@ -129,6 +139,10 @@ function PokeContextWrapper({ children }: { children: ReactNode }) {
     setCurrTeam(copy);
   }
 
+  // state to know whether the delete modal has been checked or not
+
+  const [deleteCheck, setDeleteCheck] = useState<boolean>(initialDeleteCheck);
+
   return (
     <PokeContext.Provider
       value={{
@@ -145,6 +159,8 @@ function PokeContextWrapper({ children }: { children: ReactNode }) {
         makeItShiny,
         teamToEdit,
         setTeamToEdit,
+        deleteCheck,
+        setDeleteCheck,
       }}
     >
       {children}

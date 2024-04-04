@@ -52,7 +52,7 @@ const CreateTeam = () => {
   return (
     <div className="CreateTeam">
       <div className="w-full">
-        <TeamTitle>Create a team</TeamTitle>
+        <TeamTitle>Raticreate a team</TeamTitle>
         <div className="p-5">
           <div className="mb-3 font-semibold text-lg">
             <label htmlFor="team-name">Your team's name:</label>

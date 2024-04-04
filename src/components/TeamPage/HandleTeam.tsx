@@ -6,6 +6,8 @@ import TeamsList from "./TeamsList";
 import { useState, useEffect } from "react";
 import useTeam from "../../context/usePoke";
 
+// import style elements
+import { TeamTitle } from "./TeamPageStyle";
 import pokeballImg from "../../assets/small-pokeball.png";
 import noPokeImg from "../../assets/nopokeball.png";
 
@@ -44,7 +46,9 @@ const HandleTeam: React.FC<{ emptyTeam: emptyTeamElem[] }> = ({
         {!teamToEdit ? <CreateTeam /> : <EditTeam team={teamToEdit} />}
       </div>
 
-      <TeamsList />
+      <div className="relative overflow-hidden z-5">
+        <TeamsList />
+      </div>
     </div>
   );
 };

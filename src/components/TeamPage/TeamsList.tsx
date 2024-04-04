@@ -4,99 +4,77 @@ import backendApi from "../../service/backendApi";
 // import team components
 import SmallSprite from "./SmallSprite";
 import editIcon from "../../assets/edit_team.png";
+import DeleteTeamModal from "./DeleteTeamModal";
 
 // import style
 import { TeamTitle } from "./TeamPageStyle";
 
-// import global state
+// import global state and types
 import useTeam from "../../context/usePoke";
-
-type pokeTeam = {
-  id: number;
-  name: string;
-  archived: boolean;
-  isShiny: boolean;
-  members: number[];
-};
+import { pokeTeam } from "../TeamData";
+import { fetchTeams } from "../TeamData";
+import { fetchOneTeam } from "../TeamData";
 
 const TeamsList = () => {
-  const { currTeam, setCurrTeam, setTeamToEdit, setIsShiny } = useTeam();
+  const { currTeam, setCurrTeam, teamToEdit, setTeamToEdit, deleteCheck } =
+    useTeam();
+  const [teamList, setTeamList] = useState<pokeTeam[] | null>([]);
 
-  const [teamList, setTeamList] = useState<Array<pokeTeam>>([]);
-  // get the team names, and team members from the backend API
-  async function fetchTeams() {
-    try {
-      const response = await backendApi.get<Array<pokeTeam>>("/teams");
-      setTeamList(response.data);
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  useEffect(() => {
-    fetchTeams();
-  }, [currTeam]);
-
-  // when clicking on edit icon, set current team to the team, set archived to false
-
-  async function updateTeams(id: number) {
-    try {
-      await backendApi.patch(`/teams/${id}`, {
-        archived: true,
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  }
-  async function editTeam(id: number) {
-    try {
-      // sets trying to edit team to archived: false so that it doesn't appear in the teams list
-      await backendApi.patch(`/teams/${id}`, {
-        archived: false,
-      });
-      // getting the relevant team info to set the chosen team to display
-      const teamResponse = await backendApi.get<pokeTeam>(`/teams/${id}`);
-      setCurrTeam(teamResponse.data.members);
-      setIsShiny(teamResponse.data.isShiny);
-      setTeamToEdit(teamResponse.data);
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  const handleEdit = (id: number) => {
-    teamList.forEach((team) => {
-      updateTeams(team.id);
-    });
-    editTeam(id);
-  };
   // use state to determine which is the current team to delete
   const [teamToDel, setTeamToDel] = useState<number | null>(null);
+
+  // get the team names, and team members from the backend API
+
+  useEffect(() => {
+    fetchTeams(setTeamList);
+  }, [currTeam]);
+
+  // handle editing a team
+  const handleEdit = (id: number) => {
+    fetchOneTeam(id, setTeamToEdit);
+  };
+
+  useEffect(() => {
+    if (teamToEdit) {
+      setCurrTeam(teamToEdit.members);
+    }
+  }, [teamToEdit]);
+
   // delete teams when clicking on delete button
   async function deleteTeam(id: number | null) {
     try {
       const response = await backendApi.delete<Array<pokeTeam>>(`/teams/${id}`);
       console.log(response);
-      fetchTeams();
-      closeDeleteModal();
+      fetchTeams(setTeamList);
+      closeDeleteModal(id);
     } catch (error) {
       console.log(error);
     }
   }
 
   const handleDelete = (id: number | null) => {
-    setTeamToDel(id);
-    openDeleteModal();
+    if (deleteCheck) {
+      setTeamToDel(id);
+      deleteTeam(id);
+      return;
+    }
+    openDeleteModal(id);
   };
 
   // dialog to confirm that user does want to delete a team
-  const deleteModal = useRef<HTMLDialogElement | null>(null);
+  const deleteModals = useRef<(HTMLDialogElement | null)[]>([]);
 
-  function openDeleteModal() {
-    deleteModal.current?.showModal();
+  // dialog to confirm that user does want to delete a team
+  function openDeleteModal(id: number | null) {
+    if (id !== null && deleteModals.current[id]) {
+      deleteModals.current[id]?.showModal();
+    }
   }
-  function closeDeleteModal() {
-    deleteModal.current?.close();
+
+  function closeDeleteModal(id: number | null) {
+    if (id !== null && deleteModals.current[id]) {
+      deleteModals.current[id]?.close();
+    }
   }
 
   return (
@@ -170,9 +148,33 @@ const TeamsList = () => {
                       </div>
                     </dialog>
                   </div>
+                  {/* edit button */}
+                  <button
+                    onClick={() => handleEdit(team.id)}
+                    className="scale-50 bg-gray-500 hover:bg-orange-500 p-1 rounded-lg transition-all"
+                  >
+                    <img src={editIcon} className="p-1" />
+                  </button>
+                  {/* //! dialog when trying to delete team here */}
+                  <dialog
+                    key={team.id}
+                    id={`delete-modal-${team.id}`}
+                    ref={(element) => {
+                      deleteModals.current[team.id] = element; // Store ref in the array
+                    }}
+                    className="relative p-5 bg-red-50 shadow-md text-center"
+                  >
+                    <DeleteTeamModal
+                      teamId={team.id}
+                      teamToDel={teamToDel}
+                      closeDeleteModal={() => closeDeleteModal(team.id)}
+                      deleteTeam={() => deleteTeam(teamToDel)}
+                    />
+                  </dialog>
                 </div>
-              );
-            })}
+              </div>
+            );
+          })}
     </div>
   );
 };
