@@ -28,7 +28,7 @@ const Footer = () => {
         <a
           href="https://www.linkedin.com/in/simonraphael/"
           target="_blank"
-          className="text-blue-800 hover:text-orange-600 font-medium"
+          className="text-blue-800 dark:text-stone-200 hover:text-orange-600 font-medium"
         >
           Raphaël Simon
         </a>

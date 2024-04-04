@@ -75,7 +75,7 @@ const TeamsList = () => {
   }
 
   return (
-    <div className="h-full overflow-scroll no-scrollbar">
+    <div className="h-full overflow-auto no-scrollbar pb-20">
       {teamList?.length === 0
         ? "No teams at the moment ..."
         : teamList?.map((team) => {
@@ -85,7 +85,7 @@ const TeamsList = () => {
                   {team.name} :
                 </h3>
                 <div
-                  className={`relative flex py-2 items-center group bg-white rounded-xl hover:bg-orange-100 dark:bg-stone-200 dark:hover:bg-stone-300 shadow-md ${
+                  className={`relative flex py-2 items-center group bg-white rounded-xl hover:bg-orange-100 dark:bg-slate-500 dark:hover:bg-stone-300 shadow-md ${
                     team.id === teamToEdit?.id
                       ? "bg-cyan-500 hover:bg-cyan-500"
                       : ""
