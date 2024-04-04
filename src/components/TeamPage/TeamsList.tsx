@@ -8,33 +8,20 @@ import editIcon from "../../assets/edit_team.png";
 // import style
 import { TeamTitle } from "./TeamPageStyle";
 
-// import global state
+// import global state and types
 import useTeam from "../../context/usePoke";
-
-type pokeTeam = {
-  id: number;
-  name: string;
-  archived: boolean;
-  isShiny: boolean;
-  members: number[];
-};
+import { pokeTeam } from "./TeamData";
+import { fetchTeams } from "./TeamData";
 
 const TeamsList = () => {
   const { currTeam, setCurrTeam, setTeamToEdit, setIsShiny } = useTeam();
 
-  const [teamList, setTeamList] = useState<Array<pokeTeam>>([]);
+  const [teamList, setTeamList] = useState<pokeTeam[] | null>([]);
+
   // get the team names, and team members from the backend API
-  async function fetchTeams() {
-    try {
-      const response = await backendApi.get<Array<pokeTeam>>("/teams");
-      setTeamList(response.data);
-    } catch (error) {
-      console.log(error);
-    }
-  }
 
   useEffect(() => {
-    fetchTeams();
+    fetchTeams(setTeamList);
   }, [currTeam]);
 
   // when clicking on edit icon, set current team to the team, set archived to false
