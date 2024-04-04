@@ -1,3 +1,5 @@
+import useTeam from "../../context/usePoke";
+
 interface DeleteTeamModalProps {
   teamId: number;
   teamToDel: number | null;
@@ -11,6 +13,11 @@ const DeleteTeamModal: React.FC<DeleteTeamModalProps> = ({
   closeDeleteModal,
   deleteTeam,
 }) => {
+  const { setDeleteCheck } = useTeam();
+  const handleDeleteCheck = () => {
+    setDeleteCheck(true);
+    localStorage.setItem("deleteInfoChecked", JSON.stringify("true"));
+  };
   return (
     <div>
       <button
@@ -23,6 +30,16 @@ const DeleteTeamModal: React.FC<DeleteTeamModalProps> = ({
         Are you sure you want to delete this team?
       </h2>
       <p>This action is irreversible!</p>
+      <div className="mt-2 flex gap-2">
+        <input
+          type="checkbox"
+          name="reset-team-info"
+          id="reset-team"
+          className="cursor-pointer"
+          onChange={handleDeleteCheck}
+        />
+        <label htmlFor="reset-team">Got it. Don't show this to me again</label>
+      </div>
       <div className="flex items-center justify-center gap-4 m-3">
         <button
           onClick={() => deleteTeam(teamToDel)}

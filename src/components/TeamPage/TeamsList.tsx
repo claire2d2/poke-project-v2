@@ -15,7 +15,8 @@ import { pokeTeam } from "./TeamData";
 import { fetchTeams } from "./TeamData";
 
 const TeamsList = () => {
-  const { currTeam, setCurrTeam, teamToEdit, setTeamToEdit } = useTeam();
+  const { currTeam, setCurrTeam, teamToEdit, setTeamToEdit, deleteCheck } =
+    useTeam();
   const [teamList, setTeamList] = useState<pokeTeam[] | null>([]);
 
   // use state to determine which is the current team to delete
@@ -55,7 +56,11 @@ const TeamsList = () => {
   }
 
   const handleDelete = (id: number | null) => {
-    setTeamToDel(id);
+    if (deleteCheck) {
+      setTeamToDel(id);
+      deleteTeam(id);
+      return;
+    }
     openDeleteModal(id);
   };
 
@@ -133,6 +138,7 @@ const TeamsList = () => {
                   >
                     <DeleteTeamModal
                       teamId={team.id}
+                      teamToDel={teamToDel}
                       closeDeleteModal={() => closeDeleteModal(team.id)}
                       deleteTeam={() => deleteTeam(teamToDel)}
                     />
