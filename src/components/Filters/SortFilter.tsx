@@ -41,6 +41,8 @@ const SortFilter: React.FC<Props> = ({
 
   return (
     <Dropdown
+      id="sortByDropdown"
+      name="sortByDropdown"
       options={[
         { value: "", label: "Sort by", disabled: true },
         { value: "nameAsc", label: "Name asc" },

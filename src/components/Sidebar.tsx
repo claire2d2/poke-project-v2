@@ -39,7 +39,8 @@ const Sidebar: React.FC<Props> = ({
   // Component
   return (
     <div
-      className="md:w-64 bg-blue-200 flex flex-col gap-5 p-2 overflow-y-scroll overflow-hidden no-scrollbar"
+
+      className="md:w-64 bg-blue-200 flex flex-col gap-5 p-2 overflow-y-scroll overflow-hidden no-scrollbar dark:bg-slate-600"
       // style={{ height: "calc(100vh - 99px)" }}
     >
       <div className="flex flex-col">
@@ -49,7 +50,7 @@ const Sidebar: React.FC<Props> = ({
             type="text"
             name="search"
             id="search"
-            className="p-2 rounded-lg bg-blue-50 w-full"
+            className="p-2 rounded-lg bg-blue-50 dark:bg-slate-500 w-full"
             value={search}
             onChange={handleSearch}
           ></input>

@@ -6,8 +6,6 @@ import TeamsList from "./TeamsList";
 import { useState, useEffect } from "react";
 import useTeam from "../../context/usePoke";
 
-// import style elements
-import { TeamTitle } from "./TeamPageStyle";
 import pokeballImg from "../../assets/small-pokeball.png";
 import noPokeImg from "../../assets/nopokeball.png";
 
@@ -24,29 +22,26 @@ const HandleTeam: React.FC<{ emptyTeam: emptyTeamElem[] }> = ({
   }, [emptyTeam]);
 
   return (
-    <div className="flex flex-col overflow-scroll no-scrollbar bg-orange-50 h-full w-full shadow-xl">
-      <div className="sticky top-0 inset-x-0 z-1 flex flex-col justify-between">
-        <div className="flex">
-          {currTeam.map(() => {
-            return (
-              <div>
-                <img src={pokeballImg} alt="" />
-              </div>
-            );
-          })}
-          {vacancy?.map(() => {
-            return (
-              <div>
-                <img src={noPokeImg} alt="" />
-              </div>
-            );
-          })}
-        </div>
-        <div className="w-full">
-          {/* if no team to edit, show create team. If team has been chosen to edit, show edit team */}
-          {!teamToEdit ? <CreateTeam /> : <EditTeam team={teamToEdit} />}
-        </div>
-        <TeamTitle>List of teams</TeamTitle>
+    <div className="flex flex-col overflow-scroll no-scrollbar bg-orange-50 dark:bg-slate-600 h-full w-full content-center shadow-xl">
+      <div className="flex p-2">
+        {currTeam.map(() => {
+          return (
+            <div>
+              <img src={pokeballImg} alt="" />
+            </div>
+          );
+        })}
+        {vacancy?.map(() => {
+          return (
+            <div>
+              <img src={noPokeImg} alt="" />
+            </div>
+          );
+        })}
+      </div>
+      <div className="w-full">
+        {/* if no team to edit, show create team. If team has been chosen to edit, show edit team */}
+        {!teamToEdit ? <CreateTeam /> : <EditTeam team={teamToEdit} />}
       </div>
 
       <div className="relative overflow-hidden z-5">

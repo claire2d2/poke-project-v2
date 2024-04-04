@@ -38,7 +38,6 @@ const TrainQuiz: React.FC = () => {
   const [isMuted, setIsMuted] = useState<boolean>(false);
   const [correctAnswerSelected, setCorrectAnswerSelected] =
     useState<boolean>(false);
-  const [showModal, setShowModal] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchPokemonList = async () => {
@@ -59,7 +58,7 @@ const TrainQuiz: React.FC = () => {
   }, [pokemonList]);
 
   useEffect(() => {
-    if (!showModal && pokemonList.length > 0 && correctAnswer === "") {
+    if (pokemonList.length > 0 && correctAnswer === "") {
       const randomIndex = Math.floor(Math.random() * pokemonList.length);
       const randomPokemon = pokemonList[randomIndex];
       const capitalizedCorrectAnswer =
@@ -77,10 +76,10 @@ const TrainQuiz: React.FC = () => {
           console.error("Error fetching Pokémon image:", error);
         });
     }
-  }, [pokemonList, correctAnswer, showModal]);
+  }, [pokemonList, correctAnswer]);
 
   useEffect(() => {
-    if (!showModal && correctAnswer !== "") {
+    if (correctAnswer !== "") {
       const incorrectOptions: string[] = [];
       while (incorrectOptions.length < 2) {
         const randomIndex = Math.floor(Math.random() * pokemonList.length);
@@ -99,7 +98,7 @@ const TrainQuiz: React.FC = () => {
       const shuffledOptions = allOptions.sort(() => Math.random() - 0.5);
       setOptions(shuffledOptions);
     }
-  }, [correctAnswer, pokemonList, showModal]);
+  }, [correctAnswer, pokemonList]);
 
   const handleAnswerSelection = (selectedAnswer: string) => {
     if (selectedAnswer === correctAnswer) {

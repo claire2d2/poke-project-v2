@@ -141,7 +141,7 @@ const AllPokemon = () => {
           {displayedPoke.map((onePoke) => (
             <div
               key={onePoke.id}
-              className="flex flex-col items-center gap-1 border rounded shadow hover:shadow-md transition-all"
+              className="flex flex-col items-center gap-1 border dark:border-slate-500 rounded-lg transition-all dark:bg-slate-600"
             >
               <Link to={`/pokemon/${onePoke.id}`}>
                 <div className="flex flex-col w-auto justify-center items-center">

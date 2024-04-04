@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import whoIsThatPokemonSound from "../../public/who-s-that-pokemon.mp3";
 import backgroundImage from "../../public/who-s-that-pokemon-bg.jpeg";
 import TrainQuiz from "../components/QuizPage/TrainQuiz";
