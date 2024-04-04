@@ -9,7 +9,7 @@ const Navbar = () => {
   const hoverLink =
     "hover:text-yellow-400 hover:font-bold hover:cursor-pointer";
   return (
-    <nav className="w-screen md:h-nav bg-blue-900 text-white flex flex-row justify-between items-center p-2 md:px-6">
+    <nav className="w-screen md:h-nav bg-blue-900 text-white flex flex-row justify-between items-center p-2 md:px-6 rounded-b-xl">
       <div className="w-36">
         <img
           onClick={() => {
@@ -26,19 +26,19 @@ const Navbar = () => {
         <ul className="hidden md:flex md:flex-row">
           <li
             onClick={() => navigate("/team")}
-            className={`${linkStyle} ${hoverLink} w-28 text-center`}
+            className={`${linkStyle} ${hoverLink} w-36 text-center font-press-start text-xs border-r`}
           >
             Your Team
           </li>
           <li
             onClick={() => navigate("/pikature")}
-            className={`${linkStyle} ${hoverLink} w-36 text-center`}
+            className={`${linkStyle} ${hoverLink} w-56 text-center font-press-start text-xs border-r`}
           >
             Take a pika-ture
           </li>
           <li
             onClick={() => navigate("/quiz")}
-            className={`${linkStyle} ${hoverLink} w-24 text-center`}
+            className={`${linkStyle} ${hoverLink} w-36 text-center font-press-start text-xs`}
           >
             PokeQuiz
           </li>
@@ -54,7 +54,7 @@ const Navbar = () => {
 
           {/* menu */}
 
-          <ul className="absolute -top-full right-0 group-focus:top-0 duration-150 flex flex-col space-y-3 justify-end bg-blue-900 w-full z-10 p-2 m-0 rounded-b-3xl">
+          <ul className="absolute -top-full right-0 group-focus:top-0 duration-150 flex flex-col space-y-3 justify-end bg-blue-900 w-full z-10 p-2 m-0 rounded-b-xl">
             <div className="flex justify-between">
               <div className="w-36">
                 <img
@@ -73,19 +73,19 @@ const Navbar = () => {
             </div>
             <li
               onClick={() => navigate("/team")}
-              className={`${linkStyle} ${hoverLink} md:w-28 text-center flex justify-center w-full py-4`}
+              className={`${linkStyle} ${hoverLink} md:w-28 text-center flex justify-center w-full py-4 font-press-start`}
             >
               Your Team
             </li>
             <li
               onClick={() => navigate("/pikature")}
-              className={`${linkStyle} ${hoverLink} md:w-36 text-center flex justify-center w-full py-4`}
+              className={`${linkStyle} ${hoverLink} md:w-36 text-center flex justify-center w-full py-4 font-press-start`}
             >
               Take a pika-ture
             </li>
             <li
               onClick={() => navigate("/quiz")}
-              className={`${linkStyle} ${hoverLink} m:dw-24 text-center flex justify-center w-full py-4`}
+              className={`${linkStyle} ${hoverLink} m:dw-24 text-center flex justify-center w-full py-4 font-press-start`}
             >
               PokeQuiz
             </li>
