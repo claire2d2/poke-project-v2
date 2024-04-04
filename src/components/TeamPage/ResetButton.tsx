@@ -43,7 +43,7 @@ const ResetButton = () => {
       <button
         disabled={isEmpty}
         onClick={openResetModal}
-        className="bg-orange-400 p-1 rounded-xl text-white hover:bg-orange-500 transition-all  active:bg-orange-700 active:font-semibold disabled:bg-gray-200"
+        className="bg-orange-400 p-1 rounded-lg text-white hover:bg-orange-500 transition-all  active:bg-orange-700 active:font-semibold disabled:bg-gray-200"
       >
         Reset
       </button>

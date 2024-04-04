@@ -108,7 +108,7 @@ const AllPokemon = () => {
       />
       <div
         className="flex flex-col gap-2 p-2 w-full overflow-y-scroll"
-        style={{ height: "calc(100vh - 99px)" }}
+        // style={{ height: "calc(100vh - 99px)" }}
       >
         <div className="flex flex-col gap-2 md:flex-row justify-between items-end md:items-center">
           <div>

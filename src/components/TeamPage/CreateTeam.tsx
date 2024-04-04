@@ -58,7 +58,7 @@ const CreateTeam = () => {
             <label htmlFor="team-name">Your team's name:</label>
           </div>
           <input
-            className="w-3/4 p-1"
+            className="w-3/4 p-1 border rounded dark:bg-slate-500 dark:border-slate-400"
             id="team-name"
             type="text"
             placeholder="ex: Team Rocket"
@@ -68,7 +68,7 @@ const CreateTeam = () => {
           <button
             // button is disabled if team is incomplete
             disabled={currTeam.length < 6 ? true : false}
-            className="tex-xs mx-1 bg-orange-500 disabled:bg-gray-400 hover:bg-orange-700 text-white font-bold p-1 rounded-lg"
+            className="tex-xs mx-1 bg-orange-500 disabled:bg-gray-400 hover:bg-orange-700 text-white font-bold px-2 py-1 ml-2 rounded"
             onClick={addTeam}
           >
             Add
