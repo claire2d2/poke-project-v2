@@ -3,7 +3,6 @@ import { toPng } from "html-to-image";
 
 import PokePoser from "./PokePoser";
 
-import backendApi from "../../service/backendApi";
 import { pokeTeam } from "../TeamData";
 import { fetchOneTeam } from "../TeamData";
 
@@ -12,7 +11,7 @@ const FinalPicture: React.FC<{
   pokeTeamId: number;
   chosenImg: string;
   closeModal: () => void;
-}> = ({ chosenTrainer, pokeTeamId, chosenImg }) => {
+}> = ({ chosenTrainer, pokeTeamId, chosenImg, closeModal }) => {
   // base for generating image
   const ref = useRef<HTMLDivElement>(null);
 
@@ -45,7 +44,7 @@ const FinalPicture: React.FC<{
     return <div>Loading picture ...</div>;
   }
   return (
-    <div className="p-2">
+    <div className="p-5">
       <div
         ref={ref}
         style={{ height: "500px", width: "800px" }}
@@ -83,10 +82,22 @@ const FinalPicture: React.FC<{
         </div>
       </div>
       <div className="flex flex-col justify-center items-center p-4">
-        <h3 className="text-2xl font-bold text-center">Wonderful!</h3>
-        <p>Do you want to save your picture?</p>
-        <button onClick={onButtonClick}>Save picture</button>
-        <button>Take another picture</button>
+        <h3 className="text-4xl font-bold text-center">Wonderful!</h3>
+        <p className="text-2xl">Do you want to save your picture?</p>
+        <div className="flex gap-4 my-3">
+          <button
+            onClick={onButtonClick}
+            className="bg-green-800 text-white font-semibold text-xl px-4 py-2"
+          >
+            Save picture
+          </button>
+          <button
+            onClick={closeModal}
+            className="bg-yellow-600 text-white text-xl px-4 py-2"
+          >
+            Take another picture
+          </button>
+        </div>
       </div>
     </div>
   );

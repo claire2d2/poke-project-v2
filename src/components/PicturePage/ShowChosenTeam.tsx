@@ -1,29 +1,16 @@
 import React, { useState, useEffect } from "react";
-import backendApi from "../../service/backendApi";
 import SmallSprite from "../TeamPage/SmallSprite";
 
-type pokeTeam = {
-  name: string;
-  isShiny: boolean;
-  members: Array<number>;
-  id: number;
-};
+import { pokeTeam } from "../TeamData";
+import { fetchOneTeam } from "../TeamData";
+
 const ShowChosenTeam: React.FC<{
   chosenTeam: number;
 }> = ({ chosenTeam }) => {
   const [team, setTeam] = useState<pokeTeam | null>(null);
 
-  async function fetchTeamData() {
-    try {
-      const response = await backendApi.get(`/teams/${chosenTeam}`);
-      setTeam(response.data);
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
   useEffect(() => {
-    fetchTeamData();
+    fetchOneTeam(chosenTeam, setTeam);
   }, [chosenTeam]);
   if (!team) {
     return 0;
@@ -31,17 +18,18 @@ const ShowChosenTeam: React.FC<{
 
   return (
     <div className="text-xl flex flex-col gap-4">
-      You chose <span className="font-semibold text-2xl">{team.name}</span>
+      You chose{" "}
+      <span className="font-semibold text-3xl text-red-500">{team.name}</span>
       <div className="flex flex-wrap justify-center items-center mx-auto ">
         {team.members.map((member) => {
           return (
-            <div className="basis-1/2 flex justify-center">
+            <div className="basis-1/2 flex justify-center scale-150">
               <SmallSprite pokeId={member} shinyState={team.isShiny} />
             </div>
           );
         })}
       </div>
-      <p>You're almost there!</p>
+      <p className="text-xl">You're almost there!</p>
     </div>
   );
 };

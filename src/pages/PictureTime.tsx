@@ -1,22 +1,18 @@
 import { useState, useEffect, useRef, ChangeEvent } from "react";
 
+// import components
 import Instruction from "../components/PicturePage/Instruction";
 import backendApi from "../service/backendApi";
-
 import ShowChosenTeam from "../components/PicturePage/ShowChosenTeam";
 import FinalPicture from "../components/PicturePage/FinalPicture";
 
+// import pictures
 import mayImg from "../assets/trainer-may.png";
 import brendanImg from "../assets/trainer-brendan.png";
 import backgroundOneImg from "../assets/background1.jpg";
 import backgroundTwoImg from "../assets/background2.jpg";
 
-type pokeTeam = {
-  name: string;
-  isShiny: boolean;
-  members: Array<number>;
-  id: number;
-};
+import { pokeTeam } from "../components/TeamData";
 
 type choice = {
   name: string;
@@ -91,10 +87,11 @@ const PictureTime = () => {
   const trainerTitle = "my-1 font-bold font-xl";
 
   const bgButtonStyle =
-    "group basis-1/4 hover:scale-105 shadow-lg py-3 px-6 rounded-xl w-full flex flex-col justify-center items-center";
+    "group basis-1/4 hover:scale-105 focus:scale-105 hover:text-blue-800 focus:text-blue-800 shadow-lg py-3 px-6 rounded-xl w-full flex flex-col justify-center items-center";
   const bgImageStyle =
-    "hidden group-hover:block h-3/4 object-cover transition-all";
+    "hidden group-hover:block group-focus:block  h-3/4 object-cover transition-all";
 
+  const chosenChoiceStyle = "font-semibold text-red-500 text-2xl";
   // dialog that opens with image when clicking on cheese
   const pictureModal = useRef<HTMLDialogElement | null>(null);
 
@@ -110,12 +107,12 @@ const PictureTime = () => {
   }
   return (
     <div className="h-full flex flex-col">
-      <h1 className="text-center text-5xl my-3 text-yellow-500 font-bold">
+      <h1 className="text-center text-5xl my-3 text-yellow-500 font-bold drop-shadow-lg">
         It's pikature time!
       </h1>
       <div className="flex flex-col md:flex-row md:h-3/4 w-full my-5  gap-3 justify-center px-10 text-center">
         <Instruction stepName="1. Choose your trainer">
-          <div className="flex m-5 h-3/4 justify-center gap-3">
+          <div className="flex m-5 md:h-3/4 justify-center gap-3">
             <button
               className={`${trainerStyle} ${trainerHover}`}
               onClick={choseBrendan}
@@ -135,14 +132,12 @@ const PictureTime = () => {
             <div className="w-full">
               <p className="text-xl w-full">
                 You chose{" "}
-                <span className="font-semibold text-2xl">
-                  {chosenTrainer.name}
-                </span>
+                <span className={chosenChoiceStyle}>{chosenTrainer.name}</span>
               </p>
-              <p className="my-2">Good choice!</p>
+              <p className="my-2 text-xl">Good choice!</p>
             </div>
           ) : (
-            <p>You haven't chosen a trainer yet</p>
+            <p className="text-xl">You haven't chosen a trainer yet</p>
           )}
         </Instruction>
         <Instruction stepName="2. Choose your team">
@@ -153,12 +148,12 @@ const PictureTime = () => {
               <select
                 id="teamChange"
                 onChange={handleTeamChange}
-                className="capitalize text-xl m-3"
+                className="capitalize lg:text-xl m-3"
               >
                 <option value={0}>Choose a team...</option>
                 {teamList.map((team) => {
                   return (
-                    <option className="capitalize text-xl" value={team.id}>
+                    <option className="capitalize lg:text-xl" value={team.id}>
                       {team.name}
                     </option>
                   );
@@ -181,13 +176,20 @@ const PictureTime = () => {
               <h3 className="font-bold text-2xl">Route 101</h3>
             </button>
             <button onClick={choseBGTwo} className={bgButtonStyle}>
-              <img src={backgroundTwoImg} alt="" className={bgImageStyle} />
+              <img
+                src={backgroundTwoImg}
+                alt=""
+                className={`${bgImageStyle} ${choseBG ? "block" : "hidden"}`}
+              />
               <h3 className="font-bold text-2xl">Forest</h3>
             </button>
             {choseBG ? (
-              <p>You chose {choseBG.name}!</p>
+              <p>
+                You chose{" "}
+                <span className={chosenChoiceStyle}>{choseBG.name}!</span>
+              </p>
             ) : (
-              <p>Please choose a background image</p>
+              <p className="text-xl">Please choose a background image</p>
             )}
           </div>
         </Instruction>
@@ -197,6 +199,7 @@ const PictureTime = () => {
           // disable button if some of the parameters are missing
           disabled={!chosenTrainer || chosenTeam === 0 || !choseBG}
           onClick={openPicModal}
+          className="bg-yellow-500 py-2 px-4 rounded-lg text-white font-bold text-3xl"
         >
           Cheeese!
         </button>
