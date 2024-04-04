@@ -169,15 +169,15 @@ const OnePoke = () => {
   return (
     <div className="p-8 flex flex-col">
       <h1 className={`${titleStyle} capitalize`}>{pokeData?.species.name}</h1>
-      <div className="cardCenter h-4/5 flex flex-col items-center gap-5 py-5 px-10 md:flex-row ">
+      <div className="cardCenter h-4/5 flex flex-col items-center gap-5 py-5 px-10 md:flex-row">
         <div className="leftSide basis-2/5 shadow-lg h-full">
           <img
-            className="mx-auto h-full border dark:border-slate-600 rounded-lg"
+            className="mx-auto h-full border dark:border-slate-500 dark:bg-slate-600 rounded-lg"
             src={pokeData?.sprites.other["official-artwork"].front_default}
             alt={`official artwork  of ${pokeData?.species.name}`}
           />
         </div>
-        <div className="rightSide p-2 flex flex-col md:text-left text-center h-full basis-3/5 border-solid border dark:border-slate-600 rounded-lg">
+        <div className="rightSide p-2 flex flex-col md:text-left text-center h-full basis-3/5 border dark:border-slate-600 rounded-lg">
           {/* Describe here the physical charact of the pokemon */}
           <div className="flex justify-between">
             <h2 className={`${subTitleStyle} dark:text-stone-400`}>
@@ -200,13 +200,10 @@ const OnePoke = () => {
               {pokeData !== null ? pokeData?.weight / 10 : "data loading"} kg
             </PokeAttr>
             <PokeAttr title="Types">
-              <div className="flex justify-center md:justify-start">
+              <div className="flex gap-3 justify-center md:justify-start">
                 {pokeData?.types.map((pokeType) => {
                   return (
-                    <span
-                      className="md:basis-1/6 w-1/3 text-center text-sm mx-1"
-                      key={pokeType.type.name}
-                    >
+                    <span key={pokeType.type.name}>
                       <PokeType typeData={pokeType.type.name} />
                     </span>
                   );
@@ -229,7 +226,11 @@ const OnePoke = () => {
                 PokeDex Entry
               </h2>
               <PokeAttr title="Game">
-                <select onChange={handleGameChange} id="gameChange">
+                <select
+                  onChange={handleGameChange}
+                  id="gameChange"
+                  className="bg-slate-100 dark:bg-slate-600 hover:bg-slate-300 dark:hover:bg-slate-500 rounded-full text-center py-1 cursor-pointer"
+                >
                   {gamesArray.map((game) => {
                     return (
                       <option className="capitalize" value={game}>
@@ -241,9 +242,9 @@ const OnePoke = () => {
               </PokeAttr>
             </div>
 
-            <div className="flex md:flex-row flex-col w-full p-2 md:gap-2 gap-1 border-8 border-double border-gray-100 dark:border-slate-600">
+            <div className="flex md:flex-row md:items-center flex-col w-full p-2 md:gap-2 gap-1 border-8 border-double border-gray-100 dark:border-slate-600">
               <img
-                className="md:basis-1/6 h-20 object-scale-down"
+                className="md:basis-2/6 h-20 object-scale-down"
                 src={
                   pokeGame === "default"
                     ? pokeData?.sprites.front_default
@@ -269,7 +270,7 @@ const OnePoke = () => {
           </div>
         </div>
       </div>
-      <div className="flex md:flex-row flex-col gap-3 md:gap-0 md:justify-center md:justify-between px-10">
+      <div className="flex md:flex-row flex-col gap-3 md:gap-0 justify-center md:justify-between px-10">
         <NavButton disabled={false} color="blue" navTo="/pokemon">
           All Pokémon
         </NavButton>
@@ -290,7 +291,7 @@ const OnePoke = () => {
           </NavButton>
         </div>
 
-        <div className="relative">
+        <div className="relative flex justify-center">
           <button
             onClick={() => handleAddPoke()}
             className="mx-3 bg-yellow-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-yellow-600 hover:border-blue-500 rounded"
