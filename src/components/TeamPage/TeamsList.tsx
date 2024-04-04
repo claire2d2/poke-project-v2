@@ -100,7 +100,7 @@ const TeamsList = () => {
   }
 
   return (
-    <div className="TeamsList h-3/4 overflow-scroll no-scrollbar">
+    <div className="TeamsList h-3/4 overflow-scroll no-scrollbar dark:bg-slate-600">
       <TeamTitle>List of teams</TeamTitle>
       {teamList.length === 0
         ? "No teams at the moment ..."
@@ -112,7 +112,7 @@ const TeamsList = () => {
                   <h3 className="font-bold capitalize text-blue-800 my-1 drop-shadow-sm">
                     {team.name} :
                   </h3>
-                  <div className="relative flex py-2 items-center group bg-white rounded-xl hover:bg-orange-100 shadow-md">
+                  <div className="relative flex py-2 items-center group bg-white dark:bg-stone-300 rounded-xl hover:bg-orange-100 shadow-md">
                     {/* button to delete team if possible, only visible when hovering on the team */}
                     <button
                       onClick={() => handleDelete(team.id)}

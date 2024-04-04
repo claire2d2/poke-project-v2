@@ -36,7 +36,7 @@ const ChosenPoke: React.FC<{ id: number }> = ({ id }) => {
 
   return (
     <div
-      className={`group h-full bg-white w-full p-3 rounded-xl shadow-md flex flex-col justify-center items-center text-center${
+      className={`group h-full bg-white dark:bg-stone-300 w-full p-3 rounded-xl shadow-md flex flex-col justify-center items-center text-center${
         teamFull || !pokeData ? "border-0" : "hover:border border-orange-500"
       }`}
     >

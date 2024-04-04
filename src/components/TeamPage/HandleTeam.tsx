@@ -22,8 +22,8 @@ const HandleTeam: React.FC<{ emptyTeam: emptyTeamElem[] }> = ({
   }, [emptyTeam]);
 
   return (
-    <div className="flex flex-col  overflow-scroll no-scrollbar bg-orange-50 h-full w-full content-center shadow-xl">
-      <div className="flex">
+    <div className="flex flex-col  overflow-scroll no-scrollbar bg-orange-50 dark:bg-slate-600 h-full w-full content-center shadow-xl">
+      <div className="flex p-1">
         {currTeam.map(() => {
           return (
             <div>
