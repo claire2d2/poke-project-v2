@@ -4,7 +4,9 @@ export default {
   theme: {
     fontFamily: {
       "press-start": ['"Press Start 2P"', "sans-serif"],
+      poppins: ["Poppins", "sans-serif"],
     },
+
     extend: {
       height: {
         nav: "50px",

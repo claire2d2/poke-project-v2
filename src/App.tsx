@@ -13,7 +13,7 @@ import QuizPage from "./pages/QuizPage";
 
 function App() {
   return (
-    <div className="App h-screen w-screen">
+    <div className="App h-screen w-screen font-poppins">
       <div className="pages h-full w-full">
         <Routes>
           <Route path="/" element={<Layout />}>
