@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
+import { toPng } from "html-to-image";
+
 import PokePoser from "./PokePoser";
 
 import backendApi from "../../service/backendApi";
@@ -16,6 +18,28 @@ const FinalPicture: React.FC<{
   chosenImg: string;
   closeModal: () => void;
 }> = ({ chosenTrainer, pokeTeamId, chosenImg }) => {
+  // base for generating image
+  const ref = useRef<HTMLDivElement>(null);
+
+  const onButtonClick = useCallback(() => {
+    if (ref.current === null) {
+      return;
+    }
+
+    toPng(ref.current, { cacheBust: true })
+      .then((dataUrl) => {
+        const link = document.createElement("a");
+        link.download = "my-image-name.png";
+        link.href = dataUrl;
+        link.click();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [ref]);
+
+  // get Team data
+
   const [team, setTeam] = useState<pokeTeam | null>(null);
   async function fetchTeamData() {
     try {
@@ -36,6 +60,7 @@ const FinalPicture: React.FC<{
   return (
     <div className="p-2">
       <div
+        ref={ref}
         style={{ height: "500px", width: "800px" }}
         className="Picture relative overflow-hidden w-full mt-3 mx-5"
       >
@@ -73,6 +98,7 @@ const FinalPicture: React.FC<{
       <div className="flex flex-col justify-center items-center p-4">
         <h3 className="text-2xl font-bold text-center">Wonderful!</h3>
         <p>Do you want to save your picture?</p>
+        <button onClick={onButtonClick}>Save picture</button>
         <button>Take another picture</button>
       </div>
     </div>
