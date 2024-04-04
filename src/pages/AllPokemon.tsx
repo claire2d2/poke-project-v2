@@ -137,7 +137,7 @@ const AllPokemon = () => {
             </div>
           </div>
         </div>
-        <div className="grid grid-cols-6 grid-flow-row gap-2">
+        <div className="grid  grid-cols-2 lg:grid-cols-4 xl:grid-cols-6 grid-flow-row gap-2">
           {displayedPoke.map((onePoke) => (
             <div
               key={onePoke.id}

@@ -33,8 +33,8 @@ const FindPoke = () => {
   const [pokeName, setPokeName] = useState<string>("");
   const [pokeList, setPokeList] = useState<Array<PokeObject>>([]);
   const [filtList, setFiltList] = useState<Array<PokeObject>>(pokeList);
-  const [chosenOne, setChosenOne] = useState<number | null>(null);
-  const [showChosen, setShowChosen] = useState<boolean>(true);
+  const [chosenOne, setChosenOne] = useState<number>(0);
+  const [randomPoke, setRandomPoke] = useState<number>(0);
   const debouncedSearch = useDebouncedValue(pokeName, 300);
 
   // change search result dynamically
@@ -57,7 +57,6 @@ const FindPoke = () => {
   // set pokemon list result
   useEffect(() => {
     fetchAllPokemon();
-    setShowChosen(true);
   }, [debouncedSearch]);
 
   // set search result
@@ -72,14 +71,26 @@ const FindPoke = () => {
 
   const iChooseYouPikachu = (id: number) => {
     setChosenOne(id);
-    setShowChosen(false);
+    setFiltList([]);
+  };
+
+  // randomize chosen pokemon
+
+  const generateRandPoke = () => {
+    const randomIndex = Math.floor(Math.random() * pokeList.length);
+    const randomChoice = pokeList.find((poke) => poke.id === randomIndex + 1);
+    if (randomChoice) {
+      setRandomPoke(randomChoice?.id);
+    } else {
+      setRandomPoke(0);
+    }
   };
 
   return (
     <div className="h-full">
       <TeamTitle>Find a pokémon</TeamTitle>
-      <div className="flex flex-col group justify-center items-center">
-        <div className="w-5/6 group-hover:block">
+      <div className="flex flex-col group items-center">
+        <div className="relative w-5/6 h-1/4 my-5">
           <label htmlFor="find-poke">Name of pokémon:</label>
           <input
             className="w-full border-2 border-gray-100 group"
@@ -89,7 +100,7 @@ const FindPoke = () => {
             onChange={handleChange}
             placeholder="Pikachoose..."
           />
-          <ul className="bg-white w-full hidden group-focus-within:block">
+          <ul className="absolute bg-white w-full hidden group-focus-within:block">
             {filtList.length > 15 || pokeName === ""
               ? "Please refine your search"
               : filtList.length === 0
@@ -107,11 +118,24 @@ const FindPoke = () => {
                   );
                 })}
           </ul>
+          <div className="w-full my-3 h-1/4">
+            <ChosenPoke id={chosenOne} />
+          </div>
         </div>
-        <div hidden={showChosen} className="w-5/6 my-3">
-          <ChosenPoke id={chosenOne} />
+      </div>
+      <TeamTitle>Random Pokémon</TeamTitle>
+      <div className="flex flex-col group items-center">
+        <div className="relative w-5/6 h-1/2 my-5">
+          <button
+            onClick={generateRandPoke}
+            className="bg-red-600 py-2 px-1 rounded-lg text-white font-bold my-2"
+          >
+            Generate random pokémon
+          </button>
+          <div className="w-full my-3 h-1/2">
+            <ChosenPoke id={randomPoke} />
+          </div>
         </div>
-        <div>Random pokemon</div>
       </div>
     </div>
   );

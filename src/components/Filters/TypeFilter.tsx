@@ -12,8 +12,8 @@ type FilterData = {
 type Props = {
   type: Filter[];
   setType: React.Dispatch<React.SetStateAction<Filter[]>>;
-  isOpenType: Boolean;
-  setIsOpenType: React.Dispatch<React.SetStateAction<Boolean>>;
+  isOpenType: boolean;
+  setIsOpenType: React.Dispatch<React.SetStateAction<boolean>>;
   setSelectedTypes: (cb: (state: string[]) => string[]) => void;
 };
 

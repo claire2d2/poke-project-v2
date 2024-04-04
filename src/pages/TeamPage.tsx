@@ -1,7 +1,7 @@
-import { useState } from "react";
-
 //import context
 import useTeam from "../context/usePoke";
+
+import { DragEvent } from "react";
 
 // import relevant components
 
@@ -12,9 +12,9 @@ import ResetButton from "../components/TeamPage/ResetButton";
 import ShinyButton from "../components/TeamPage/ShinyButton";
 
 const TeamPage = () => {
-  const { currTeam, setCurrTeam } = useTeam();
+  const { currTeam, setCurrTeam, isShiny } = useTeam();
 
-  let emptyTeam: Array = [];
+  const emptyTeam = [];
 
   for (let i = 0; i < 6 - currTeam.length; i++) {
     emptyTeam.unshift({ num: 0, index: 5 - i });
@@ -22,11 +22,11 @@ const TeamPage = () => {
 
   // test drag and drop
 
-  function handleOnDragOver(e) {
+  function handleOnDragOver(e: DragEvent<HTMLElement>) {
     e.preventDefault();
   }
 
-  function handleOnDrop(e, index) {
+  function handleOnDrop(e: DragEvent<HTMLElement>, index: number) {
     e.preventDefault();
     const data = JSON.parse(e.dataTransfer.getData("text/plain"));
     swapPoke(data, index);
@@ -38,7 +38,6 @@ const TeamPage = () => {
     const toPoke = copy[toPokeIndex];
 
     if (fromPoke && toPoke) {
-      console.log("is this working");
       copy[fromPokeIndex] = toPoke;
       copy[toPokeIndex] = fromPoke;
     }
@@ -47,12 +46,12 @@ const TeamPage = () => {
   }
 
   return (
-    <div className="TeamPage flex h-full w-full items-stretch">
+    <div className="TeamPage flex h-full w-full items-stretch ">
       <div
         // bar the expands when hovering on it
-        className="FindPokemon group w-1/6 bg-gray-200 hover:w-1/6 transition-all"
+        className="FindPokemon h-full group md:w-1/5 md:bg-orange-50 md:hover:w-1/5 transition-all overflow-y-scroll no-scrollbar"
       >
-        <div className="group-hover:block transition-all">
+        <div className="md:group-hover:block transition-all h-full">
           <FindPoke />
         </div>
       </div>
@@ -63,12 +62,7 @@ const TeamPage = () => {
           */}
           <ShinyButton />
         </div>
-        <div className="absolute bottom-2 right-2">
-          {/*
-           Reset button 
-          */}
-          <ResetButton />
-        </div>
+
         {currTeam.map((poke: number, index: number) => {
           return (
             <div
@@ -77,7 +71,7 @@ const TeamPage = () => {
               onDrop={(e) => handleOnDrop(e, index)}
               onDragOver={handleOnDragOver}
             >
-              <TeamMember pokeId={poke} teamIndex={index} />
+              <TeamMember pokeId={poke} teamIndex={index} isShiny={isShiny} />
             </div>
           );
         })}
@@ -85,14 +79,24 @@ const TeamPage = () => {
           ? emptyTeam.map((emp) => {
               return (
                 <div key={emp.index} className="lg:basis-1/4 ">
-                  <TeamMember pokeId={emp.num} teamIndex={emp.index} />
+                  <TeamMember
+                    pokeId={emp.num}
+                    teamIndex={emp.index}
+                    isShiny={isShiny}
+                  />
                 </div>
               );
             })
           : ""}
+        <div className="md:absolute md:bottom-2 md:right-2">
+          {/*
+           Reset button 
+          */}
+          <ResetButton />
+        </div>
       </div>
       <div className="HandleTeam hidden md:basis-1/3 md:flex md:h-full">
-        <HandleTeam />
+        <HandleTeam emptyTeam={emptyTeam} />
       </div>
     </div>
   );
