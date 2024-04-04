@@ -50,7 +50,7 @@ const FilterFavorites: React.FC<Props> = ({
   return (
     <button
       onClick={filterByFavorites}
-      className="transition-all bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-4 rounded-full sticky font-press-start text-xs"
+      className="transition-all bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-4 rounded-full sticky"
     >
       {showFavorites ? "Show all" : "Show favorites"}
     </button>
