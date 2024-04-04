@@ -4,7 +4,8 @@ import backendApi from "../service/backendApi";
 import Sidebar from "../components/Sidebar";
 import PokeCard from "../components/PokeCard";
 import FaveButton from "../components/FaveButton";
-import Dropdown from "../components/Filters/Dropdown";
+import SortFilter from "../components/Filters/SortFilter";
+import FavoriteFilter from "../components/Filters/FavoriteFilter";
 
 // Types
 type favorite = {
@@ -44,9 +45,8 @@ const useDebouncedValue = (inputValue: string, delay: number) => {
 
 // Component
 const AllPokemon = () => {
-  const [pokemon, setPokemon] = useState<Array<PokeObject>>([]);
+  const [pokemon, setPokemon] = useState<PokeObject[]>([]);
   const [search, setSearch] = useState<string>("");
-  const debouncedSearch = useDebouncedValue(search, 300);
   const [favoritePokemonIds, setFavoritePokemonIds] = useState<number[]>([]);
   const [showFavorites, setShowFavorites] = useState<boolean>(false);
   const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
@@ -54,6 +54,8 @@ const AllPokemon = () => {
   const [selectedColors, setSelectedColors] = useState<string[]>([]);
   const [sortBy, setSortBy] = useState<string>("name");
   const [sortByAsc, setSortByAsc] = useState<boolean>(true);
+
+  const debouncedSearch = useDebouncedValue(search, 300);
 
   // Fetch Pokemon data
   const fetchFilteredPokemon = async () => {
@@ -70,56 +72,6 @@ const AllPokemon = () => {
   useEffect(() => {
     fetchFilteredPokemon();
   }, [debouncedSearch]);
-
-  // Sort by name/height/weight
-  const sortPokemon = () => {
-    const sortedPokemon = [...pokemon].sort((a, b) => {
-      if (sortBy === "name") {
-        return sortByAsc
-          ? a.name.localeCompare(b.name)
-          : b.name.localeCompare(a.name);
-      } else if (sortBy === "height") {
-        return sortByAsc ? a.height - b.height : b.height - a.height;
-      } else if (sortBy === "weight") {
-        return sortByAsc ? a.weight - b.weight : b.weight - a.weight;
-      }
-      return 0;
-    });
-    setPokemon(sortedPokemon);
-  };
-
-  useEffect(() => {
-    sortPokemon();
-  }, [sortBy, sortByAsc]);
-
-  // Fetch favorite Pokemon IDs
-  const fetchFavoritePokemonIds = async () => {
-    try {
-      const { data } = await backendApi.get("/favorite");
-      setFavoritePokemonIds(
-        data.map((favorite: favorite) => favorite.pokemonId)
-      );
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  // Filter by favorites
-  const filterByFavorites = () => {
-    if (showFavorites) {
-      fetchFilteredPokemon();
-    } else {
-      const favoritePokemon = pokemon.filter((onePoke) =>
-        favoritePokemonIds.includes(onePoke.id)
-      );
-      setPokemon(favoritePokemon);
-    }
-    setShowFavorites(!showFavorites);
-  };
-
-  useEffect(() => {
-    fetchFavoritePokemonIds();
-  }, []);
 
   // Display filters on front-end
   let displayedPoke;
@@ -145,8 +97,6 @@ const AllPokemon = () => {
     displayedPoke = pokemon;
   }
 
-  const total = displayedPoke.length;
-
   return (
     <div className="flex">
       <Sidebar
@@ -161,46 +111,30 @@ const AllPokemon = () => {
         style={{ height: "calc(100vh - 99px)" }}
       >
         <div className="flex justify-between items-center">
-          <div className="lg:basis-1/5 basis-1/2">
-            <Dropdown
-              options={[
-                {
-                  value: "",
-                  label: "Sort by",
-                  disabled: true,
-                },
-                { value: "nameAsc", label: "Name asc" },
-                { value: "nameDesc", label: "Name desc" },
-                { value: "heightAsc", label: "Height asc" },
-                { value: "heightDesc", label: "Height desc" },
-                { value: "weightAsc", label: "Weight asc" },
-                { value: "weightDesc", label: "Weight desc" },
-              ]}
-              onSelect={(value) => {
-                if (value === "nameAsc" || value === "nameDesc") {
-                  setSortBy("name");
-                  setSortByAsc(value === "nameAsc");
-                  sortPokemon();
-                } else if (value === "heightAsc" || value === "heightDesc") {
-                  setSortBy("height");
-                  setSortByAsc(value === "heightAsc");
-                } else if (value === "weightAsc" || value === "weightDesc") {
-                  setSortBy("weight");
-                  setSortByAsc(value === "weightAsc");
-                } else {
-                  setSortBy("");
-                }
-              }}
-              defaultValue=""
-            />
+          <div>
+            <div>
+              <SortFilter
+                pokemon={pokemon}
+                setPokemon={setPokemon}
+                sortBy={sortBy}
+                setSortBy={setSortBy}
+                sortByAsc={sortByAsc}
+                setSortByAsc={setSortByAsc}
+              />
+            </div>
           </div>
-          <div className="lg:basis-1/5">
-            <button
-              onClick={filterByFavorites}
-              className="transition-all md:w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-4 rounded-full sticky font-press-start text-xs"
-            >
-              {showFavorites ? "Show all" : "Show favorites"}
-            </button>
+          <div className="flex gap-2">
+            <div>
+              <FavoriteFilter
+                pokemon={pokemon}
+                setPokemon={setPokemon}
+                fetchFilteredPokemon={fetchFilteredPokemon}
+                showFavorites={showFavorites}
+                setShowFavorites={setShowFavorites}
+                favoritePokemonIds={favoritePokemonIds}
+                setFavoritePokemonIds={setFavoritePokemonIds}
+              />
+            </div>
           </div>
         </div>
         <div className="grid  grid-cols-2 lg:grid-cols-4 xl:grid-cols-6 grid-flow-row gap-2">
@@ -224,7 +158,7 @@ const AllPokemon = () => {
             </div>
           ))}
         </div>
-        <p>Displayed Pokemon: {total}</p>
+        <p>Displayed Pokemon: {displayedPoke.length}</p>
       </div>
     </div>
   );

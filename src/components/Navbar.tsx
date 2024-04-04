@@ -9,18 +9,18 @@ const Navbar = () => {
   const hoverLink =
     "hover:text-yellow-500 hover:font-bold hover:cursor-pointer";
   return (
-    <nav className="NavBar w-screen h-nav bg-blue-900 text-white flex justify-between">
-      <div className="Logo h-full w-3/5 pl-5">
+    <nav className="w-screen h-nav bg-blue-900 text-white flex justify-between">
+      <div className="h-full w-3/5 pl-5">
         <img
           onClick={() => {
             navigate("/pokemon");
           }}
           src={pokeLogo}
           alt="site logo"
-          className="h-full"
+          className={`h-full ${hoverLink}`}
         />
       </div>
-      <div className="Links flex items-center pr-5">
+      <div className="flex items-center pr-5">
         <ul className="flex flex-row gap-3">
           <li
             onClick={() => navigate("/team")}
