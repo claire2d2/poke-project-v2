@@ -50,21 +50,21 @@ const TeamPage = () => {
       <div
         // bar the expands when hovering on it
 
-        className="FindPokemon group md:w-1/5 md:bg-orange-50 transition-all overflow-y-scroll no-scrollbar pb-20 dark:bg-slate-600"
+        className="FindPokemon group md:w-1/5 md:bg-orange-50 transition-all overflow-y-scroll no-scrollbar pb-16 dark:bg-slate-600"
         style={{ height: "calc(100vh - 50px)" }}
       >
         <div className="hidden md:block transition-all">
           <FindPoke />
         </div>
       </div>
-      <div className="TeamView flex flex-col justify-center relative overflow-scroll no-scrollbar h-full w-full md:basis-2/3  pb-28">
+      <div className="TeamView flex flex-col justify-center relative overflow-scroll no-scrollbar h-full w-full md:basis-2/3 pb-16">
         <div className="absolute top-2 right-2">
           {/* 
           Button to make sprites shiny 
           */}
           <ShinyButton />
         </div>
-        <div className="flex flex-col md:flex-row md:flex-wrap gap-4 items-center justify-around md:justify-center my-3">
+        <div className="flex flex-col md:flex-row md:flex-wrap gap-3 items-center justify-around md:justify-center my-3 mt-36">
           {currTeam.map((poke: number, index: number) => {
             return (
               <div

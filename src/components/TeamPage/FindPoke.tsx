@@ -88,7 +88,7 @@ const FindPoke = () => {
 
   return (
     <div className="h-full">
-      <TeamTitle>Find a pokémon</TeamTitle>
+      <TeamTitle>Find a Pokémon</TeamTitle>
       <div className="flex flex-col group items-center dark:bg-slate-600">
         <div className="relative w-5/6 h-1/4 my-5">
           <label htmlFor="find-poke">Name of Pokémon</label>
