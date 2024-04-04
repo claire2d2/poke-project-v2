@@ -11,9 +11,9 @@ import { TeamTitle } from "./TeamPageStyle";
 
 // import global state and types
 import useTeam from "../../context/usePoke";
-import { pokeTeam } from "./TeamData";
-import { fetchTeams } from "./TeamData";
-import { fetchOneTeam } from "./TeamData";
+import { pokeTeam } from "../TeamData";
+import { fetchTeams } from "../TeamData";
+import { fetchOneTeam } from "../TeamData";
 
 const TeamsList = () => {
   const { currTeam, setCurrTeam, teamToEdit, setTeamToEdit, deleteCheck } =

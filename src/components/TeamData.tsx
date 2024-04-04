@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction } from "react";
-import backendApi from "../../service/backendApi";
+import backendApi from "../service/backendApi";
 
 // type for poketeam data
 export type pokeTeam = {

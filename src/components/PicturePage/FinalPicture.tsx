@@ -4,13 +4,8 @@ import { toPng } from "html-to-image";
 import PokePoser from "./PokePoser";
 
 import backendApi from "../../service/backendApi";
-
-type pokeTeam = {
-  name: string;
-  isShiny: boolean;
-  members: Array<number>;
-  id: number;
-};
+import { pokeTeam } from "../TeamData";
+import { fetchOneTeam } from "../TeamData";
 
 const FinalPicture: React.FC<{
   chosenTrainer: string;
@@ -41,17 +36,9 @@ const FinalPicture: React.FC<{
   // get Team data
 
   const [team, setTeam] = useState<pokeTeam | null>(null);
-  async function fetchTeamData() {
-    try {
-      const response = await backendApi.get(`/teams/${pokeTeamId}`);
-      setTeam(response.data);
-    } catch (error) {
-      console.log(error);
-    }
-  }
 
   useEffect(() => {
-    fetchTeamData();
+    fetchOneTeam(pokeTeamId, setTeam);
   }, [pokeTeamId]);
 
   if (!team) {

@@ -5,7 +5,7 @@ import backendApi from "../../service/backendApi";
 
 // import style
 import { TeamTitle } from "./TeamPageStyle";
-import { pokeTeam } from "./TeamData";
+import { pokeTeam } from "../TeamData";
 
 const EditTeam: React.FC<{ team: pokeTeam }> = ({ team }) => {
   const { currTeam, setCurrTeam, setTeamToEdit, isShiny } = useTeam();
