@@ -20,3 +20,14 @@ export async function fetchTeams(setTeamList: SetTeamList) {
     console.log(error);
   }
 }
+
+type SetTeam = Dispatch<SetStateAction<pokeTeam | null>>;
+
+export async function fetchOneTeam(id: number, setTeam: SetTeam) {
+  try {
+    const response = await backendApi.get(`/teams/${id}`);
+    setTeam(response.data);
+  } catch (error) {
+    console.log(error);
+  }
+}

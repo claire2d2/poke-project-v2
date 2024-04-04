@@ -13,6 +13,7 @@ import { TeamTitle } from "./TeamPageStyle";
 import useTeam from "../../context/usePoke";
 import { pokeTeam } from "./TeamData";
 import { fetchTeams } from "./TeamData";
+import { fetchOneTeam } from "./TeamData";
 
 const TeamsList = () => {
   const { currTeam, setCurrTeam, teamToEdit, setTeamToEdit, deleteCheck } =
@@ -29,15 +30,10 @@ const TeamsList = () => {
   }, [currTeam]);
 
   // handle editing a team
-  async function handleEdit(id: number) {
-    try {
-      const response = await backendApi.get(`/teams/${id}`);
-      setTeamToEdit(response.data);
-    } catch (error) {
-      console.log(error);
-    }
-  }
 
+  const handleEdit = (id: number) => {
+    fetchOneTeam(id, setTeamToEdit);
+  };
   useEffect(() => {
     if (teamToEdit) {
       setCurrTeam(teamToEdit.members);
