@@ -125,12 +125,12 @@ const FindPoke = () => {
       </div>
       <TeamTitle>Random Pokémon</TeamTitle>
       <div className="flex flex-col group items-center">
-        <div className="relative w-5/6 h-1/2 my-5">
+        <div className="relative w-5/6 h-1/2 my-5 flex flex-col justify-center">
           <button
             onClick={generateRandPoke}
             className="bg-red-600 py-2 px-1 rounded-lg text-white font-bold my-2"
           >
-            Generate random pokémon
+            Generaichu
           </button>
           <div className="w-full my-3 h-1/2">
             <ChosenPoke id={randomPoke} />
