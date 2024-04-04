@@ -9,9 +9,13 @@ import useTeam from "../../context/usePoke";
 import pokeballImg from "../../assets/small-pokeball.png";
 import noPokeImg from "../../assets/nopokeball.png";
 
-const HandleTeam: React.FC<{ emptyTeam: number[] }> = ({ emptyTeam }) => {
+type emptyTeamElem = { num: number; index: number };
+
+const HandleTeam: React.FC<{ emptyTeam: emptyTeamElem[] }> = ({
+  emptyTeam,
+}) => {
   const { teamToEdit, currTeam } = useTeam();
-  const [vacancy, setVacancy] = useState<number[]>([]);
+  const [vacancy, setVacancy] = useState<emptyTeamElem[]>([]);
 
   useEffect(() => {
     setVacancy(emptyTeam);
