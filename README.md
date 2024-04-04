@@ -1,30 +1,27 @@
-# React + TypeScript + Vite
+# Pokémon : gotta cache them all!
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project was co-developed by Claire, Ivan and Raphaël during the 262 Ironhack WebDev Cohort using :
 
-Currently, two official plugins are available:
+- Typescript
+- Tailwind
+- My JSON Server for our own backend (repo [here](https://github.com/smnraphael/poke-backend), fake online REST [here](https://poke-backend.adaptable.app/))
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Most of the data and images are sourced directly from the [pokeApi](https://pokeapi.co/api/v2/)
 
-## Expanding the ESLint configuration
+The project is available [here](https://cache-them-all.netlify.app/)
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Features(v1):
 
-- Configure the top-level `parserOptions` property like this:
+- Listing all the first 3 generations of pokémon (Bulbasaur to Deoxys)
+- Filtering and sorting the list of pokémon by name, generation, color, height, weight
+- Favoriting and unfavoriting pokémon
+- Setting up your own pokémon team(s)
+- Taking a snap of your pokémon team(s)
+- A quiz to test your knowledge on pokémon
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+## Next steps :
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+- [] Dark mode
+- [] Mobile responsiveness
+- [] Drag drop moving and resizing on the picture feature
+- [] Gym badges easter eggs

@@ -46,12 +46,12 @@ const TeamPage = () => {
   }
 
   return (
-    <div className="TeamPage flex h-full w-full items-stretch">
+    <div className="TeamPage flex h-full w-full items-stretch ">
       <div
         // bar the expands when hovering on it
-        className="FindPokemon group w-1/6 bg-gray-200 hover:w-1/6 transition-all"
+        className="FindPokemon h-full group md:w-1/5 md:bg-orange-50 md:hover:w-1/5 transition-all overflow-y-scroll no-scrollbar"
       >
-        <div className="group-hover:block transition-all">
+        <div className="md:group-hover:block transition-all h-full">
           <FindPoke />
         </div>
       </div>
@@ -62,12 +62,7 @@ const TeamPage = () => {
           */}
           <ShinyButton />
         </div>
-        <div className="absolute bottom-2 right-2">
-          {/*
-           Reset button 
-          */}
-          <ResetButton />
-        </div>
+
         {currTeam.map((poke: number, index: number) => {
           return (
             <div
@@ -93,9 +88,15 @@ const TeamPage = () => {
               );
             })
           : ""}
+        <div className="md:absolute md:bottom-2 md:right-2">
+          {/*
+           Reset button 
+          */}
+          <ResetButton />
+        </div>
       </div>
       <div className="HandleTeam hidden md:basis-1/3 md:flex md:h-full">
-        <HandleTeam />
+        <HandleTeam emptyTeam={emptyTeam} />
       </div>
     </div>
   );

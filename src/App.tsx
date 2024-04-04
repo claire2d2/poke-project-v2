@@ -13,8 +13,8 @@ import QuizPage from "./pages/QuizPage";
 
 function App() {
   return (
-    <div className="App h-screen">
-      <div className="pages h-full">
+    <div className="App h-screen w-screen">
+      <div className="pages h-full w-full">
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<HomePage />} />
