@@ -8,12 +8,13 @@ import AllPokemon from "./pages/AllPokemon";
 import OnePoke from "./pages/OnePoke";
 import NotFound from "./pages/NotFound";
 import TeamPage from "./pages/TeamPage";
+import PictureTime from "./pages/PictureTime";
 import QuizPage from "./pages/QuizPage";
 
 function App() {
   return (
-    <div className="App h-screen">
-      <div className="pages h-full">
+    <div className="App h-screen w-screen">
+      <div className="pages h-full w-full">
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<HomePage />} />
@@ -22,6 +23,7 @@ function App() {
               <Route path=":pokeId" element={<OnePoke />} />
             </Route>
             <Route path="team" element={<TeamPage />} />
+            <Route path="pikature" element={<PictureTime />} />
             <Route path="quiz" element={<QuizPage />} />
             <Route path="*" element={<NotFound />} />
           </Route>

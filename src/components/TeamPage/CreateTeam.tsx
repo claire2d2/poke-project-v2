@@ -1,35 +1,41 @@
 // import use state and API
-import { useState, useEffect } from "react";
+import { useState, ChangeEvent, MouseEvent } from "react";
 import useTeam from "../../context/usePoke";
 import backendApi from "../../service/backendApi";
+
+// import style
+import { TeamTitle } from "./TeamPageStyle";
 
 type pokeTeam = {
   name: string;
   archived: boolean;
+  isShiny: boolean;
   members: Array<number>;
 };
 
 const CreateTeam = () => {
-  const { currTeam, setCurrTeam } = useTeam();
+  const { currTeam, setCurrTeam, isShiny, setIsShiny } = useTeam();
   const [teamName, setTeamName] = useState<string>("");
 
   // TODO if name exists, error!
 
   // post to backend API when clicking on save button
-  async function addTeam(e) {
+  async function addTeam(e: MouseEvent<HTMLElement>) {
     e.preventDefault();
     // if team isn't full return (button is disabled, but just in case)
     if (currTeam.length < 6) {
       return;
     }
     try {
-      const response = await backendApi.post<pokeTeam>(`/teams`, {
+      await backendApi.post<pokeTeam>(`/teams`, {
         name: teamName,
         archived: true,
+        isShiny: isShiny,
         members: currTeam,
       });
       // empty current team when submitting
       setCurrTeam([]);
+      setIsShiny(false);
       setTeamName("");
     } catch (error) {
       console.log(error);
@@ -38,17 +44,15 @@ const CreateTeam = () => {
 
   // handle the input changes for setting the new team name
 
-  const handleName = (e) => {
-    const value = e.target.value;
+  const handleName = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.currentTarget.value;
     setTeamName(value);
   };
 
   return (
     <div className="CreateTeam">
       <div className="w-full">
-        <h2 className="text-xl font-bold px-5 py-2 my-2 text-white w-full bg-blue-800 shadow-lg">
-          Create a team
-        </h2>
+        <TeamTitle>Create a team</TeamTitle>
         <div className="p-5">
           <div className="mb-3 font-semibold text-lg">
             <label htmlFor="team-name">Your team's name:</label>

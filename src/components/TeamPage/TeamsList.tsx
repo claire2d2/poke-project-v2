@@ -4,19 +4,23 @@ import backendApi from "../../service/backendApi";
 // import team components
 import SmallSprite from "./SmallSprite";
 import editIcon from "../../assets/edit_team.png";
-import deleteIcon from "../../assets/delete_team.png";
+
+// import style
+import { TeamTitle } from "./TeamPageStyle";
 
 // import global state
 import useTeam from "../../context/usePoke";
 
 type pokeTeam = {
+  id: number;
   name: string;
   archived: boolean;
-  members: Array<number>;
+  isShiny: boolean;
+  members: number[];
 };
 
 const TeamsList = () => {
-  const { currTeam, setCurrTeam, setTeamToEdit } = useTeam();
+  const { currTeam, setCurrTeam, setTeamToEdit, setIsShiny } = useTeam();
 
   const [teamList, setTeamList] = useState<Array<pokeTeam>>([]);
   // get the team names, and team members from the backend API
@@ -34,17 +38,26 @@ const TeamsList = () => {
   }, [currTeam]);
 
   // when clicking on edit icon, set current team to the team, set archived to false
+
+  async function updateTeams(id: number) {
+    try {
+      await backendApi.patch(`/teams/${id}`, {
+        archived: true,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
   async function editTeam(id: number) {
     try {
       // sets trying to edit team to archived: false so that it doesn't appear in the teams list
-      const archiveResponse = await backendApi.patch(`/teams/${id}`, {
+      await backendApi.patch(`/teams/${id}`, {
         archived: false,
       });
       // getting the relevant team info to set the chosen team to display
-      const teamResponse = await backendApi.get<Array<pokeTeam>>(
-        `/teams/${id}`
-      );
+      const teamResponse = await backendApi.get<pokeTeam>(`/teams/${id}`);
       setCurrTeam(teamResponse.data.members);
+      setIsShiny(teamResponse.data.isShiny);
       setTeamToEdit(teamResponse.data);
     } catch (error) {
       console.log(error);
@@ -52,12 +65,15 @@ const TeamsList = () => {
   }
 
   const handleEdit = (id: number) => {
+    teamList.forEach((team) => {
+      updateTeams(team.id);
+    });
     editTeam(id);
   };
   // use state to determine which is the current team to delete
   const [teamToDel, setTeamToDel] = useState<number | null>(null);
   // delete teams when clicking on delete button
-  async function deleteTeam(id: number) {
+  async function deleteTeam(id: number | null) {
     try {
       const response = await backendApi.delete<Array<pokeTeam>>(`/teams/${id}`);
       console.log(response);
@@ -68,26 +84,24 @@ const TeamsList = () => {
     }
   }
 
-  const handleDelete = (id: number) => {
+  const handleDelete = (id: number | null) => {
     setTeamToDel(id);
     openDeleteModal();
   };
 
   // dialog to confirm that user does want to delete a team
-  const deleteModal = useRef();
+  const deleteModal = useRef<HTMLDialogElement | null>(null);
 
   function openDeleteModal() {
-    deleteModal.current.showModal();
+    deleteModal.current?.showModal();
   }
   function closeDeleteModal() {
-    deleteModal.current.close();
+    deleteModal.current?.close();
   }
 
   return (
     <div className="TeamsList h-3/4 overflow-scroll no-scrollbar">
-      <h2 className="text-xl font-bold px-5 py-2 my-2 text-white w-full bg-blue-800 shadow-lg">
-        List of teams
-      </h2>
+      <TeamTitle>List of teams</TeamTitle>
       {teamList.length === 0
         ? "No teams at the moment ..."
         : teamList
@@ -109,7 +123,12 @@ const TeamsList = () => {
 
                     <div className="flex items-center">
                       {team.members.map((member: number) => {
-                        return <SmallSprite pokeId={Number(member)} />;
+                        return (
+                          <SmallSprite
+                            pokeId={Number(member)}
+                            shinyState={team.isShiny}
+                          />
+                        );
                       })}
                     </div>
                     {/* edit button */}

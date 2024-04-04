@@ -2,27 +2,43 @@ import CreateTeam from "./CreateTeam";
 import EditTeam from "./EditTeam";
 import TeamsList from "./TeamsList";
 
-import backendApi from "../../service/backendApi";
-
 // import use state
+import { useState, useEffect } from "react";
 import useTeam from "../../context/usePoke";
 
-// import for style
+import pokeballImg from "../../assets/small-pokeball.png";
+import noPokeImg from "../../assets/nopokeball.png";
 
-type pokeTeam = {
-  name: string;
-  archived: boolean;
-  members: Array<number>;
-};
+type emptyTeamElem = { num: number; index: number };
 
-const HandleTeam = () => {
-  const { teamToEdit } = useTeam();
+const HandleTeam: React.FC<{ emptyTeam: emptyTeamElem[] }> = ({
+  emptyTeam,
+}) => {
+  const { teamToEdit, currTeam } = useTeam();
+  const [vacancy, setVacancy] = useState<emptyTeamElem[]>([]);
+
+  useEffect(() => {
+    setVacancy(emptyTeam);
+  }, [emptyTeam]);
+
   return (
     <div className="flex flex-col  overflow-scroll no-scrollbar bg-orange-50 h-full w-full content-center shadow-xl">
-      <h2>
-        Here have pokeballs show up depending on how many are in the current
-        team
-      </h2>
+      <div className="flex">
+        {currTeam.map(() => {
+          return (
+            <div>
+              <img src={pokeballImg} alt="" />
+            </div>
+          );
+        })}
+        {vacancy?.map(() => {
+          return (
+            <div>
+              <img src={noPokeImg} alt="" />
+            </div>
+          );
+        })}
+      </div>
       <div className="w-full">
         {/* if no team to edit, show create team. If team has been chosen to edit, show edit team */}
         {!teamToEdit ? <CreateTeam /> : <EditTeam team={teamToEdit} />}

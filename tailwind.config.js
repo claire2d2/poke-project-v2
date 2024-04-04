@@ -9,6 +9,9 @@ export default {
       height: {
         nav: "50px",
       },
+      backgroundImage: {
+        "background-1": `url("/src/assets/background1.jpg")`,
+      },
     },
   },
   plugins: [],

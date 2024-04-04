@@ -1,94 +1,62 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import backendApi from "../service/backendApi";
 
-// import images for the button
-import faveButtonImg from "../assets/favorited_button.png";
-import unFaveButtonImg from "../assets/unfavorited_button.png";
-
-type pokeObject = {
+type PokeObject = {
+  id: number;
   name: string;
-  url: string;
   favorite: Array<pokeFave> | null;
 };
 
 type pokeFave = { pokemonId: number; id: number };
 
-const FaveButton: React.FC<{ pokeId: number; heartSize: number }> = ({
-  pokeId,
-  heartSize,
-}) => {
-  // testing style
-
-  // state for pokemon data
-  const [currentPoke, setCurrentPoke] = useState<pokeObject>({
-    name: "",
-    url: "",
-    favorite: [],
-  });
-
-  // state to determine if pokemon is fave or not
-  const [isFave, setIsFave] = useState<boolean | null>(null);
-
-  // state to determine if there is data that is being fetched
-
-  const [isFetchingData, setIfFetchingData] = useState<boolean>(false);
-
-  // creating favorites in the concerned pokemon
-  async function fetchCurrentPoke() {
-    try {
-      const { data } = await axios.get(
-        `https://poke-backend.adaptable.app/pokemons/${pokeId}?_embed=favorite`
-      );
-      setCurrentPoke(data);
-      if (data.favorite.length === 1) {
-        setIsFave(true);
-      } else {
-        setIsFave(false);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }
+const FaveButton: React.FC<{
+  isFave: boolean;
+  currPoke: PokeObject | null;
+  heartSize: number;
+}> = ({ isFave, currPoke, heartSize }) => {
+  const [faveState, setFaveState] = useState<boolean>(false);
 
   useEffect(() => {
-    fetchCurrentPoke();
-  }, [pokeId]);
+    setFaveState(isFave);
+  }, [isFave]);
 
-  // handle make the current pokemon favorite
-
-  async function handleFavorite(e) {
+  const handleFavorite = (
+    e: React.MouseEvent<HTMLElement>,
+    faveState: boolean,
+    currPoke: PokeObject | null
+  ) => {
     e.preventDefault();
-    if (!isFave) {
-      makeFavorite();
-      setIsFave(true);
-    } else {
-      deleteFavorite();
-      setIsFave(false);
+    if (currPoke) {
+      if (!faveState) {
+        makeFavorite(currPoke.id);
+        setFaveState(true);
+      } else {
+        deleteFavorite(currPoke);
+        setFaveState(false);
+      }
     }
-  }
+  };
 
-  async function makeFavorite() {
+  async function makeFavorite(currPokeId: number) {
     try {
-      const response = await axios.post(
-        `https://poke-backend.adaptable.app/favorite`,
-        { pokemonId: pokeId }
-      );
+      await backendApi.post(`/favorite`, {
+        pokemonId: currPokeId,
+      });
     } catch (error) {
       console.log(error);
     }
   }
 
-  async function deleteFavorite() {
+  async function deleteFavorite(currPoke: PokeObject) {
     try {
       // Find the index of the favorite object with the matching pokemonId
-      const idToDelete: number = currentPoke.favorite[0].id;
-
-      // Make delete request to delete the favorite
-      const response = await axios.delete(
-        `https://poke-backend.adaptable.app/favorite/${idToDelete}`
-      );
-      console.log("I have deleted a fave");
-      console.log(response);
+      if (currPoke.favorite) {
+        const idToDelete: number = currPoke?.favorite[0].id;
+        // Make delete request to delete the favorite
+        const response = await backendApi.delete(`/favorite/${idToDelete}`);
+        console.log("I have deleted a fave");
+        console.log(response);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -98,8 +66,11 @@ const FaveButton: React.FC<{ pokeId: number; heartSize: number }> = ({
   const unFaveEmoji = "🤍";
   return (
     <div className="Favorite flex">
-      <button onClick={handleFavorite} className={`text-${heartSize}xl flex`}>
-        {isFave ? faveEmoji : unFaveEmoji}
+      <button
+        onClick={(e) => handleFavorite(e, faveState, currPoke)}
+        className={`text-${heartSize}xl flex`}
+      >
+        {faveState ? faveEmoji : unFaveEmoji}
       </button>
     </div>
   );

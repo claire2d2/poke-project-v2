@@ -1,7 +1,10 @@
 // import use state and API
-import { useState, useEffect } from "react";
+import { useState, ChangeEvent, MouseEvent } from "react";
 import useTeam from "../../context/usePoke";
 import backendApi from "../../service/backendApi";
+
+// import style
+import { TeamTitle } from "./TeamPageStyle";
 
 type pokeTeam = {
   id: number;
@@ -11,19 +14,20 @@ type pokeTeam = {
 };
 
 const EditTeam: React.FC<{ team: pokeTeam }> = ({ team }) => {
-  const { currTeam, setCurrTeam, setTeamToEdit } = useTeam();
+  const { currTeam, setCurrTeam, setTeamToEdit, isShiny } = useTeam();
   const [teamName, setTeamName] = useState<string>(team.name);
 
   // post to backend API when clicking on save button
-  async function editTeam(e) {
+  async function editTeam(e: MouseEvent<HTMLElement>) {
     e.preventDefault();
     // if team isn't full return (button is disabled, but just in case)
     if (currTeam.length < 6) {
       return;
     }
     try {
-      const response = await backendApi.patch<pokeTeam>(`/teams/${team.id}`, {
+      await backendApi.patch<pokeTeam>(`/teams/${team.id}`, {
         name: teamName,
+        isShiny: isShiny,
         archived: true,
         members: currTeam,
       });
@@ -38,17 +42,21 @@ const EditTeam: React.FC<{ team: pokeTeam }> = ({ team }) => {
 
   // handle the input changes for changing the current team name
 
-  const handleName = (e) => {
+  const handleName = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setTeamName(value);
   };
 
+  // handle user wanting to create a new team
+
+  const switchToCreate = () => {
+    setTeamToEdit(null);
+    setCurrTeam([]);
+  };
   return (
     <div className="EditTeam">
       <div className="w-full">
-        <h2 className="text-xl font-bold px-5 py-2 my-2 text-white w-full bg-blue-800 shadow-lg">
-          Edit your team
-        </h2>
+        <TeamTitle>Edit your team</TeamTitle>
         <div className="p-5">
           <div className="mb-3 font-semibold text-lg">
             <label htmlFor="team-name">Your team's name:</label>
@@ -67,6 +75,14 @@ const EditTeam: React.FC<{ team: pokeTeam }> = ({ team }) => {
           >
             Save
           </button>
+          <div>
+            <button
+              onClick={() => switchToCreate()}
+              className="bg-orange-500 text-white rounded-lg px-2 py-1 font-semibold mt-3 hover:bg-orange-600"
+            >
+              Create a new team
+            </button>
+          </div>
         </div>
       </div>
     </div>
