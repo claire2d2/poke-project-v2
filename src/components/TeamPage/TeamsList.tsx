@@ -85,7 +85,7 @@ const TeamsList = () => {
                   {team.name} :
                 </h3>
                 <div
-                  className={`relative flex py-2 items-center group bg-white rounded-xl hover:bg-orange-100 dark:bg-slate-500 dark:hover:bg-stone-300 shadow-md ${
+                  className={`relative flex py-2 items-center group bg-white rounded-xl hover:bg-orange-100 dark:bg-slate-500 dark:hover:bg-slate-400 shadow-md ${
                     team.id === teamToEdit?.id
                       ? "bg-cyan-500 hover:bg-cyan-500"
                       : ""
