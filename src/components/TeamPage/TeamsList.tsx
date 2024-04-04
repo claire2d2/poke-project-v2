@@ -30,15 +30,16 @@ const TeamsList = () => {
   }, [currTeam]);
 
   // handle editing a team
-
   const handleEdit = (id: number) => {
     fetchOneTeam(id, setTeamToEdit);
   };
+
   useEffect(() => {
     if (teamToEdit) {
       setCurrTeam(teamToEdit.members);
     }
   }, [teamToEdit]);
+
   // delete teams when clicking on delete button
   async function deleteTeam(id: number | null) {
     try {
@@ -77,8 +78,7 @@ const TeamsList = () => {
   }
 
   return (
-    <div className="TeamsList h-3/4 overflow-scroll no-scrollbar">
-      <TeamTitle>List of teams</TeamTitle>
+    <div className="h-full overflow-scroll no-scrollbar">
       {teamList?.length === 0
         ? "No teams at the moment ..."
         : teamList?.map((team) => {
@@ -101,7 +101,6 @@ const TeamsList = () => {
                   >
                     x
                   </button>
-
                   <div
                     className={`flex items-center ${
                       team.id === teamToEdit?.id ? "scale-105" : ""
