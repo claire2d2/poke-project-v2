@@ -130,7 +130,7 @@ const FindPoke = () => {
             onClick={generateRandPoke}
             className="bg-red-600 py-2 px-1 rounded-lg text-white font-bold my-2"
           >
-            Generate
+            Generaichu
           </button>
           <div className="w-full my-3 h-1/2">
             <ChosenPoke id={randomPoke} />

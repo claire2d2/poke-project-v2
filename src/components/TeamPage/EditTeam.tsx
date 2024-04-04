@@ -50,7 +50,7 @@ const EditTeam: React.FC<{ team: pokeTeam }> = ({ team }) => {
   return (
     <div className="EditTeam">
       <div className="w-full">
-        <TeamTitle>Edit your team</TeamTitle>
+        <TeamTitle>Togedit your team</TeamTitle>
         <div className="p-5">
           <div className="mb-3 font-semibold text-lg">
             <label htmlFor="team-name">Your team's name:</label>
