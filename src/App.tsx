@@ -13,7 +13,7 @@ import QuizPage from "./pages/QuizPage";
 
 function App() {
   return (
-    <div className="App h-screen w-screen">
+    <div className="App h-screen w-screen dark:text-stone-200 dark:bg-slate-700">
       <div className="pages h-full w-full">
         <Routes>
           <Route path="/" element={<Layout />}>

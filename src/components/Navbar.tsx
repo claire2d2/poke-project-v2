@@ -9,11 +9,11 @@ const Navbar = () => {
   const hoverLink =
     "hover:text-yellow-400 hover:font-bold hover:cursor-pointer";
   return (
-    <nav className="w-screen md:h-nav bg-blue-900 text-white flex flex-row justify-between items-center p-2">
+    <nav className="w-screen md:h-nav bg-blue-900 dark:bg-slate-800 text-white flex flex-row justify-between items-center p-2">
       <div className="w-36">
         <img
           onClick={() => {
-            navigate("/pokemon");
+            navigate("/");
           }}
           src={pokeLogo}
           alt="site logo"
@@ -61,7 +61,7 @@ const Navbar = () => {
               <div className="w-36">
                 <img
                   onClick={() => {
-                    navigate("/pokemon");
+                    navigate("/");
                   }}
                   src={pokeLogo}
                   alt="site logo"
