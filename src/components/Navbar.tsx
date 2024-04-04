@@ -7,36 +7,36 @@ const Navbar = () => {
   // style variables
   const linkStyle = "font-semibold";
   const hoverLink =
-    "hover:text-yellow-500 hover:font-bold hover:cursor-pointer";
+    "hover:text-yellow-400 hover:font-bold hover:cursor-pointer";
   return (
-    <nav className="w-screen h-nav bg-blue-900 text-white flex justify-between">
-      <div className="h-full w-3/5 pl-5">
+    <nav className="w-screen md:h-nav bg-blue-900 text-white flex flex-col md:flex-row justify-between items-center p-2 md:px-6">
+      <div className="w-36">
         <img
           onClick={() => {
             navigate("/pokemon");
           }}
           src={pokeLogo}
           alt="site logo"
-          className={`h-full ${hoverLink}`}
+          className={`${hoverLink}`}
         />
       </div>
-      <div className="flex items-center pr-5">
-        <ul className="flex flex-row gap-3">
+      <div>
+        <ul className="flex flex-row">
           <li
             onClick={() => navigate("/team")}
-            className={`${linkStyle} ${hoverLink}`}
+            className={`${linkStyle} ${hoverLink} w-28 text-center`}
           >
             Your Team
           </li>
           <li
             onClick={() => navigate("/pikature")}
-            className={`${linkStyle} ${hoverLink}`}
+            className={`${linkStyle} ${hoverLink} w-36 text-center`}
           >
             Take a pika-ture
           </li>
           <li
             onClick={() => navigate("/quiz")}
-            className={`${linkStyle} ${hoverLink}`}
+            className={`${linkStyle} ${hoverLink} w-24 text-center`}
           >
             PokeQuiz
           </li>

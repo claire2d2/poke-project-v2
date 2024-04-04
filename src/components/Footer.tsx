@@ -1,13 +1,13 @@
 const Footer = () => {
   return (
-    <footer className="flex w-full justify-between px-5 py-3 border-t border-slate-900">
+    <footer className="flex w-full justify-center md:justify-between px-6 py-3 border-t border-blue-900">
       <a
         href="https://github.com/claire2d2/poke-project"
         className="text-blue-900 hover:text-orange-600"
       >
         https://github.com/claire2d2/poke-project
       </a>
-      <div className="hidden sm:flex gap-5">
+      <div className="hidden md:flex gap-5">
         <a
           href="https://www.linkedin.com/in/claireyuansong/"
           target="_blank"
