@@ -19,7 +19,9 @@ const ShowChosenTeam: React.FC<{
   return (
     <div className="text-xl flex flex-col gap-4">
       You chose{" "}
-      <span className="font-semibold text-3xl text-red-500">{team.name}</span>
+      <span className="font-semibold text-3xl text-red-500 dark:text-white">
+        {team.name}
+      </span>
       <div className="flex flex-wrap justify-center items-center mx-auto ">
         {team.members.map((member) => {
           return (
