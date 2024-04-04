@@ -44,7 +44,7 @@ const FinalPicture: React.FC<{
     return <div>Loading picture ...</div>;
   }
   return (
-    <div className="p-5">
+    <div className="p-5 dark:bg-slate-700 dark:text-white">
       <div
         ref={ref}
         style={{ height: "500px", width: "800px" }}
