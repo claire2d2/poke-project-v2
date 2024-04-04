@@ -33,15 +33,15 @@ const QuizPage: React.FC = () => {
       {showModal && (
         <div
           style={{ backgroundImage: `url(${backgroundImage})` }}
-          className="fixed z-10 h-full w-full bg-cover rounded-2xl"
+          className="fixed z-10 h-full w-full bg-cover"
         >
-          <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center">
-            <div className="absolute inset-0 bg-gray-500 opacity-75 rounded-2xl"></div>
+          <div className="flex items-center justify-center h-full pt-4 px-4 pb-20 text-center">
+            <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
 
             <div className="align-bottom bg-white rounded-lg text-left overflow-hidden transform p-10 flex flex-col gap-5">
               <div className="bg-white">
-                <div className="text-center">
-                  <h3 className="text-lg font-press-start font-medium text-gray-900 mb-5">
+                <div className="text-center text-black">
+                  <h3 className="text-lg font-press-start font-medium text-black mb-5">
                     Who's that Pokémon?!
                   </h3>
                   <div className="flex flex-col gap-3 text-center">
@@ -56,7 +56,7 @@ const QuizPage: React.FC = () => {
                   </div>
                 </div>
               </div>
-              <div className="flex flex-row justify-center">
+              <div className="flex flex-row justify-center text-black">
                 <select
                   className="rounded-full"
                   onChange={handleModeChange}

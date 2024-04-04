@@ -146,15 +146,17 @@ const TrainQuiz: React.FC = () => {
           </ul>
         </div>
 
-        <div
-          style={{ backgroundImage: `url(${backgroundImage})` }}
-          className="poke-displayer w-full h-full bg-cover bg-center p-16 rounded-md border-black border-solid border-2"
-        >
+        <div className="relative poke-displayer w-full h-full bg-cover bg-center rounded-md border-black border-solid border-2">
+          <img
+            src={backgroundImage}
+            alt="Who's that Pokémon Background"
+            className="h-full w-full"
+          />
           {pokemonImage && (
             <img
               src={pokemonImage}
               alt={correctAnswer}
-              className="rounded-md"
+              className="rounded-md absolute top-20 left-20"
               style={{
                 filter:
                   correctAnswerSelected || feedback !== ""

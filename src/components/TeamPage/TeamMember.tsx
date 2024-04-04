@@ -38,7 +38,7 @@ const TeamMember: React.FC<{
       draggable="true"
       onDragStart={handleDragStart}
     >
-      <div className="group flex flex-col items-center justify-center h-80 border dark:border-slate-500 dark:bg-slate-600 rounded-xl shadow hover:shadow-lg py-5 px-4 hover:bg-blue-50 transition-all">
+      <div className="group flex flex-col items-center justify-center h-100 border dark:border-slate-500 dark:bg-slate-600 rounded-xl shadow hover:shadow-lg py-5 px-4 hover:bg-blue-50  dark:hover:bg-slate-500 transition-all">
         <h1
           className={pokeId ? "font-semibold" : "font-semibold text-gray-400"}
         >
@@ -47,8 +47,8 @@ const TeamMember: React.FC<{
         <img
           className={`pokeball h-40 w-40 rounded-full m-4 ${
             pokeId
-              ? "bg-orange-100 group-hover:bg-orange-200 group-hover:scale-105 "
-              : "bg-gray-200"
+              ? "bg-orange-100 dark:bg-slate-400 dark:group-hover:bg-slate-300 group-hover:bg-orange-200 group-hover:scale-105 "
+              : "bg-gray-200 dark:bg-gray-400"
           } transition-all`}
           src={
             pokeId
