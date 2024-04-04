@@ -47,7 +47,7 @@ const TeamsList = () => {
       const response = await backendApi.delete<Array<pokeTeam>>(`/teams/${id}`);
       console.log(response);
       fetchTeams(setTeamList);
-      closeDeleteModal();
+      closeDeleteModal(id);
     } catch (error) {
       console.log(error);
     }
@@ -131,7 +131,7 @@ const TeamsList = () => {
                     className="relative p-5 bg-red-50 shadow-md text-center"
                   >
                     <button
-                      onClick={() => closeDeleteModal}
+                      onClick={() => closeDeleteModal(team.id)}
                       className="absolute right-3 top-0 text-red-400 text-sm font-bold"
                     >
                       x
@@ -148,7 +148,7 @@ const TeamsList = () => {
                         Yes
                       </button>
                       <button
-                        onClick={closeDeleteModal}
+                        onClick={() => closeDeleteModal(team.id)}
                         className="bg-gray-300 px-3 rounded-lg hover:bg-red-400 hover:text-white transition-all"
                       >
                         No
