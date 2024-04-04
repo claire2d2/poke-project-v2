@@ -110,7 +110,7 @@ const AllPokemon = () => {
         className="flex flex-col gap-2 p-2 w-full overflow-y-scroll"
         style={{ height: "calc(100vh - 99px)" }}
       >
-        <div className="flex justify-between items-center">
+        <div className="flex flex-col gap-2 md:flex-row justify-between items-end md:items-center">
           <div>
             <div>
               <SortFilter
@@ -137,11 +137,11 @@ const AllPokemon = () => {
             </div>
           </div>
         </div>
-        <div className="grid  grid-cols-2 lg:grid-cols-4 xl:grid-cols-6 grid-flow-row gap-2">
+        <div className="grid grid-cols-2 lg:grid-cols-4 xl:grid-cols-6 grid-flow-row gap-2">
           {displayedPoke.map((onePoke) => (
             <div
               key={onePoke.id}
-              className="flex flex-col items-center gap-1 border rounded shadow hover:shadow-md transition-all"
+              className="flex flex-col items-center gap-1 border dark:border-slate-500 rounded-lg transition-all dark:bg-slate-600"
             >
               <Link to={`/pokemon/${onePoke.id}`}>
                 <div className="flex flex-col w-auto justify-center items-center">

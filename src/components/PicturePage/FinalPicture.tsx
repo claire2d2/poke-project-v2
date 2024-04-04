@@ -1,41 +1,52 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
+import { toPng } from "html-to-image";
+
 import PokePoser from "./PokePoser";
 
-import backendApi from "../../service/backendApi";
-
-type pokeTeam = {
-  name: string;
-  isShiny: boolean;
-  members: Array<number>;
-  id: number;
-};
+import { pokeTeam } from "../TeamData";
+import { fetchOneTeam } from "../TeamData";
 
 const FinalPicture: React.FC<{
   chosenTrainer: string;
   pokeTeamId: number;
   chosenImg: string;
   closeModal: () => void;
-}> = ({ chosenTrainer, pokeTeamId, chosenImg }) => {
-  const [team, setTeam] = useState<pokeTeam | null>(null);
-  async function fetchTeamData() {
-    try {
-      const response = await backendApi.get(`/teams/${pokeTeamId}`);
-      setTeam(response.data);
-    } catch (error) {
-      console.log(error);
+}> = ({ chosenTrainer, pokeTeamId, chosenImg, closeModal }) => {
+  // base for generating image
+  const ref = useRef<HTMLDivElement>(null);
+
+  const onButtonClick = useCallback(() => {
+    if (ref.current === null) {
+      return;
     }
-  }
+
+    toPng(ref.current, { cacheBust: true })
+      .then((dataUrl) => {
+        const link = document.createElement("a");
+        link.download = "my-image-name.png";
+        link.href = dataUrl;
+        link.click();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [ref]);
+
+  // get Team data
+
+  const [team, setTeam] = useState<pokeTeam | null>(null);
 
   useEffect(() => {
-    fetchTeamData();
+    fetchOneTeam(pokeTeamId, setTeam);
   }, [pokeTeamId]);
 
   if (!team) {
     return <div>Loading picture ...</div>;
   }
   return (
-    <div className="p-2">
+    <div className="p-5 dark:bg-slate-700 dark:text-white">
       <div
+        ref={ref}
         style={{ height: "500px", width: "800px" }}
         className="Picture relative overflow-hidden w-full mt-3 mx-5"
       >
@@ -71,9 +82,22 @@ const FinalPicture: React.FC<{
         </div>
       </div>
       <div className="flex flex-col justify-center items-center p-4">
-        <h3 className="text-2xl font-bold text-center">Wonderful!</h3>
-        <p>Do you want to save your picture?</p>
-        <button>Take another picture</button>
+        <h3 className="text-4xl font-bold text-center">Wonderful!</h3>
+        <p className="text-2xl">Do you want to save your picture?</p>
+        <div className="flex gap-4 my-3">
+          <button
+            onClick={onButtonClick}
+            className="bg-green-800 text-white font-semibold text-xl px-4 py-2"
+          >
+            Save picture
+          </button>
+          <button
+            onClick={closeModal}
+            className="bg-yellow-600 text-white text-xl px-4 py-2"
+          >
+            Take another picture
+          </button>
+        </div>
       </div>
     </div>
   );

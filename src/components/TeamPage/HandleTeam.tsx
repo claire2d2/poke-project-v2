@@ -44,7 +44,9 @@ const HandleTeam: React.FC<{ emptyTeam: emptyTeamElem[] }> = ({
         {!teamToEdit ? <CreateTeam /> : <EditTeam team={teamToEdit} />}
       </div>
 
-      <TeamsList />
+      <div className="relative overflow-hidden z-5">
+        <TeamsList />
+      </div>
     </div>
   );
 };
