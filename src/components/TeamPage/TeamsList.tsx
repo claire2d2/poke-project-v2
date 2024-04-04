@@ -80,12 +80,12 @@ const TeamsList = () => {
         ? "No teams at the moment ..."
         : teamList?.map((team) => {
             return (
-              <div className="pl-5 pr-2" key={team.id}>
-                <h3 className="font-bold capitalize text-blue-800 my-1 drop-shadow-sm">
+              <div className="px-5" key={team.id}>
+                <h3 className="font-bold capitalize text-blue-800 dark:text-stone-300 my-1 drop-shadow-sm">
                   {team.name} :
                 </h3>
                 <div
-                  className={`relative flex py-2 items-center group bg-white rounded-xl hover:bg-orange-100 shadow-md ${
+                  className={`relative flex py-2 items-center group bg-white rounded-xl hover:bg-orange-100 dark:bg-stone-200 dark:hover:bg-stone-300 shadow-md ${
                     team.id === teamToEdit?.id
                       ? "bg-cyan-500 hover:bg-cyan-500"
                       : ""
