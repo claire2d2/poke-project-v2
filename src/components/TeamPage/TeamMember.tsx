@@ -38,7 +38,7 @@ const TeamMember: React.FC<{
       draggable="true"
       onDragStart={handleDragStart}
     >
-      <div className="group flex flex-col items-center justify-center max-w-60 border dark:border-slate-500 dark:bg-slate-600 rounded-xl shadow hover:shadow-lg p-4 hover:bg-blue-50 transition-all">
+      <div className="group flex flex-col items-center justify-center h-80 border dark:border-slate-500 dark:bg-slate-600 rounded-xl shadow hover:shadow-lg py-5 px-4 hover:bg-blue-50 transition-all">
         <h1
           className={pokeId ? "font-semibold" : "font-semibold text-gray-400"}
         >
