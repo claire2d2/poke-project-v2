@@ -55,17 +55,23 @@ const TeamsList = () => {
 
   const handleDelete = (id: number | null) => {
     setTeamToDel(id);
-    openDeleteModal();
+    openDeleteModal(id);
   };
 
   // dialog to confirm that user does want to delete a team
-  const deleteModal = useRef<HTMLDialogElement | null>(null);
+  const deleteModals = useRef<(HTMLDialogElement | null)[]>([]);
 
-  function openDeleteModal() {
-    deleteModal.current?.showModal();
+  // dialog to confirm that user does want to delete a team
+  function openDeleteModal(id: number | null) {
+    if (id !== null && deleteModals.current[id]) {
+      deleteModals.current[id]?.showModal();
+    }
   }
-  function closeDeleteModal() {
-    deleteModal.current?.close();
+
+  function closeDeleteModal(id: number | null) {
+    if (id !== null && deleteModals.current[id]) {
+      deleteModals.current[id]?.close();
+    }
   }
 
   return (
@@ -118,11 +124,14 @@ const TeamsList = () => {
                   {/* //! dialog when trying to delete team here */}
                   <dialog
                     key={team.id}
-                    ref={deleteModal}
+                    id={`delete-modal-${team.id}`}
+                    ref={(element) => {
+                      deleteModals.current[team.id] = element; // Store ref in the array
+                    }}
                     className="relative p-5 bg-red-50 shadow-md text-center"
                   >
                     <button
-                      onClick={closeDeleteModal}
+                      onClick={() => closeDeleteModal}
                       className="absolute right-3 top-0 text-red-400 text-sm font-bold"
                     >
                       x
