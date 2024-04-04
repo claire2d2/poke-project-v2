@@ -5,13 +5,7 @@ import backendApi from "../../service/backendApi";
 
 // import style
 import { TeamTitle } from "./TeamPageStyle";
-
-type pokeTeam = {
-  id: number;
-  name: string;
-  archived: boolean;
-  members: Array<number>;
-};
+import { pokeTeam } from "./TeamData";
 
 const EditTeam: React.FC<{ team: pokeTeam }> = ({ team }) => {
   const { currTeam, setCurrTeam, setTeamToEdit, isShiny } = useTeam();
