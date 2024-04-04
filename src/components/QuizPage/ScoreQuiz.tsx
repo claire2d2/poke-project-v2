@@ -144,7 +144,7 @@ const ScoreQuiz: React.FC = () => {
   }, [guesses]);
 
   return (
-    <div className="first-div-returned-by-ScoreQuiz-Component flex flex-col align-center mb-10 h-full p-5">
+    <div className="first-div-returned-by-ScoreQuiz-Component flex flex-col align-center pb-16 p-5">
       <div className="game-container flex flex-row justify-between items-center mb-5 mt-5 h-full">
         <div className="left-part-of-game-container flex flex-col h-full">
           <h1 className="mb-10 text-center font-press-start">
