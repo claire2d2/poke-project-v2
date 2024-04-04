@@ -5,6 +5,7 @@ import Sidebar from "../components/Sidebar";
 import PokeCard from "../components/PokeCard";
 import FaveButton from "../components/FaveButton";
 import Dropdown from "../components/Filters/Dropdown";
+import FilterFavorites from "../components/Filters/FavoriteFilter";
 
 // Types
 type favorite = {
@@ -44,7 +45,7 @@ const useDebouncedValue = (inputValue: string, delay: number) => {
 
 // Component
 const AllPokemon = () => {
-  const [pokemon, setPokemon] = useState<Array<PokeObject>>([]);
+  const [pokemon, setPokemon] = useState<PokeObject[]>([]);
   const [search, setSearch] = useState<string>("");
   const debouncedSearch = useDebouncedValue(search, 300);
   const [favoritePokemonIds, setFavoritePokemonIds] = useState<number[]>([]);
@@ -91,33 +92,6 @@ const AllPokemon = () => {
   useEffect(() => {
     sortPokemon();
   }, [sortBy, sortByAsc]);
-
-  // Fetch favorite Pokemon IDs
-  const fetchFavoritePokemonIds = async () => {
-    try {
-      const { data } = await backendApi.get("/favorite");
-      setFavoritePokemonIds(data.map((favorite: any) => favorite.pokemonId));
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  // Filter by favorites
-  const filterByFavorites = () => {
-    if (showFavorites) {
-      fetchFilteredPokemon();
-    } else {
-      const favoritePokemon = pokemon.filter((onePoke) =>
-        favoritePokemonIds.includes(onePoke.id)
-      );
-      setPokemon(favoritePokemon);
-    }
-    setShowFavorites(!showFavorites);
-  };
-
-  useEffect(() => {
-    fetchFavoritePokemonIds();
-  }, []);
 
   // Display filters on front-end
   let displayedPoke;
@@ -193,12 +167,17 @@ const AllPokemon = () => {
             />
           </div>
           <div className="flex gap-2">
-            <button
-              onClick={filterByFavorites}
-              className="transition-all bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-4 rounded-full sticky font-press-start text-xs"
-            >
-              {showFavorites ? "Show all" : "Show favorites"}
-            </button>
+            <div>
+              <FilterFavorites
+                pokemon={pokemon}
+                setPokemon={setPokemon}
+                fetchFilteredPokemon={fetchFilteredPokemon}
+                showFavorites={showFavorites}
+                setShowFavorites={setShowFavorites}
+                favoritePokemonIds={favoritePokemonIds}
+                setFavoritePokemonIds={setFavoritePokemonIds}
+              />
+            </div>
           </div>
         </div>
         <div className="grid grid-cols-6 grid-flow-row gap-2">
