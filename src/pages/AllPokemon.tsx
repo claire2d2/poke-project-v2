@@ -4,8 +4,8 @@ import backendApi from "../service/backendApi";
 import Sidebar from "../components/Sidebar";
 import PokeCard from "../components/PokeCard";
 import FaveButton from "../components/FaveButton";
-import Dropdown from "../components/Filters/Dropdown";
-import FilterFavorites from "../components/Filters/FavoriteFilter";
+import SortFilter from "../components/Filters/SortFilter";
+import FavoriteFilter from "../components/Filters/FavoriteFilter";
 
 // Types
 type favorite = {
@@ -117,8 +117,6 @@ const AllPokemon = () => {
     displayedPoke = pokemon;
   }
 
-  let total = displayedPoke.length;
-
   return (
     <div className="flex">
       <Sidebar
@@ -134,41 +132,29 @@ const AllPokemon = () => {
       >
         <div className="flex justify-between items-center">
           <div>
-            <Dropdown
-              options={[
-                {
-                  value: "",
-                  label: "Sort by",
-                  disabled: true,
-                },
-                { value: "nameAsc", label: "Name asc" },
-                { value: "nameDesc", label: "Name desc" },
-                { value: "heightAsc", label: "Height asc" },
-                { value: "heightDesc", label: "Height desc" },
-                { value: "weightAsc", label: "Weight asc" },
-                { value: "weightDesc", label: "Weight desc" },
-              ]}
-              onSelect={(value) => {
-                if (value === "nameAsc" || value === "nameDesc") {
-                  setSortBy("name");
-                  setSortByAsc(value === "nameAsc");
-                  sortPokemon();
-                } else if (value === "heightAsc" || value === "heightDesc") {
-                  setSortBy("height");
-                  setSortByAsc(value === "heightAsc");
-                } else if (value === "weightAsc" || value === "weightDesc") {
-                  setSortBy("weight");
-                  setSortByAsc(value === "weightAsc");
-                } else {
-                  setSortBy("");
-                }
-              }}
-              defaultValue=""
-            />
+            <div>
+              <SortFilter
+                onSelect={(value) => {
+                  if (value === "nameAsc" || value === "nameDesc") {
+                    setSortBy("name");
+                    setSortByAsc(value === "nameAsc");
+                    sortPokemon();
+                  } else if (value === "heightAsc" || value === "heightDesc") {
+                    setSortBy("height");
+                    setSortByAsc(value === "heightAsc");
+                  } else if (value === "weightAsc" || value === "weightDesc") {
+                    setSortBy("weight");
+                    setSortByAsc(value === "weightAsc");
+                  } else {
+                    setSortBy("");
+                  }
+                }}
+              />
+            </div>
           </div>
           <div className="flex gap-2">
             <div>
-              <FilterFavorites
+              <FavoriteFilter
                 pokemon={pokemon}
                 setPokemon={setPokemon}
                 fetchFilteredPokemon={fetchFilteredPokemon}
@@ -201,7 +187,7 @@ const AllPokemon = () => {
             </div>
           ))}
         </div>
-        <p>Displayed Pokemon: {total}</p>
+        <p>Displayed Pokemon: {displayedPoke.length}</p>
       </div>
     </div>
   );
