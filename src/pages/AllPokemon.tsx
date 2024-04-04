@@ -47,7 +47,6 @@ const useDebouncedValue = (inputValue: string, delay: number) => {
 const AllPokemon = () => {
   const [pokemon, setPokemon] = useState<PokeObject[]>([]);
   const [search, setSearch] = useState<string>("");
-  const debouncedSearch = useDebouncedValue(search, 300);
   const [favoritePokemonIds, setFavoritePokemonIds] = useState<number[]>([]);
   const [showFavorites, setShowFavorites] = useState<boolean>(false);
   const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
@@ -55,6 +54,8 @@ const AllPokemon = () => {
   const [selectedColors, setSelectedColors] = useState<string[]>([]);
   const [sortBy, setSortBy] = useState<string>("name");
   const [sortByAsc, setSortByAsc] = useState<boolean>(true);
+
+  const debouncedSearch = useDebouncedValue(search, 300);
 
   // Fetch Pokemon data
   const fetchFilteredPokemon = async () => {
@@ -71,27 +72,6 @@ const AllPokemon = () => {
   useEffect(() => {
     fetchFilteredPokemon();
   }, [debouncedSearch]);
-
-  // Sort by name/height/weight
-  const sortPokemon = () => {
-    const sortedPokemon = [...pokemon].sort((a, b) => {
-      if (sortBy === "name") {
-        return sortByAsc
-          ? a.name.localeCompare(b.name)
-          : b.name.localeCompare(a.name);
-      } else if (sortBy === "height") {
-        return sortByAsc ? a.height - b.height : b.height - a.height;
-      } else if (sortBy === "weight") {
-        return sortByAsc ? a.weight - b.weight : b.weight - a.weight;
-      }
-      return 0;
-    });
-    setPokemon(sortedPokemon);
-  };
-
-  useEffect(() => {
-    sortPokemon();
-  }, [sortBy, sortByAsc]);
 
   // Display filters on front-end
   let displayedPoke;
@@ -134,21 +114,12 @@ const AllPokemon = () => {
           <div>
             <div>
               <SortFilter
-                onSelect={(value) => {
-                  if (value === "nameAsc" || value === "nameDesc") {
-                    setSortBy("name");
-                    setSortByAsc(value === "nameAsc");
-                    sortPokemon();
-                  } else if (value === "heightAsc" || value === "heightDesc") {
-                    setSortBy("height");
-                    setSortByAsc(value === "heightAsc");
-                  } else if (value === "weightAsc" || value === "weightDesc") {
-                    setSortBy("weight");
-                    setSortByAsc(value === "weightAsc");
-                  } else {
-                    setSortBy("");
-                  }
-                }}
+                pokemon={pokemon}
+                setPokemon={setPokemon}
+                sortBy={sortBy}
+                setSortBy={setSortBy}
+                sortByAsc={sortByAsc}
+                setSortByAsc={setSortByAsc}
               />
             </div>
           </div>
