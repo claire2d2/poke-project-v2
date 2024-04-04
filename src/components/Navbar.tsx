@@ -9,7 +9,7 @@ const Navbar = () => {
   const hoverLink =
     "hover:text-yellow-500 hover:font-bold hover:cursor-pointer";
   return (
-    <nav className="w-screen h-nav bg-blue-900 text-white flex justify-between">
+    <nav className="w-screen h-nav bg-blue-900 text-white font-press-start flex justify-between">
       <div className="h-full w-3/5 pl-5">
         <img
           onClick={() => {
@@ -21,7 +21,7 @@ const Navbar = () => {
         />
       </div>
       <div className="flex items-center pr-5">
-        <ul className="flex flex-row gap-3">
+        <ul className="[&_li]:border-solid flex flex-row gap-3">
           <li
             onClick={() => navigate("/team")}
             className={`${linkStyle} ${hoverLink}`}
