@@ -49,13 +49,13 @@ const TeamPage = () => {
     <div className="TeamPage flex h-full w-full items-stretch ">
       <div
         // bar the expands when hovering on it
-        className="FindPokemon h-full group md:w-1/5 bg-orange-50 dark:bg-slate-600 md:hover:w-1/5 transition-all overflow-y-scroll no-scrollbar"
+        className="FindPokemon h-full group md:w-1/5 md:bg-orange-50 md:hover:w-1/5 transition-all overflow-y-scroll no-scrollbar"
       >
         <div className="md:group-hover:block transition-all h-full">
           <FindPoke />
         </div>
       </div>
-      <div className="TeamView relative overflow-scroll no-scrollbar h-full w-full md:basis-2/3 flex flex-col md:flex-row md:flex-wrap gap-4 items-center justify-around md:justify-center p-2">
+      <div className="TeamView relative overflow-scroll no-scrollbar h-full w-full md:basis-2/3 flex flex-col md:flex-row md:flex-wrap gap-4 items-center justify-around md:justify-center">
         <div className="absolute top-2 right-2">
           {/* 
           Button to make sprites shiny 

@@ -58,7 +58,7 @@ const CreateTeam = () => {
             <label htmlFor="team-name">Your team's name:</label>
           </div>
           <input
-            className="w-3/4 p-1 rounded-lg dark:bg-slate-500"
+            className="w-3/4 p-1"
             id="team-name"
             type="text"
             placeholder="ex: Team Rocket"

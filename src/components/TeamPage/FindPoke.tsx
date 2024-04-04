@@ -88,12 +88,12 @@ const FindPoke = () => {
 
   return (
     <div className="h-full">
-      <TeamTitle>Find a Pokémon</TeamTitle>
+      <TeamTitle>Find a pokémon</TeamTitle>
       <div className="flex flex-col group items-center">
         <div className="relative w-5/6 h-1/4 my-5">
-          <label htmlFor="find-poke">Name of Pokémon</label>
+          <label htmlFor="find-poke">Name of pokémon:</label>
           <input
-            className="w-full border-2 dark:border-slate-600 dark:bg-slate-500 rounded p-1 group"
+            className="w-full border-2 border-gray-100 group"
             name="find-poke"
             type="text"
             value={pokeName}

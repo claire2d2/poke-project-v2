@@ -16,7 +16,7 @@ const ShinyButton = () => {
         className={`rounded-full h-8 w-8 ${
           isShiny
             ? "bg-rose-400 hover:bg-gray-300 active:bg-gray-500 transition-all"
-            : "bg-gray-100 dark:bg-slate-500 hover:bg-rose-300 active:bg-rose-500 transition-all"
+            : "bg-gray-100 hover:bg-rose-300 active:bg-rose-500 transition-all"
         }`}
       >
         ✨
