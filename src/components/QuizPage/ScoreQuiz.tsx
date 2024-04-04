@@ -162,17 +162,27 @@ const ScoreQuiz: React.FC = () => {
               </li>
             ))}
           </ul>
+          <div className="flex flex-row gap-3 justify-center mt-10">
+            <button
+              className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full w-36"
+              onClick={toggleMute}
+            >
+              {isMuted ? "Unmute" : "Mute"}
+            </button>
+          </div>
         </div>
 
-        <div
-          style={{ backgroundImage: `url(${backgroundImage})` }}
-          className="poke-displayer w-full h-full bg-cover bg-center p-16 rounded-md border-black border-solid border-2"
-        >
+        <div className="relative poke-displayer w-full h-full bg-cover bg-center rounded-md border-black border-solid border-2">
+          <img
+            src={backgroundImage}
+            alt="Who's that Pokémon Background"
+            className="h-full w-full"
+          />
           {pokemonImage && (
             <img
               src={pokemonImage}
               alt={correctAnswer}
-              className="rounded-md"
+              className="rounded-md absolute top-20 left-20"
               style={{
                 filter:
                   correctAnswerSelected || feedback !== ""
@@ -184,22 +194,9 @@ const ScoreQuiz: React.FC = () => {
         </div>
       </div>
       <p className="font-press-start right-0 mb-5 pl-5">
-        {feedback} Score: {score}/10
+        Score: {score}/10 | {feedback}
       </p>
-      <div className="flex flex-row gap-3 justify-end">
-        <button
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full w-48"
-          onClick={reloadPokemon}
-        >
-          Reload Pokémon
-        </button>
-        <button
-          className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full w-36"
-          onClick={toggleMute}
-        >
-          {isMuted ? "Unmute" : "Mute"}
-        </button>
-      </div>
+
       {showModal && (
         <div className="fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-75 flex justify-center items-center">
           <div className="bg-white p-8 rounded-md">
