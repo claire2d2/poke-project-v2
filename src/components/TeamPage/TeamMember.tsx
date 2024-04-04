@@ -38,7 +38,7 @@ const TeamMember: React.FC<{
       draggable="true"
       onDragStart={handleDragStart}
     >
-      <div className="group flex flex-col items-center justify-center max-w-60  border-gray-300 rounded-xl shadow hover:shadow-lg p-4 hover:bg-blue-50  hover:border transition-all">
+      <div className="group flex flex-col items-center justify-center max-w-60 border dark:border-slate-500 dark:bg-slate-600 rounded-xl shadow hover:shadow-lg p-4 hover:bg-blue-50 transition-all">
         <h1
           className={pokeId ? "font-semibold" : "font-semibold text-gray-400"}
         >
@@ -68,7 +68,7 @@ const TeamMember: React.FC<{
           )}
         </h2>
         {pokeId ? (
-          <div className="flex flex-row gap-1">
+          <div className="flex flex-row gap-3">
             {pokeData?.types.map((el: PokeTypeLabel) => {
               return (
                 <span className="scale-125 m-1" key={el.type.name}>
