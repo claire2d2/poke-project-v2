@@ -172,15 +172,17 @@ const OnePoke = () => {
       <div className="cardCenter h-4/5 flex flex-col items-center gap-5 py-5 px-10 md:flex-row ">
         <div className="leftSide basis-2/5 shadow-lg h-full">
           <img
-            className="mx-auto h-full"
+            className="mx-auto h-full border dark:border-slate-600 rounded-lg"
             src={pokeData?.sprites.other["official-artwork"].front_default}
             alt={`official artwork  of ${pokeData?.species.name}`}
           />
         </div>
-        <div className="rightSide flex flex-col md:text-left text-center h-full basis-3/5 border-solid border border-gray-100">
+        <div className="rightSide p-2 flex flex-col md:text-left text-center h-full basis-3/5 border-solid border dark:border-slate-600 rounded-lg">
           {/* Describe here the physical charact of the pokemon */}
           <div className="flex justify-between">
-            <h2 className={subTitleStyle}>Physical characteristics</h2>
+            <h2 className={`${subTitleStyle} dark:text-stone-400`}>
+              Physical characteristics
+            </h2>
 
             <FaveButton
               isFave={
@@ -223,7 +225,9 @@ const OnePoke = () => {
           {/* Here the customisable data */}
           <div className="pokeDex flex flex-col">
             <div className="flex justify-between">
-              <h2 className={subTitleStyle}>PokeDex Entry</h2>
+              <h2 className={`${subTitleStyle} dark:text-stone-400`}>
+                PokeDex Entry
+              </h2>
               <PokeAttr title="Game">
                 <select onChange={handleGameChange} id="gameChange">
                   {gamesArray.map((game) => {
@@ -237,7 +241,7 @@ const OnePoke = () => {
               </PokeAttr>
             </div>
 
-            <div className="flex md:flex-row flex-col w-full m-2 p-2 md:gap-2 gap-1 border-8 border-double border-gray-100">
+            <div className="flex md:flex-row flex-col w-full p-2 md:gap-2 gap-1 border-8 border-double border-gray-100 dark:border-slate-600">
               <img
                 className="md:basis-1/6 h-20 object-scale-down"
                 src={
