@@ -113,7 +113,7 @@ const PictureTime = () => {
       <h1 className="text-center text-5xl my-3 text-yellow-500 font-bold">
         It's pikature time!
       </h1>
-      <div className="flex h-3/4 w-full my-5  gap-3 justify-center px-10 text-center">
+      <div className="flex flex-col md:flex-row md:h-3/4 w-full my-5  gap-3 justify-center px-10 text-center">
         <Instruction stepName="1. Choose your trainer">
           <div className="flex m-5 h-3/4 justify-center gap-3">
             <button

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { PokeData } from "../../components/OnePokeData";
 import pokeApi from "../../service/pokeApi";
 import addTeam from "../../context/usePoke";
+import pokeballImg from "../../assets/empty-pokeball.png";
 
 const ChosenPoke: React.FC<{ id: number }> = ({ id }) => {
   const [pokeData, setPokeData] = useState<PokeData | null>(null);
@@ -35,22 +36,30 @@ const ChosenPoke: React.FC<{ id: number }> = ({ id }) => {
 
   return (
     <div
-      className={`group bg-white w-full p-3 rounded-xl shadow-md flex flex-col justify-center items-center text-center${
-        teamFull ? "border-0" : "hover:border border-orange-500"
+      className={`group h-full bg-white w-full p-3 rounded-xl shadow-md flex flex-col justify-center items-center text-center${
+        teamFull || !pokeData ? "border-0" : "hover:border border-orange-500"
       }`}
     >
-      <h3 className="text-orange-600 text-xl font-bold capitalize ">
-        {pokeData?.species.name}
+      <h3 className="text-orange-600 text-xl font-bold capitalize text-center ">
+        {pokeData ? pokeData.species.name : "No pokemon chosen"}
       </h3>
-      <div>
-        <img
-          className="mx-auto "
-          src={pokeData?.sprites.front_default}
-          alt="sprite"
-        />
+      <div className="flex h-40 items-center justify-center">
+        {pokeData ? (
+          <img
+            className="object-scale-down"
+            src={pokeData.sprites.front_default}
+            alt={`sprite of ${pokeData.species.name}`}
+          />
+        ) : (
+          <img
+            src={pokeballImg}
+            alt="no pokemon chosen"
+            className="object-scale-down scale-50"
+          />
+        )}
       </div>
       <button
-        disabled={teamFull}
+        disabled={teamFull || !pokeData}
         onClick={() => addTeamMemb()}
         className="bg-cyan-600 w-3/4 rounded-lg text-white font-semibold hover:bg-cyan-700 disabled:bg-gray-200"
       >

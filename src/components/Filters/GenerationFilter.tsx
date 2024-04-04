@@ -12,8 +12,8 @@ type FilterData = {
 type Props = {
   generation: Filter[];
   setGeneration: React.Dispatch<React.SetStateAction<Filter[]>>;
-  isOpenGeneration: Boolean;
-  setIsOpenGeneration: React.Dispatch<React.SetStateAction<Boolean>>;
+  isOpenGeneration: boolean;
+  setIsOpenGeneration: React.Dispatch<React.SetStateAction<boolean>>;
   setSelectedGenerations: (cb: (state: string[]) => string[]) => void;
 };
 
