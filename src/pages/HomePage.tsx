@@ -5,7 +5,7 @@ import pokemon from "../assets/homepage-poke.png";
 
 const HomePage = () => {
   const featureTitle =
-    "text-2xl font-bold text-yellow-500 dark:text-white hover:scale-105 hover:text-yellow-500 dark:hover:text-slate-300";
+    "text-2xl font-bold text-yellow-500 dark:text-white flex justify-center";
   return (
     <div className="flex flex-col">
       <div className="Header w-full h-full md:border-b-8 md:border-yellow-500 dark:border-white flex flex-col items-center md:bg-blue-50 md:shadow-lg dark:bg-slate-700">
@@ -19,7 +19,7 @@ const HomePage = () => {
         </h1>
       </div>
 
-      <div className="flex flex-col h-full">
+      <div className="flex flex-col h-full pb-16">
         <div className="Intro flex justify-around md:justify-center md:items-center md:gap-20 h-1/2 md:h-1/4">
           <div className="hidden md:block scale-75">
             <img src={profChenImg} alt="image of Professor Chen" />
@@ -57,32 +57,40 @@ const HomePage = () => {
           <ul className="text-xl mx-5 flex flex-col gap-4">
             <li className="md:text-center">
               <div className={featureTitle}>
-                <Link to="/pokemon">Search through the pokémon</Link>
+                <div className="w-fit hover:scale-105 hover:text-yellow-500 dark:hover:text-slate-300">
+                  <Link to="/pokemon">Search through the Pokémon</Link>
+                </div>
               </div>
               <div>
-                Filter by color, name, type, generation ... whatever floats your
+                Filter by color, name, type, generation... whatever floats your
                 boat!
               </div>
             </li>
             <li className="text-right md:text-center">
               <div className={featureTitle}>
-                <Link to="/team">Create your team</Link>
+                <div className="w-fit hover:scale-105 hover:text-yellow-500 dark:hover:text-slate-300">
+                  <Link to="/team">Create your team</Link>
+                </div>
               </div>
               <div>Make it shiny if you wish</div>
             </li>
             <li className="md:text-center">
               <div className={featureTitle}>
-                <Link to="/pikature">Take a picture</Link>
+                <div className="w-fit hover:scale-105 hover:text-yellow-500 dark:hover:text-slate-300">
+                  <Link to="/pikature">Take a picture</Link>
+                </div>
               </div>
               <div>And save it if you want!</div>
             </li>
             <li className="text-right md:text-center">
               <div className={featureTitle}>
-                <Link to="/quiz">Test your pokémon knowledge</Link>
+                <div className="w-fit hover:scale-105 hover:text-yellow-500 dark:hover:text-slate-300">
+                  <Link to="/quiz">Test your Pokémon knowledge</Link>
+                </div>
               </div>
               <div>
                 Take a trip back in front of your TV to guess who's that
-                pokémon?
+                Pokémon?
               </div>
             </li>
           </ul>

@@ -75,9 +75,9 @@ const TeamsList = () => {
   }
 
   return (
-    <div className="h-full overflow-auto no-scrollbar pb-20">
+    <div className="h-full overflow-auto no-scrollbar pb-16 px-5">
       {teamList?.length === 0
-        ? "No teams at the moment ..."
+        ? "No teams at the moment..."
         : teamList?.map((team) => {
             return (
               <div className="px-5" key={team.id}>

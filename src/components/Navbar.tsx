@@ -27,19 +27,19 @@ const Navbar = () => {
             onClick={() => navigate("/pokemon")}
             className={`${linkStyle} ${hoverLink} w-36 text-center font-press-start text-xs border-r`}
           >
-            PokeDex
+            PokéDex
           </li>
           <li
             onClick={() => navigate("/team")}
             className={`${linkStyle} ${hoverLink} w-36 text-center font-press-start text-xs border-r`}
           >
-            Your Team
+            YourTeam
           </li>
           <li
             onClick={() => navigate("/pikature")}
             className={`${linkStyle} ${hoverLink} w-36 text-center font-press-start text-xs border-r`}
           >
-            Pika-ture
+            PikaTure
           </li>
           <li
             onClick={() => navigate("/quiz")}
@@ -77,19 +77,19 @@ const Navbar = () => {
               onClick={() => navigate("/pokemon")}
               className={`${linkStyle} ${hoverLink} text-center flex justify-center w-full py-4 font-press-start`}
             >
-              PokeDex
+              PokéDex
             </li>
             <li
               onClick={() => navigate("/team")}
               className={`${linkStyle} ${hoverLink} text-center flex justify-center w-full py-4 font-press-start`}
             >
-              Your Team
+              YourTeam
             </li>
             <li
               onClick={() => navigate("/pikature")}
               className={`${linkStyle} ${hoverLink} text-center flex justify-center w-full py-4 font-press-start`}
             >
-              Pika-ture
+              PikaTure
             </li>
             <li
               onClick={() => navigate("/quiz")}
