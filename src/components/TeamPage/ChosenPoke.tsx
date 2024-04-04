@@ -36,11 +36,11 @@ const ChosenPoke: React.FC<{ id: number }> = ({ id }) => {
 
   return (
     <div
-      className={`group h-full bg-white dark:bg-stone-200 w-full p-3 rounded-xl shadow-md flex flex-col justify-center items-center text-center${
+      className={`group h-full bg-white dark:bg-slate-500 w-full p-3 rounded-xl shadow-md flex flex-col justify-center items-center text-center${
         teamFull || !pokeData ? "border-0" : "hover:border border-orange-500"
       }`}
     >
-      <h3 className="text-orange-600 text-xl font-bold capitalize text-center ">
+      <h3 className="text-orange-600 dark:text-white text-xl font-bold capitalize text-center ">
         {pokeData ? pokeData.species.name : "No pokemon chosen"}
       </h3>
       <div className="flex h-40 items-center justify-center">
@@ -61,7 +61,7 @@ const ChosenPoke: React.FC<{ id: number }> = ({ id }) => {
       <button
         disabled={teamFull || !pokeData}
         onClick={() => addTeamMemb()}
-        className="bg-cyan-600 w-3/4 rounded-lg text-white dark:text-slate-900 font-semibold hover:bg-cyan-700 disabled:bg-gray-200"
+        className="bg-cyan-600 dark:bg-orange-500 dark:text-white w-3/4 rounded-lg text-white dark:text-slate-900 font-semibold hover:bg-cyan-700 disabled:bg-gray-200 dark:disabled:bg-slate-300 dark:hover:bg-orange-600"
       >
         Add to team
       </button>

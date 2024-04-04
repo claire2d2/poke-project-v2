@@ -50,47 +50,48 @@ const TeamPage = () => {
       <div
         // bar the expands when hovering on it
 
-        className="FindPokemon group md:w-1/5 md:bg-orange-50 md:hover:w-1/5 transition-all overflow-y-scroll no-scrollbar pb-20 dark:bg-slate-600"
+        className="FindPokemon group md:w-1/5 md:bg-orange-50 transition-all overflow-y-scroll no-scrollbar pb-20 dark:bg-slate-600"
         style={{ height: "calc(100vh - 50px)" }}
       >
-        <div className="md:group-hover:block transition-all">
+        <div className="hidden md:block transition-all">
           <FindPoke />
         </div>
       </div>
-      <div className="TeamView relative overflow-scroll no-scrollbar h-full w-full md:basis-2/3 flex flex-col md:flex-row md:flex-wrap gap-4 items-center justify-around md:justify-center pb-28">
+      <div className="TeamView flex flex-col justify-center relative overflow-scroll no-scrollbar h-full w-full md:basis-2/3  pb-28">
         <div className="absolute top-2 right-2">
           {/* 
           Button to make sprites shiny 
           */}
           <ShinyButton />
         </div>
-
-        {currTeam.map((poke: number, index: number) => {
-          return (
-            <div
-              key={index}
-              className="lg:basis-1/4 "
-              onDrop={(e) => handleOnDrop(e, index)}
-              onDragOver={handleOnDragOver}
-            >
-              <TeamMember pokeId={poke} teamIndex={index} isShiny={isShiny} />
-            </div>
-          );
-        })}
-        {currTeam.length < 6
-          ? emptyTeam.map((emp) => {
-              return (
-                <div key={emp.index} className="lg:basis-1/4 ">
-                  <TeamMember
-                    pokeId={emp.num}
-                    teamIndex={emp.index}
-                    isShiny={isShiny}
-                  />
-                </div>
-              );
-            })
-          : ""}
-        <div className="md:absolute md:bottom-2 md:right-2">
+        <div className="flex flex-col md:flex-row md:flex-wrap gap-4 items-center justify-around md:justify-center my-3">
+          {currTeam.map((poke: number, index: number) => {
+            return (
+              <div
+                key={index}
+                className="lg:basis-1/4 "
+                onDrop={(e) => handleOnDrop(e, index)}
+                onDragOver={handleOnDragOver}
+              >
+                <TeamMember pokeId={poke} teamIndex={index} isShiny={isShiny} />
+              </div>
+            );
+          })}
+          {currTeam.length < 6
+            ? emptyTeam.map((emp) => {
+                return (
+                  <div key={emp.index} className="lg:basis-1/4 ">
+                    <TeamMember
+                      pokeId={emp.num}
+                      teamIndex={emp.index}
+                      isShiny={isShiny}
+                    />
+                  </div>
+                );
+              })
+            : ""}
+        </div>
+        <div className="mx-auto">
           {/*
            Reset button 
           */}
