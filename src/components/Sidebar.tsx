@@ -39,8 +39,8 @@ const Sidebar: React.FC<Props> = ({
   // Component
   return (
     <div
-      className="md:w-64 bg-blue-200 flex flex-col gap-5 p-2 overflow-y-scroll overflow-x-hidden no-scrollbar"
-      style={{ height: "calc(100vh - 99px)" }}
+      className="md:w-64 bg-blue-200 flex flex-col gap-5 p-2 overflow-y-scroll overflow-hidden no-scrollbar"
+      // style={{ height: "calc(100vh - 99px)" }}
     >
       <div className="flex flex-col">
         <h1 className="text-lg font-bold">Search Pokemon</h1>
