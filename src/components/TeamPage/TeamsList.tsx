@@ -6,9 +6,6 @@ import SmallSprite from "./SmallSprite";
 import editIcon from "../../assets/edit_team.png";
 import DeleteTeamModal from "./DeleteTeamModal";
 
-// import style
-import { TeamTitle } from "./TeamPageStyle";
-
 // import global state and types
 import useTeam from "../../context/usePoke";
 import { pokeTeam } from "../TeamData";
