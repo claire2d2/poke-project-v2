@@ -25,27 +25,27 @@ const Navbar = () => {
         <ul className="hidden md:flex md:flex-row">
           <li
             onClick={() => navigate("/pokemon")}
-            className={`${linkStyle} ${hoverLink} w-36 text-center font-press-start text-xs border-r`}
+            className={`${linkStyle} ${hoverLink} w-36 text-center font-press-start text-xs border-r drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)]`}
           >
             PokéDex
           </li>
           <li
             onClick={() => navigate("/team")}
-            className={`${linkStyle} ${hoverLink} w-36 text-center font-press-start text-xs border-r`}
+            className={`${linkStyle} ${hoverLink} w-36 text-center font-press-start text-xs border-r drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)]`}
           >
             YourTeam
           </li>
           <li
             onClick={() => navigate("/pikature")}
-            className={`${linkStyle} ${hoverLink} w-36 text-center font-press-start text-xs border-r`}
+            className={`${linkStyle} ${hoverLink} w-36 text-center font-press-start text-xs border-r drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)]`}
           >
             PikaTure
           </li>
           <li
             onClick={() => navigate("/quiz")}
-            className={`${linkStyle} ${hoverLink} w-36 text-center font-press-start text-xs`}
+            className={`${linkStyle} ${hoverLink} w-36 text-center font-press-start text-xs drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)]`}
           >
-            PokeQuiz
+            PokéQuiz
           </li>
         </ul>
       </div>
