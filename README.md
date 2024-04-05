@@ -21,7 +21,8 @@ The project is available [here](https://cache-them-all.netlify.app/)
 
 ## Next steps :
 
-- [] Dark mode
-- [] Mobile responsiveness
-- [] Drag drop moving and resizing on the picture feature
-- [] Gym badges easter eggs
+- [x] Dark mode
+- [ ] Improve mobile responsiveness
+- [ ] Optimize code
+- [ ] Drag drop moving and resizing on the picture feature
+- [ ] Gym badges easter eggs
