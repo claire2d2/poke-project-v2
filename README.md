@@ -13,15 +13,18 @@ The project is available [here](https://cache-them-all.netlify.app/)
 ## Features(v1):
 
 - Listing all the first 3 generations of pokémon (Bulbasaur to Deoxys)
-- Filtering and sorting the list of pokémon by name, generation, color, height, weight
 - Favoriting and unfavoriting pokémon
-- Setting up your own pokémon team(s)
-- Taking a snap of your pokémon team(s)
-- A quiz to test your knowledge on pokémon
+- Filtering and sorting the list of pokémon by name, generation, color, height, weight, favorites
+- Creating and editing your own pokémon team(s)
+- Taking a snap of your pokémon team(s) with a chosen trainer, team and background
+- A quiz to test your knowledge on pokémon (training mode and test mode)
+- Basic mobile responsiveness and dark mode that follows user system settings
 
 ## Next steps :
 
-- [] Dark mode
-- [] Mobile responsiveness
-- [] Drag drop moving and resizing on the picture feature
-- [] Gym badges easter eggs
+- [x] Dark mode
+- [ ] Possibility for users to log in
+- [ ] Improve mobile responsiveness
+- [ ] Optimize code
+- [ ] Drag drop moving and resizing on the picture feature
+- [ ] Gym badges easter eggs
