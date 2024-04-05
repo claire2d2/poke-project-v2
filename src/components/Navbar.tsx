@@ -1,7 +1,14 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import pokeLogo from "../assets/poke_logo.png";
 
 const Navbar = () => {
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen);
+  };
+
   const navigate = useNavigate();
 
   // style variables
@@ -51,7 +58,7 @@ const Navbar = () => {
       </div>
 
       {/* hamburger menu */}
-      <div className="md:hidden">
+      <div className="md:hidden" onFocus={toggleMenu}>
         <button className="space-y-1 group md:hidden p-2">
           <div className="w-6 h-1 bg-white rounded-full"></div>
           <div className="w-6 h-1 bg-white rounded-full"></div>
@@ -68,7 +75,7 @@ const Navbar = () => {
                   className={`${hoverLink}`}
                 />
               </div>
-              <button className="pr-8">
+              <button className="pr-8" onFocus={toggleMenu}>
                 <div className="w-6 h-1 rotate-45 absolute bg-white rounded-full"></div>
                 <div className="w-6 h-1 -rotate-45 absolute bg-white rounded-full"></div>
               </button>
