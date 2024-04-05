@@ -3,6 +3,9 @@ import axios from "axios";
 import whoIsThatPokemonSound from "../../../public/who-s-that-pokemon.mp3";
 import backgroundImage from "../../../public/who-s-that-pokemon-bg.jpeg";
 
+import useMute from "../../context/usePoke";
+import MuteButton from "./MuteButton";
+
 type PokeImage = {
   other: {
     "official-artwork": {
@@ -35,7 +38,7 @@ const ScoreQuiz: React.FC = () => {
   const [options, setOptions] = useState<string[]>([]);
   const [feedback, setFeedback] = useState<string>("");
   const [pokemonImage, setPokemonImage] = useState<string>("");
-  const [isMuted, setIsMuted] = useState<boolean>(false);
+  const { isMuted } = useMute();
   const [correctAnswerSelected, setCorrectAnswerSelected] =
     useState<boolean>(false);
   const [score, setScore] = useState<number>(0);
@@ -118,10 +121,6 @@ const ScoreQuiz: React.FC = () => {
     setTimeout(() => reloadPokemon(), 2000);
   };
 
-  const toggleMute = () => {
-    setIsMuted((prevMuted) => !prevMuted);
-  };
-
   const reloadPokemon = () => {
     setCorrectAnswer("");
     setOptions([]);
@@ -154,7 +153,7 @@ const ScoreQuiz: React.FC = () => {
           <ul className="leading-10 flex flex-col items-center">
             {options.map((option, index) => (
               <li
-                className="bg-red-500 hover:bg-red-700 text-white font-bold text-xl text-center py-2 px-4 rounded-full w-48 m-1 md:m-5"
+                className="cursor-pointer bg-red-500 hover:bg-red-700 text-white font-bold text-xl text-center py-2 px-4 rounded-full w-48 m-1 md:m-5"
                 key={index}
                 onClick={() => handleAnswerSelection(option)}
               >
@@ -163,12 +162,7 @@ const ScoreQuiz: React.FC = () => {
             ))}
           </ul>
           <div className="flex flex-row gap-3 justify-center my-3 lg:mt-10">
-            <button
-              className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full w-36"
-              onClick={toggleMute}
-            >
-              {isMuted ? "Unmute" : "Mute"}
-            </button>
+            <MuteButton />
           </div>
         </div>
 
