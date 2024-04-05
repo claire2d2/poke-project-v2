@@ -55,10 +55,12 @@ function PokeContextWrapper({ children }: { children: ReactNode }) {
 
   // if checkbox for delete modal has already been checked, set initial value to "true"
 
-  let initialDeleteCheck = true;
-  const deleteInfoChecked = localStorage.getItem("deleteInfoChecked");
-  if (deleteInfoChecked !== null) {
-    initialDeleteCheck = JSON.parse(deleteInfoChecked);
+  let initialDeleteCheck = false;
+  if (localStorage.getItem("deleteInfoChecked")) {
+    const history = localStorage.getItem("deleteInfoChecked");
+    if (history !== null) {
+      initialDeleteCheck = JSON.parse(history);
+    }
   }
 
   // if user has already muted sound, check info here
@@ -103,6 +105,10 @@ function PokeContextWrapper({ children }: { children: ReactNode }) {
     }
   }
 
+  // state to know whether the delete modal has been checked or not
+
+  const [deleteCheck, setDeleteCheck] = useState<boolean>(initialDeleteCheck);
+
   // state to know whether the user has muted the sound or not
 
   const [isMuted, setIsMuted] = useState<boolean>(initialMute);
@@ -131,6 +137,10 @@ function PokeContextWrapper({ children }: { children: ReactNode }) {
   useEffect(() => {
     localStorage.setItem("IsShiny", JSON.stringify(isShiny));
   }, [isShiny]);
+
+  useEffect(() => {
+    localStorage.setItem("deleteInfoChecked", JSON.stringify(deleteCheck));
+  }, [deleteCheck]);
 
   useEffect(() => {
     localStorage.setItem("IsMuted", JSON.stringify(isMuted));
@@ -169,10 +179,6 @@ function PokeContextWrapper({ children }: { children: ReactNode }) {
     copy.splice(index, 1);
     setCurrTeam(copy);
   }
-
-  // state to know whether the delete modal has been checked or not
-
-  const [deleteCheck, setDeleteCheck] = useState<boolean>(initialDeleteCheck);
 
   return (
     <PokeContext.Provider
