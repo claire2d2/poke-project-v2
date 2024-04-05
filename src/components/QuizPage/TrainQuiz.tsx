@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+
+import useMute from "../../context/usePoke";
+import MuteButton from "./MuteButton";
+
 import whoIsThatPokemonSound from "../../../public/who-s-that-pokemon.mp3";
 import backgroundImage from "../../../public/who-s-that-pokemon-bg.jpeg";
 
@@ -35,9 +39,9 @@ const TrainQuiz: React.FC = () => {
   const [options, setOptions] = useState<string[]>([]);
   const [feedback, setFeedback] = useState<string>("");
   const [pokemonImage, setPokemonImage] = useState<string>("");
-  const [isMuted, setIsMuted] = useState<boolean>(false);
   const [correctAnswerSelected, setCorrectAnswerSelected] =
     useState<boolean>(false);
+  const { isMuted } = useMute();
 
   useEffect(() => {
     const fetchPokemonList = async () => {
@@ -112,10 +116,6 @@ const TrainQuiz: React.FC = () => {
     }
   };
 
-  const toggleMute = () => {
-    setIsMuted((prevMuted) => !prevMuted);
-  };
-
   const reloadPokemon = () => {
     setCorrectAnswer("");
     setOptions([]);
@@ -126,17 +126,17 @@ const TrainQuiz: React.FC = () => {
   };
 
   return (
-    <div className="first-div-returned-by-TrainQuiz-Component flex flex-col align-center mb-10 h-full p-5">
-      <div className="game-container flex flex-row justify-between items-center mb-5 mt-5 h-full">
+    <div className="first-div-returned-by-TrainQuiz-Component flex flex-col align-center pb-20 p-5">
+      <div className="game-container flex flex-col md:flex-row justify-between items-center mb-5 mt-5 h-full">
         <div className="left-part-of-game-container flex flex-col h-full">
-          <h1 className="mb-10 text-center font-press-start">
+          <h1 className="my-3 md:mb-10 text-center font-press-start">
             Who's that Pokemon?!
           </h1>
 
-          <ul className="leading-10">
+          <ul className="leading-10 flex flex-col items-center mb-2 lg:mb-0">
             {options.map((option, index) => (
               <li
-                className="bg-red-500 hover:bg-red-700 text-white font-bold text-xl text-center py-2 px-4 rounded-full w-48 m-5"
+                className=" cursor-pointer bg-red-500 hover:bg-red-700 text-white font-bold text-xl text-center py-2 px-4 rounded-full w-48 m-1 lg:m-5"
                 key={index}
                 onClick={() => handleAnswerSelection(option)}
               >
@@ -144,9 +144,18 @@ const TrainQuiz: React.FC = () => {
               </li>
             ))}
           </ul>
+          <div className="flex flex-col gap-3 justify-center items-center mt-10">
+            <button
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full w-48"
+              onClick={reloadPokemon}
+            >
+              Reload Pokémon
+            </button>
+            <MuteButton />
+          </div>
         </div>
 
-        <div className="relative poke-displayer w-full h-full bg-cover bg-center rounded-md border-black border-solid border-2">
+        <div className="relative poke-displayer w-4/5 h-4/5 bg-cover bg-center rounded-lg border-black dark:border-slate-500 border-solid border-2">
           <img
             src={backgroundImage}
             alt="Who's that Pokémon Background"
@@ -156,7 +165,7 @@ const TrainQuiz: React.FC = () => {
             <img
               src={pokemonImage}
               alt={correctAnswer}
-              className="rounded-md absolute top-20 left-20"
+              className="scale-50 -top-20 -left-20 lg:scale-95 absolute lg:top-0 lg:left-0"
               style={{
                 filter:
                   correctAnswerSelected || feedback !== ""
@@ -168,20 +177,6 @@ const TrainQuiz: React.FC = () => {
         </div>
       </div>
       <p className="font-press-start right-0 mb-5 pl-5">{feedback}</p>
-      <div className="flex flex-row gap-3 justify-end">
-        <button
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full w-48"
-          onClick={reloadPokemon}
-        >
-          Reload Pokémon
-        </button>
-        <button
-          className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full w-36"
-          onClick={toggleMute}
-        >
-          {isMuted ? "Unmute" : "Mute"}
-        </button>
-      </div>
     </div>
   );
 };

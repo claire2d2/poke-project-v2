@@ -98,7 +98,10 @@ const AllPokemon = () => {
   }
 
   return (
-    <div className="flex">
+    <div
+      className="flex overflow-scroll no-scrollbar "
+      style={{ height: "calc(100vh - 50px)" }}
+    >
       <Sidebar
         search={search}
         setSearch={setSearch}
@@ -107,7 +110,7 @@ const AllPokemon = () => {
         setSelectedColors={setSelectedColors}
       />
       <div
-        className="flex flex-col gap-2 p-2 w-full overflow-y-scroll"
+        className="flex flex-col gap-2 p-2 w-full overflow-y-scroll no-scrollbar pb-16"
         // style={{ height: "calc(100vh - 99px)" }}
       >
         <div className="flex flex-col gap-2 md:flex-row justify-between items-end md:items-center">

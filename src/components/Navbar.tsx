@@ -25,38 +25,44 @@ const Navbar = () => {
         <ul className="hidden md:flex md:flex-row">
           <li
             onClick={() => navigate("/pokemon")}
-            className={`${linkStyle} ${hoverLink} w-36 text-center font-press-start text-xs border-r`}
+            className={`${linkStyle} ${hoverLink} w-36 text-center font-press-start text-xs border-r drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)]`}
           >
-            PokeDex
+            PokéDex
           </li>
           <li
             onClick={() => navigate("/team")}
-            className={`${linkStyle} ${hoverLink} w-36 text-center font-press-start text-xs border-r`}
+            className={`${linkStyle} ${hoverLink} w-36 text-center font-press-start text-xs border-r drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)]`}
           >
-            Your Team
+            YourTeam
           </li>
           <li
             onClick={() => navigate("/pikature")}
-            className={`${linkStyle} ${hoverLink} w-36 text-center font-press-start text-xs border-r`}
+            className={`${linkStyle} ${hoverLink} w-36 text-center font-press-start text-xs border-r drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)]`}
           >
-            Pika-ture
+            PikaTure
           </li>
           <li
             onClick={() => navigate("/quiz")}
-            className={`${linkStyle} ${hoverLink} w-36 text-center font-press-start text-xs`}
+            className={`${linkStyle} ${hoverLink} w-36 text-center font-press-start text-xs drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)]`}
           >
-            PokeQuiz
+            PokéQuiz
           </li>
         </ul>
       </div>
 
       {/* hamburger menu */}
       <div className="md:hidden">
-        <button className="space-y-1 group md:hidden p-2">
+        <button
+          className="space-y-1 group md:hidden p-2"
+          onClick={(e) => e.stopPropagation()}
+        >
           <div className="w-6 h-1 bg-white rounded-full"></div>
           <div className="w-6 h-1 bg-white rounded-full"></div>
           <div className="w-6 h-1 bg-white rounded-full"></div>
-          <ul className="absolute -top-full right-0 group-focus:top-0 duration-150 flex flex-col justify-end bg-blue-900 dark:bg-slate-800 w-full z-10 p-2 m-0 rounded-b-xl">
+          <ul
+            className="absolute -top-full right-0 group-focus:top-0 duration-150 flex flex-col justify-end bg-blue-900 dark:bg-slate-800 w-full z-10 p-2 m-0 rounded-b-xl"
+            onClick={(e) => e.stopPropagation()}
+          >
             <div className="flex justify-between">
               <div className="w-36">
                 <img
@@ -68,7 +74,7 @@ const Navbar = () => {
                   className={`${hoverLink}`}
                 />
               </div>
-              <button className="pr-8">
+              <button className="pr-8" onClick={(e) => e.stopPropagation()}>
                 <div className="w-6 h-1 rotate-45 absolute bg-white rounded-full"></div>
                 <div className="w-6 h-1 -rotate-45 absolute bg-white rounded-full"></div>
               </button>
@@ -77,19 +83,19 @@ const Navbar = () => {
               onClick={() => navigate("/pokemon")}
               className={`${linkStyle} ${hoverLink} text-center flex justify-center w-full py-4 font-press-start`}
             >
-              PokeDex
+              PokéDex
             </li>
             <li
               onClick={() => navigate("/team")}
               className={`${linkStyle} ${hoverLink} text-center flex justify-center w-full py-4 font-press-start`}
             >
-              Your Team
+              YourTeam
             </li>
             <li
               onClick={() => navigate("/pikature")}
               className={`${linkStyle} ${hoverLink} text-center flex justify-center w-full py-4 font-press-start`}
             >
-              Pika-ture
+              PikaTure
             </li>
             <li
               onClick={() => navigate("/quiz")}
