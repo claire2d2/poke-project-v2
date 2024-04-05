@@ -1,14 +1,7 @@
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import pokeLogo from "../assets/poke_logo.png";
 
 const Navbar = () => {
-  const [menuOpen, setMenuOpen] = useState(false);
-
-  const toggleMenu = () => {
-    setMenuOpen(!menuOpen);
-  };
-
   const navigate = useNavigate();
 
   // style variables
@@ -58,12 +51,18 @@ const Navbar = () => {
       </div>
 
       {/* hamburger menu */}
-      <div className="md:hidden" onFocus={toggleMenu}>
-        <button className="space-y-1 group md:hidden p-2">
+      <div className="md:hidden">
+        <button
+          className="space-y-1 group md:hidden p-2"
+          onClick={(e) => e.stopPropagation()}
+        >
           <div className="w-6 h-1 bg-white rounded-full"></div>
           <div className="w-6 h-1 bg-white rounded-full"></div>
           <div className="w-6 h-1 bg-white rounded-full"></div>
-          <ul className="absolute -top-full right-0 group-focus:top-0 duration-150 flex flex-col justify-end bg-blue-900 dark:bg-slate-800 w-full z-10 p-2 m-0 rounded-b-xl">
+          <ul
+            className="absolute -top-full right-0 group-focus:top-0 duration-150 flex flex-col justify-end bg-blue-900 dark:bg-slate-800 w-full z-10 p-2 m-0 rounded-b-xl"
+            onClick={(e) => e.stopPropagation()}
+          >
             <div className="flex justify-between">
               <div className="w-36">
                 <img
@@ -75,7 +74,7 @@ const Navbar = () => {
                   className={`${hoverLink}`}
                 />
               </div>
-              <button className="pr-8" onFocus={toggleMenu}>
+              <button className="pr-8" onClick={(e) => e.stopPropagation()}>
                 <div className="w-6 h-1 rotate-45 absolute bg-white rounded-full"></div>
                 <div className="w-6 h-1 -rotate-45 absolute bg-white rounded-full"></div>
               </button>
