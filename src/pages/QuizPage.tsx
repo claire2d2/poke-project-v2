@@ -1,8 +1,12 @@
 import React, { useState } from "react";
+
 import whoIsThatPokemonSound from "../../public/who-s-that-pokemon.mp3";
 import backgroundImage from "../../public/who-s-that-pokemon-bg.jpeg";
 import TrainQuiz from "../components/QuizPage/TrainQuiz";
 import ScoreQuiz from "../components/QuizPage/ScoreQuiz";
+
+import useMute from "../context/usePoke";
+import MuteButton from "../components/QuizPage/MuteButton";
 
 function playWhoIsThatPokemonSound(isMuted: boolean) {
   if (!isMuted) {
@@ -11,16 +15,12 @@ function playWhoIsThatPokemonSound(isMuted: boolean) {
 }
 
 const QuizPage: React.FC = () => {
-  const [isMuted, setIsMuted] = useState<boolean>(false);
   const [showModal, setShowModal] = useState<boolean>(true);
   const [mode, setMode] = useState<string>("score");
+  const { isMuted } = useMute();
 
   const handleModeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setMode(e.target.value);
-  };
-
-  const toggleMute = () => {
-    setIsMuted((prevMuted) => !prevMuted);
   };
 
   const handlePlayClick = () => {
@@ -36,14 +36,10 @@ const QuizPage: React.FC = () => {
           className="z-10 h-full w-full bg-cover"
         >
           <div className="flex items-center justify-center h-full pt-4 px-4 pb-20 text-center">
-
-            <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
-
             <div className="align-bottom bg-white dark:bg-slate-700 rounded-lg text-left overflow-hidden transform p-10 flex flex-col gap-5">
               <div>
                 <div className="text-center text-black">
                   <h3 className="text-lg font-press-start font-medium text-black dark:text-white mb-5">
-
                     Who's that Pokémon?!
                   </h3>
                   <div className="flex flex-col gap-3 text-center text-white">
@@ -59,9 +55,7 @@ const QuizPage: React.FC = () => {
                 </div>
               </div>
 
-
               <div className="flex flex-row justify-center text-black dark:bg-slate-700">
-
                 <select
                   className="rounded-full dark:bg-slate-700 dark:text-white"
                   onChange={handleModeChange}
@@ -77,13 +71,7 @@ const QuizPage: React.FC = () => {
                 >
                   Play
                 </button>
-                <button
-                  onClick={toggleMute}
-                  type="button"
-                  className="w-full inline-flex justify-center rounded-full border border-transparent shadow-sm px-4 py-2 bg-gray-500 text-base font-medium text-white hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 sm:ml-3 sm:w-auto sm:text-sm"
-                >
-                  {isMuted ? "Unmute" : "Mute"}
-                </button>
+                <MuteButton />
               </div>
             </div>
           </div>

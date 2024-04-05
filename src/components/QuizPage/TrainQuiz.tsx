@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+
+import useMute from "../../context/usePoke";
+import MuteButton from "./MuteButton";
+
 import whoIsThatPokemonSound from "../../../public/who-s-that-pokemon.mp3";
 import backgroundImage from "../../../public/who-s-that-pokemon-bg.jpeg";
 
@@ -35,9 +39,9 @@ const TrainQuiz: React.FC = () => {
   const [options, setOptions] = useState<string[]>([]);
   const [feedback, setFeedback] = useState<string>("");
   const [pokemonImage, setPokemonImage] = useState<string>("");
-  const [isMuted, setIsMuted] = useState<boolean>(false);
   const [correctAnswerSelected, setCorrectAnswerSelected] =
     useState<boolean>(false);
+  const { isMuted } = useMute();
 
   useEffect(() => {
     const fetchPokemonList = async () => {
@@ -112,10 +116,6 @@ const TrainQuiz: React.FC = () => {
     }
   };
 
-  const toggleMute = () => {
-    setIsMuted((prevMuted) => !prevMuted);
-  };
-
   const reloadPokemon = () => {
     setCorrectAnswer("");
     setOptions([]);
@@ -136,7 +136,7 @@ const TrainQuiz: React.FC = () => {
           <ul className="leading-10 flex flex-col items-center mb-2 lg:mb-0">
             {options.map((option, index) => (
               <li
-                className="bg-red-500 hover:bg-red-700 text-white font-bold text-xl text-center py-2 px-4 rounded-full w-48 m-1 lg:m-5"
+                className=" cursor-pointer bg-red-500 hover:bg-red-700 text-white font-bold text-xl text-center py-2 px-4 rounded-full w-48 m-1 lg:m-5"
                 key={index}
                 onClick={() => handleAnswerSelection(option)}
               >
@@ -175,12 +175,7 @@ const TrainQuiz: React.FC = () => {
         >
           Reload Pokémon
         </button>
-        <button
-          className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full w-36"
-          onClick={toggleMute}
-        >
-          {isMuted ? "Unmute" : "Mute"}
-        </button>
+        <MuteButton />
       </div>
     </div>
   );

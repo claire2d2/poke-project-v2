@@ -26,12 +26,16 @@ type PokeContextType = {
   makeItShiny: (isShiny: boolean) => void;
   deleteCheck: boolean;
   setDeleteCheck: React.Dispatch<React.SetStateAction<boolean>>;
+  isMuted: boolean;
+  setIsMuted: React.Dispatch<React.SetStateAction<boolean>>;
+  toggleMute: (isMute: boolean) => void;
 };
 
 export const PokeContext = createContext<PokeContextType | null>(null);
 
 function PokeContextWrapper({ children }: { children: ReactNode }) {
   // if team already exists, we keep it even if page is refreshed
+
   let initialTeam: Array<number> = [];
   if (localStorage.getItem("currPokeTeam")) {
     const history = localStorage.getItem("currPokeTeam");
@@ -51,10 +55,21 @@ function PokeContextWrapper({ children }: { children: ReactNode }) {
 
   // if checkbox for delete modal has already been checked, set initial value to "true"
 
-  let initialDeleteCheck = false;
+  let initialDeleteCheck = true;
   const deleteInfoChecked = localStorage.getItem("deleteInfoChecked");
   if (deleteInfoChecked !== null) {
     initialDeleteCheck = JSON.parse(deleteInfoChecked);
+  }
+
+  // if user has already muted sound, check info here
+
+  let initialMute: boolean = true;
+
+  if (localStorage.getItem("IsMuted")) {
+    const history = localStorage.getItem("IsMuted");
+    if (history !== null) {
+      initialMute = JSON.parse(history);
+    }
   }
 
   // states to check on the team status : useful for when adding pokemon to the team
@@ -88,6 +103,18 @@ function PokeContextWrapper({ children }: { children: ReactNode }) {
     }
   }
 
+  // state to know whether the user has muted the sound or not
+
+  const [isMuted, setIsMuted] = useState<boolean>(initialMute);
+
+  function toggleMute() {
+    if (isMuted) {
+      setIsMuted(false);
+    } else {
+      setIsMuted(true);
+    }
+  }
+
   // update local storage to store the current team and team status every time it is changed
   useEffect(() => {
     localStorage.setItem("currPokeTeam", JSON.stringify(currTeam));
@@ -104,6 +131,10 @@ function PokeContextWrapper({ children }: { children: ReactNode }) {
   useEffect(() => {
     localStorage.setItem("IsShiny", JSON.stringify(isShiny));
   }, [isShiny]);
+
+  useEffect(() => {
+    localStorage.setItem("IsMuted", JSON.stringify(isMuted));
+  }, [isMuted]);
 
   // state to know whether the "current" team on the teams page is a new team or an already created team
   let initEdit: pokeTeam | null = null;
@@ -161,6 +192,9 @@ function PokeContextWrapper({ children }: { children: ReactNode }) {
         setTeamToEdit,
         deleteCheck,
         setDeleteCheck,
+        isMuted,
+        setIsMuted,
+        toggleMute,
       }}
     >
       {children}
