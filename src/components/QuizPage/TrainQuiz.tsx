@@ -126,17 +126,17 @@ const TrainQuiz: React.FC = () => {
   };
 
   return (
-    <div className="first-div-returned-by-TrainQuiz-Component flex flex-col align-center mb-10 h-full p-5">
-      <div className="game-container flex flex-row justify-between items-center mb-5 mt-5 h-full">
+    <div className="first-div-returned-by-TrainQuiz-Component flex flex-col align-center pb-16 p-5">
+      <div className="game-container flex flex-col md:flex-row justify-between items-center mb-5 mt-5 h-full">
         <div className="left-part-of-game-container flex flex-col h-full">
-          <h1 className="mb-10 text-center font-press-start">
+          <h1 className="my-3 md:mb-10 text-center font-press-start">
             Who's that Pokemon?!
           </h1>
 
-          <ul className="leading-10">
+          <ul className="leading-10 flex flex-col items-center mb-2 lg:mb-0">
             {options.map((option, index) => (
               <li
-                className="bg-red-500 hover:bg-red-700 text-white font-bold text-xl text-center py-2 px-4 rounded-full w-48 m-5"
+                className="bg-red-500 hover:bg-red-700 text-white font-bold text-xl text-center py-2 px-4 rounded-full w-48 m-1 lg:m-5"
                 key={index}
                 onClick={() => handleAnswerSelection(option)}
               >
@@ -146,7 +146,7 @@ const TrainQuiz: React.FC = () => {
           </ul>
         </div>
 
-        <div className="relative poke-displayer w-full h-full bg-cover bg-center rounded-md border-black border-solid border-2">
+        <div className="relative poke-displayer w-full h-full bg-cover bg-center rounded-lg border-black dark:border-slate-500 border-solid border-2">
           <img
             src={backgroundImage}
             alt="Who's that Pokémon Background"
@@ -156,7 +156,7 @@ const TrainQuiz: React.FC = () => {
             <img
               src={pokemonImage}
               alt={correctAnswer}
-              className="rounded-md absolute top-20 left-20"
+              className="rounded-full scale-50 -top-20 -left-20 lg:scale-100 absolute lg:top-40 lg:left-40"
               style={{
                 filter:
                   correctAnswerSelected || feedback !== ""
