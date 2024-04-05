@@ -36,7 +36,7 @@ const QuizPage: React.FC = () => {
           className="z-10 h-full w-full bg-cover"
         >
           <div className="flex items-center justify-center h-full pt-4 px-4 pb-20 text-center">
-            <div className="align-bottom bg-slate-500 rounded-lg text-left overflow-hidden transform p-10 flex flex-col gap-5">
+            <div className="align-bottom bg-slate-500 rounded-lg text-left overflow-hidden transform p-10 flex flex-col gap-5 border ">
               <div className="bg-slate-500">
                 <div className="text-center text-black">
                   <h3 className="text-lg font-press-start font-medium text-white mb-5">
