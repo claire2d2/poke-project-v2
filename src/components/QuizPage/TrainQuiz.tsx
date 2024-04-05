@@ -126,7 +126,7 @@ const TrainQuiz: React.FC = () => {
   };
 
   return (
-    <div className="first-div-returned-by-TrainQuiz-Component flex flex-col align-center pb-16 p-5">
+    <div className="first-div-returned-by-TrainQuiz-Component flex flex-col align-center pb-20 p-5">
       <div className="game-container flex flex-col md:flex-row justify-between items-center mb-5 mt-5 h-full">
         <div className="left-part-of-game-container flex flex-col h-full">
           <h1 className="my-3 md:mb-10 text-center font-press-start">
@@ -144,9 +144,18 @@ const TrainQuiz: React.FC = () => {
               </li>
             ))}
           </ul>
+          <div className="flex flex-col gap-3 justify-center items-center mt-10">
+            <button
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full w-48"
+              onClick={reloadPokemon}
+            >
+              Reload Pokémon
+            </button>
+            <MuteButton />
+          </div>
         </div>
 
-        <div className="relative poke-displayer w-full h-full bg-cover bg-center rounded-lg border-black dark:border-slate-500 border-solid border-2">
+        <div className="relative poke-displayer w-4/5 h-4/5 bg-cover bg-center rounded-lg border-black dark:border-slate-500 border-solid border-2">
           <img
             src={backgroundImage}
             alt="Who's that Pokémon Background"
@@ -156,7 +165,7 @@ const TrainQuiz: React.FC = () => {
             <img
               src={pokemonImage}
               alt={correctAnswer}
-              className="rounded-full scale-50 -top-20 -left-20 lg:scale-100 absolute lg:top-40 lg:left-40"
+              className="scale-50 -top-20 -left-20 lg:scale-95 absolute lg:top-0 lg:left-0"
               style={{
                 filter:
                   correctAnswerSelected || feedback !== ""
@@ -168,15 +177,6 @@ const TrainQuiz: React.FC = () => {
         </div>
       </div>
       <p className="font-press-start right-0 mb-5 pl-5">{feedback}</p>
-      <div className="flex flex-row gap-3 justify-end">
-        <button
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full w-48"
-          onClick={reloadPokemon}
-        >
-          Reload Pokémon
-        </button>
-        <MuteButton />
-      </div>
     </div>
   );
 };

@@ -166,7 +166,7 @@ const ScoreQuiz: React.FC = () => {
           </div>
         </div>
 
-        <div className="relative poke-displayer w-full h-full bg-cover bg-center rounded-lg border-black dark:border-slate-500 border-solid border-2">
+        <div className="relative poke-displayer w-4/5 h-4/5 bg-cover bg-center rounded-lg border-black dark:border-slate-500 border-solid border-2">
           <img
             src={backgroundImage}
             alt="Who's that Pokémon Background"
@@ -176,7 +176,7 @@ const ScoreQuiz: React.FC = () => {
             <img
               src={pokemonImage}
               alt={correctAnswer}
-              className="rounded-full scale-50 -top-20 -left-20 lg:scale-100 absolute lg:top-40 lg:left-40"
+              className="scale-50 -top-20 -left-20 lg:scale-95 absolute lg:top-0 lg:left-0"
               style={{
                 filter:
                   correctAnswerSelected || feedback !== ""
